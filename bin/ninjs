@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+$: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
+
+begin
+  require 'rubikon'
+  require 'ninjs'
+rescue LoadError
+  require 'rubygems'
+  require 'rubikon'
+  require 'ninjs'
+end
+
+class Ninjs < Rubikon::Application::Base
+  def initialize
+    @directory = '/'
+  end
+  
+  option :version
+  option :v => :version
+  default do
+    if version.given?
+      time = Time.now
+      copyright_year = time.year == 2010 ? '2010' : '2010-' << time.year
+      puts 'ninjs ' << Ninjs.version
+      puts "Copyright (c) #{copyright_year} Dayton Nolan"
+      puts "Released under the MIT License"
+    else
+      Ninjs::Command.help
+    end
+  end
+  
+  command :compile do
+    Ninjs::Command.compile
+  end
+  
+  command :watch do
+    Ninjs::Command.watch
+  end
+  
+  command :import do
+    Ninjs::Command.import
+  end
+  
+  option :directory, [:dir] do
+    @directory = dir
+  end
+  option :p => :directory
+  command :create, [:app_name] do
+    Ninjs::Command.create(app_name, @directory)
+  end
+end
