@@ -7,12 +7,9 @@ Ninjs (No Inheritance Necessary) is a command line application written in ruby t
 h2. Installation
 
 You can install Ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
-<pre class="brush: sh;">
-	$ gem install ninjs
-</pre>
+<pre class="brush: sh;">$ gem install ninjs</pre>
 
 If you want to use the development code you should clone the Git repository and add the binary to your path:
-<pre class="brush: sh">
-	$ git clone git://github.com/textnotspeech/ninjs.git
-	$ export PATH=/path/to/ninjs/bin:$PATH
+<pre class="brush: sh">$ git clone git://github.com/textnotspeech/ninjs.git
+$ export PATH=/path/to/ninjs/bin:$PATH
 </pre>
