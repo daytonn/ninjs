@@ -64,7 +64,7 @@ autoload: [#{options[:autoload].join(', ')}]
       
       def read
         begin
-          raise IOError, "#{@project_path}ninjs.conf does not exist", caller unless File.is_defined? "#{@project_path}ninjs.conf"
+          raise IOError, "#{@project_path}ninjs.conf does not exist", caller unless File.exists? "#{@project_path}ninjs.conf"
           config = YAML.load_file("#{@project_path}ninjs.conf")
           
           @project_path = config['project_path']

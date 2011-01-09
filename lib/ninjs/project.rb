@@ -19,7 +19,7 @@ module Ninjs
                 :project_path,
                 :app_filename
     
-    def initialize(name = 'JudoApplication', project_dir = '/')
+    def initialize(name = 'NinjsApplication', project_dir = '/')
        name.gsub!(/\s|\-|\./)
        proj_dir = clean_project_path project_dir
        @modules = Array.new
@@ -41,6 +41,7 @@ module Ninjs
     def create
       puts "#{@color_start}>>>#{@color_end} Creating the #{@config.name} project in #{@project_path}" 
       create_project_structure
+      puts "created the project structure"
       @config.create
       create_ninjs_lib_file
       create_utility_lib_file
@@ -49,11 +50,10 @@ module Ninjs
     end
     
     def create_project_structure
-      Dir.mkdir "#{@project_path}" unless File.is_defined? "#{@project_path}"
-      
+      Dir.mkdir "#{@project_path}" unless File.exists? "#{@project_path}"
       Ninjs::Manifest.directories.each do |folder|
-        puts "#{folder}/ created" unless File.is_defined? "#{@project_path}/#{folder}"
-        Dir.mkdir "#{@project_path}#{folder}" unless File.is_defined? "#{@project_path}#{folder}"
+        puts "#{folder}/ created" unless File.exists? "#{@project_path}/#{folder}"
+        Dir.mkdir "#{@project_path}#{folder}" unless File.exists? "#{@project_path}#{folder}"
       end
     end
     
@@ -62,12 +62,12 @@ module Ninjs
         :root         => "#{Ninjs.base_directory}",
         :asset_root   => "#{@config.asset_root}",
         :load_path    => ["repository"],
-        :source_files => ["repository/ninjs/core/ninjs.js"]
+        :source_files => ["repository/ninjs/core/nin.js"]
       )
 
-      ninjs_lib_secretary.concatenation.save_to "#{@project_path}lib/ninjs.js"
+      ninjs_lib_secretary.concatenation.save_to "#{@project_path}lib/nin.js"
 
-      puts "lib/ninjs.js created"
+      puts "lib/nin.js created"
     end
     
     def create_utility_lib_file
@@ -83,13 +83,13 @@ module Ninjs
       puts "lib/utilities.js created"
     end
     
-    def create_ninjs_application_file      
+    def create_ninjs_application_file
       filename = "#{@project_path}application/#{@app_filename}.js"
       
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
         file << File.open("#{@project_path}lib/nin.js", 'r').readlines.join('')
-        file << "\nvar #{@config.name} = new JudoApplication();"
+        file << "\nvar #{@config.name} = new NinjsApplication();"
       end
     end
     
@@ -111,7 +111,7 @@ module Ninjs
     end
     
     def read_cache
-      if File.is_defined? "#{@project_path}.cache"
+      if File.exists? "#{@project_path}.cache"
           parse_cache File.open("#{@project_path}.cache").readlines
       else
         create_cache
@@ -184,7 +184,7 @@ module Ninjs
           )
 
           module_file = ninjs_lib_secretary.concatenation
-          message = File.is_defined?("#{@project_path}application/#{module_name}.js") ? "\e[32m>>>\e[0m application/#{module_name}.js updated" : "\e[32m>>>\e[0m application/#{module_name}.js created"
+          message = File.exists?("#{@project_path}application/#{module_name}.js") ? "\e[32m>>>\e[0m application/#{module_name}.js updated" : "\e[32m>>>\e[0m application/#{module_name}.js created"
           module_file.save_to "#{@project_path}application/#{module_name}.js"
           ninjs_lib_secretary.install_assets
 
@@ -197,7 +197,7 @@ module Ninjs
     end
     
     def update_application_file
-      message = File.is_defined?("#{@project_path}application/#{@app_filename}.js") ? "application/#{@app_filename}.js updated" : "application/#{@app_filename}.js created"            
+      message = File.exists?("#{@project_path}application/#{@app_filename}.js") ? "application/#{@app_filename}.js updated" : "application/#{@app_filename}.js created"            
       filename = "#{@project_path}application/#{@app_filename}.js"
       
       File.open(filename, "w+") do |file|
@@ -209,7 +209,7 @@ module Ninjs
         
         file << "/* Ninjs #{Time.now.to_s} */\n"
         file << "//= require \"../lib/nin.js\"\n\n"
-        file << "\nvar #{@config.name} = new JudoApplication();\n\n"
+        file << "\nvar #{@config.name} = new NinjsApplication();\n\n"
         
         @config.autoload.each do |auto_file|
             file << "/*---------- Ninjs autoload #{auto_file} ----------*/"

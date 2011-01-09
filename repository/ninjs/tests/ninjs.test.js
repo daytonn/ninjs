@@ -76,7 +76,7 @@ test("can clone something", function() {
 	same(array, clone_array, "array successfully cloned");
 });
 
-module("Judo application tests");
+module("Ninjs application tests");
 
 test("can create a judo application object", function() {
 	var MyApp = new JudoApplication();
@@ -84,11 +84,11 @@ test("can create a judo application object", function() {
 	ok(is_typeof(JudoApplication, MyApp), 'MyApp is a valid JudoApplication');
 });
 
-test("can create a JudoModule", function() {
+test("can create a NinjsModule", function() {
 	var MyApp = new JudoApplication();
 	MyApp.add_module('Test');
 	ok(is_defined(MyApp.Test), 'MyApp.Test is defined');
-	ok(is_typeof(JudoModule, MyApp.Test), 'MyApp.Test is a valid Judo Module');
+	ok(is_typeof(NinjsModule, MyApp.Test), 'MyApp.Test is a valid Judo Module');
 });
 
 module('Judo Module tests');

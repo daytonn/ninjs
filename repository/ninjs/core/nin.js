@@ -25,7 +25,7 @@ NinjsModule.method('_run_tests', function() {
 	$('body').append(test_template.join("\n"));
 	
 	this.tests.each(function(test) {
-		$.getScript('http://localhost/jexample/js/tests/some.test.js', function() {
+		$.getScript('tests/' + some + '.test.js', function() {
 			var test_results_dialog = $('.test-results');
 			var height = test_results_dialog.height() + 130;
 			var width = $(window).width() - 300;
@@ -54,6 +54,17 @@ NinjsModule.method('run', function() {
 		this._run_tests();
 	}
 	this.actions();
+});
+
+NinjsModule.method('run_on_ready', function() {
+	var timer = self.setInterval("is_ready", 13);
+	var is_ready = function() {
+		if(document && document.getElementsByTagName && document.getElementById && document.body) {
+			clearInterval(timer);
+			timer = null;
+			this.run();
+		}
+	};
 });
 
 NinjsModule.method('set_data', function(key, value) {

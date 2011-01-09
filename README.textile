@@ -7,9 +7,35 @@ Ninjs (No Inheritance Necessary) is a command line application written in ruby t
 h2. Installation
 
 You can install Ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
-<pre class="brush: sh;">$ gem install ninjs</pre>
+<pre name="code" class="brush: sh;">$ gem install ninjs</pre>
 
 If you want to use the development code you should clone the Git repository and add the binary to your path:
-<pre class="brush: sh">$ git clone git://github.com/textnotspeech/ninjs.git
+<pre name="code" class="brush: sh">$ git clone git://github.com/textnotspeech/ninjs.git
 $ export PATH=/path/to/ninjs/bin:$PATH
 </pre>
+
+h1. Create a Ninjs application
+
+<pre name="code" class="brush: sh;">$ ninjs create MyApplication</pre>
+
+This will create a Ninjs application in the current working directory. Now we can create Ninjs modules by adding them in the modules directory.
+
+h1. Create a Ninjs module
+
+Create a module file in the /modules directory. By convention, we'll name the file with a suffix of .module. An example of a module named login would look like this:
+
+/modules/login.module.js
+
+The basic functionality of a module is to encapsulate code into logical container. Think of a module as a class in the sense that it allows to name-space properties and methods. A Ninjs module is an extremely lightweight object that contains a very simple api which helps you write clear, concise code. The following is the bare minimum you need to have a working module a.k.a Ninjs' "Hello World":
+
+<pre name="code" class="brush: js;">
+	MyApplication.add_module('login');
+	
+	MyApplication.login.actions = function() {
+		alert('Hello World');
+	};
+	
+	MyApplication.login.run();
+</pre>
+
+In the real world however, you're probably waiting for the DOM to load before you want your 

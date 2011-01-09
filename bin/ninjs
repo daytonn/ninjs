@@ -11,7 +11,7 @@ rescue LoadError
   require 'ninjs'
 end
 
-class Ninjs < Rubikon::Application::Base
+class NinjsConsole < Rubikon::Application::Base
   def initialize
     @directory = '/'
   end

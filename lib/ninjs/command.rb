@@ -3,7 +3,7 @@ module Ninjs
     def watch
       require "fssm"
       project_path = Dir.getwd << '/'
-      raise "ninjs.conf was not located in #{project_path}" unless File.is_defined? "#{project_path}ninjs.conf"
+      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
       color_start = "\e[33m"
       color_end = "\e[0m"
       puts "\e[32m>>>#{color_end} Ninjs are watching for changes. Press Ctrl-C to stop."
@@ -108,7 +108,7 @@ module Ninjs
     
     def compile
       project_path = Dir.getwd << '/'
-      raise "ninjs.conf was not located in #{project_path}" unless File.is_defined? "#{project_path}/ninjs.conf"
+      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
       project = Ninjs::Project.init_with_config(project_path)
       project.update
     end
