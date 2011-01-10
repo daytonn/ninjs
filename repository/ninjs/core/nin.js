@@ -49,40 +49,66 @@ NinjsModule.method('_run_tests', function() {
 	});
 });
 
-NinjsModule.method('run', function() {
-	if(this.run_tests) {
+NinjsModule.method('execute', function() {
+	if (is_defined(window.__)) {
+		this.__ = window.__;
+	}
+	window.__ = this;
+	
+	if (this.run_tests) {
 		this._run_tests();
 	}
+	
 	this.actions();
+	
+	if (is_defined(this.__)) {
+		window.__ = this.__;
+	}
 });
 
-NinjsModule.method('run_on_ready', function() {
-	var timer = self.setInterval("is_ready", 13);
-	var is_ready = function() {
-		if(document && document.getElementsByTagName && document.getElementById && document.body) {
+NinjsModule.method('call_on_ready', function(callback) {
+	var timer;
+	var module = this;
+	
+	function check_ready() {
+		timer = setInterval(is_ready, 13);
+	}
+	
+	function is_ready() {
+		if (document && document.getElementsByTagName && document.getElementById && document.body) {
 			clearInterval(timer);
 			timer = null;
-			this.run();
+			callback.call(module);
 		}
-	};
+	}
+	
+	check_ready();
+});
+
+NinjsModule.method('run', function() {
+	this.call_on_ready(this.execute);
+});
+
+NinjsModule.method('elements', function(callback) {
+	this.call_on_ready(callback);
 });
 
 NinjsModule.method('set_data', function(key, value) {
 	try {
-		if(is_undefined(key)) {
+		if (is_undefined(key)) {
 			throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
 		}
-		if(is_typeof(String, key) && is_undefined(value)) {
+		if (is_typeof(String, key) && is_undefined(value)) {
 			throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
 		}
 		
-		if(is_typeof(String, key)) {
+		if (is_typeof(String, key)) {
 			this.data[key] = value;
 		}
-		else if(is_typeof(Object, key)) {
+		else if (is_typeof(Object, key)) {
 			var data = key;
 			for(var property in data) {
-				if(!this.data.hasOwnProperty(property)) {
+				if (!this.data.hasOwnProperty(property)) {
 					this.data[property] = key[property];
 				}
 			}
@@ -96,7 +122,15 @@ NinjsModule.method('set_data', function(key, value) {
 	}
 });
 
-var NinjsApplication = function() {};
+var NinjsApplication = function() {
+	if (is_undefined(window._)) {
+		window._ = this;
+	}
+	
+	if (is_undefined(window.app)) {
+		window.app = this;
+	}
+};
 
 NinjsApplication.method('add_module', function(name) {
 	try {
@@ -107,7 +141,6 @@ NinjsApplication.method('add_module', function(name) {
 		if (is_defined(this[name])) {
 			throw new SyntaxError("NinjsApplication.add_module(name): '" + name + "' already declared");
 		}
-		
 		this[name] = new NinjsModule();
 	}
 	catch(error) {
