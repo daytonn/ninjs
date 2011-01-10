@@ -217,7 +217,7 @@ Using "this" in Javascript can be a bit tricky so if your not sure what "this" r
 
 h1. Compiling our application
 
-Now that we have a complete module including elements and a model, we need to compile these files into one coherent module to use in our html.  To do so we have 2 options.  Open a terminal window (command prompt) and navigate to the root of your Ninjs application. We can compile our application with one of 2 commands. The first choice is the compile command. From the root of your Ninjs application type:
+Now that we have a complete module including elements and a model, we need to compile these files into one coherent file to use in our html.  To do so we have 2 options.  Open a terminal window (command prompt) and navigate to the root of your Ninjs application. We can compile our application with one of 2 commands. The first choice is the compile command. From the root of your Ninjs application type:
 
 <pre name="code" class="brush: bash;">
 	$ ninjs compile
