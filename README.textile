@@ -163,6 +163,17 @@ Let's suppose I have multiple "jQueryUI dialog windows":http://jqueryui.com/demo
 	}
 </pre>
 
+Next we include the model in the module:
+
+<pre name="code" class="brush: js;">
+	MyApplication.add_module('hello');
+	
+	//= require '../elements/hello.model.js'
+	//= require '../elements/hello.elements.js'
+	
+	...
+</pre>
+
 Now whenever I create a dialog in my module, I can use the MyApplication.hello.dialog_settings object:
 
 <pre name="code" class="brush: js;">
