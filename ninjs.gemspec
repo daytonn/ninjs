@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.executables = ["ninjs"]
   s.files = ["bin/ninjs",
              "LICENSE",
-             "README"]
+             "README.textile"]
   s.homepage = %q{http://textnotspeech.github.com/ninjs/}
   s.add_dependency 'rubikon'
   s.add_dependency 'fssm'

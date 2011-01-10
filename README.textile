@@ -2,7 +2,7 @@ h1. Readme
 
 h2. About
 
-Ninjs (No Inheritance Necessary) is a command line application written in ruby that leverages the "Sprockets":http://getsprockets.org JavaScript compiler to create modular javascript applications without having to compile your scripts manually. Ninjs also contains a very barebones JavaScript framework to enforce best practices like name-spacing and modular separation.
+Ninjs (No Inheritance Necessary) is a command line application written in ruby that leverages the "Sprockets":http://getsprockets.org JavaScript compiler to create modular javascript applications without having to compile your scripts manually. Ninjs also contains a "'Good Parts'":http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742/ref=sr_1_1?ie=UTF8&qid=1294628522&sr=8-1 JavaScript framework to encourage best practices like name-spacing and modular separation. 
 
 h2. Installation
 
@@ -22,20 +22,150 @@ This will create a Ninjs application in the current working directory. Now we ca
 
 h1. Create a Ninjs module
 
-Create a module file in the /modules directory. By convention, we'll name the file with a suffix of .module. An example of a module named login would look like this:
+Create a module file in the /modules directory. By convention, we'll name the file with a suffix of .module. An example of a module named hello would look like this:
 
-/modules/login.module.js
+/modules/hello.module.js
 
-The basic functionality of a module is to encapsulate code into logical container. Think of a module as a class in the sense that it allows to name-space properties and methods. A Ninjs module is an extremely lightweight object that contains a very simple api which helps you write clear, concise code. The following is the bare minimum you need to have a working module a.k.a Ninjs' "Hello World":
+The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods. A Ninjs module is an extremely lightweight object that contains a very simple api which helps you write clear, concise code. The following is the bare minimum you need to have a working module a.k.a Ninjs' "Hello World":
 
 <pre name="code" class="brush: js;">
-	MyApplication.add_module('login');
+	MyApplication.add_module('hello');
 	
-	MyApplication.login.actions = function() {
+	MyApplication.hello.actions = function() {
+		this.say_hello();
+	};
+	
+	MyApplication.hello.say_hello = function() {
 		alert('Hello World');
 	};
 	
-	MyApplication.login.run();
+	MyApplication.hello.run();
 </pre>
 
-In the real world however, you're probably waiting for the DOM to load before you want your 
+The run method will execute the actions method. Please note that the "run" method will wait for the DOM to be ready before it is executed. If you wish the actions to be executed immediately, you may call the execute method like so:
+
+<pre name="code" class="brush: js;">
+	MyApplication.hello.execute();
+</pre>
+
+This pattern allows you to write in a literate style while making your intentions clear and methods succinct. However, if you prefer a shorter syntax or make your module completely protable (transplant to any application), Ninjs defines two aliases to work with your application and modules that are more terse. Your application object will be aliased as "_" (underscore). When using either the run or execute methods to call the module's actions, the module will be available through the "__" alias. The previous hello module would look like the following:
+
+<pre name="code" class="brush: js;">	
+	_.add_module('hello');
+	
+	_.hello.actions = function() {
+		__.say_hello();
+	};
+	
+	_.hello.say_hello = function() {
+		alert('Hello World');
+	};
+	
+	_.hello.run();
+</pre>
+
+This not only makes the module less cumbersome to write, it also allows you to copy the code directly to another Ninjs application and run it without any renaming. Remember one underscore is a reference to the application and two underscores is a reference to the current module.
+
+You may ask why we are calling say_hello() in the actions method instead of just alerting the string in actions itself. Let's set aside the fact that this is a trivial example and assume we will be adding many more methods to the module. If we simply added all of our module code inside actions, we'd quickly have a soup of code in there which would be difficult to follow. I prefer my actions method to be a list of methods called in the order they are defined. This let's my module tell a consistent story from top to bottom. The actions method serves as a table of contents. Consider a slightly more sophisticated hello module:
+
+<pre name="code" class="brush: js;">
+	MyApplication.add_module('hello');
+	
+	MyApplication.hello.actions = function() {
+		this.define_properties();
+		this.say_hello();
+	};
+	
+	MyApplication.hello.define_properties() = function() {
+		this.greeting = 'Hello';
+		this.name = 'World';
+	}
+	
+	MyApplication.hello.say_hello = function() {
+		var message = this.greeting_string();
+		alert(message);
+	};
+	
+	MyApplication.hello.greeting_string = function() {
+		return this.greeting + ' ' + this.name + '!';
+	};
+	
+	MyApplication.hello.run();
+</pre>
+
+We can see what this module does by simply glancing at the actions method. From there, if methods are kept short and follow the "single responsibiliy principle":http://en.wikipedia.org/wiki/Single_responsibility_principle, it will be easy to follow and test.
+
+h2. Create module elements
+
+Another common best practice that Ninjs encourages is cacheing your element selectors. For example, when using jQuery to select a DOM element, it's best practice to assign the result of the selection to a variable incase you need it again. Here's what it looks like in practice:
+
+<pre name="code" class="brush: js;">
+	// Bad no-caching
+	$('#some-element').css({ 'background-color': '#FF0000' });
+	$('#some-element').html("I turned red");
+	
+	// Good caching
+	var some_element = $('#some-element);
+	some_element.css({ 'background-color': '#FF0000' });
+	some_element.html("I turned red");
+</pre>
+
+When we cache our selections, we only have to search the DOM once, improving performance.
+
+The only problem with this is that we tend to manipulate a lot of selections and our code can become littered with them. At worst, they're strewn about the file where ever they are first used, making it easy to "re-cache" them. At best all our selections are cached in one pace and easy to see to prevent us from accidentally caching them twice. Ninjs goes a step further by separating these cached selectors to their own file in the elements folder.
+
+Elements belong to a module and can be added using the elements method. To add elements to the hello module, let's add a hello.elements.js file in the elements folder. Next add the elements to the module with the elements method:
+
+<pre name="code" class="brush: js;">
+	MyApplication.hello.elements(function() {
+		this.message_box = $('#message-box');
+	});
+</pre>
+
+And that's it for the elements code. We've added a cached element with the id of "message-box" to our module. All there is left is to add the elements to the module using the "Sprockets require directive":http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive
+
+<pre name="code" class="brush: js;">
+	MyApplication.add_module('hello');
+	
+	//= require '../elements/hello.elements.js'
+	
+	MyApplication.hello.actions = function() {
+		this.define_properties();
+		this.say_hello();
+	};
+	
+	MyApplication.hello.define_properties() = function() {
+		this.greeting = 'Hello';
+		this.name = 'World';
+	}
+	
+	MyApplication.hello.say_hello = function() {
+		var message = this.greeting_string();
+		alert(message);
+	};
+	
+	MyApplication.hello.greeting_string = function() {
+		return this.greeting + ' ' + this.name + '!';
+	};
+	
+	MyApplication.hello.run();
+</pre>
+
+Be sure to require the elements file after the "add_module" method is called. Now all elements defined in the elements method will be available to the module. Let's take our hello example and instead of alerting the greeting, let's put it in the message_box element (assuming an html page with this element):
+
+<pre name="code" class="brush: js;">
+	...
+	
+	MyApplication.hello.say_hello = function() {
+		var message = this.greeting_string();
+		this.message_box.html(message);
+	};
+	
+	...
+</pre>
+
+Again, this pattern keeps the logic very clear and our code very concise. It's easy to read, test, and refactor. Be careful when naming your cached elements, be sure you're not overwriting another property. With time you'll develop your own naming conventions and standards. The important thing is to focus on good semantic names that accurately describe the properties and behavior of your application.
+
+Most modules will be exactly like the one we just created, with more methods. However, there is one more piece that helps you achieve greater modularity, which is Ninjs models.
+
+h2. Create a Ninjs model
