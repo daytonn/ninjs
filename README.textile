@@ -7,16 +7,23 @@ Ninjs (No Inheritance Necessary) is a command line application written in ruby t
 h2. Installation
 
 You can install Ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
-<pre name="code" class="brush: sh;">$ gem install ninjs</pre>
+
+```bash
+  $ gem install ninjs
+```
 
 If you want to use the development code you should clone the Git repository and add the binary to your path:
-<pre name="code" class="brush: sh">$ git clone git://github.com/textnotspeech/ninjs.git
-$ export PATH=/path/to/ninjs/bin:$PATH
-</pre>
+
+```bash
+  $ git clone git://github.com/textnotspeech/ninjs.git
+  $ export PATH=/path/to/ninjs/bin:$PATH
+```
 
 h1. Create a Ninjs application
 
-<pre name="code" class="brush: sh;">$ ninjs create MyApplication</pre>
+```bash
+  $ ninjs create MyApplication
+```
 
 This will create a Ninjs application in the current working directory. Now we can create Ninjs modules by adding them in the modules directory.
 
@@ -28,70 +35,70 @@ Create a module file in the /modules directory. By convention, we'll name the fi
 
 The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods. A Ninjs module is an extremely lightweight object that contains a very simple api which helps you write clear, concise code. The following is the bare minimum you need to have a working module a.k.a Ninjs' "Hello World":
 
-<pre name="code" class="brush: js;">
-	MyApplication.add_module('hello');
+```js
+  MyApplication.add_module('hello');
 	
-	MyApplication.hello.actions = function() {
-		this.say_hello();
-	};
+  MyApplication.hello.actions = function() {
+    this.say_hello();
+  };
 	
-	MyApplication.hello.say_hello = function() {
-		alert('Hello World');
-	};
+  MyApplication.hello.say_hello = function() {
+    alert('Hello World');
+  };
 	
-	MyApplication.hello.run();
-</pre>
+  MyApplication.hello.run();
+```
 
 The run method will execute the actions method. Please note that the "run" method will wait for the DOM to be ready before it is executed. If you wish the actions to be executed immediately, you may call the execute method like so:
 
-<pre name="code" class="brush: js;">
-	MyApplication.hello.execute();
-</pre>
+```js
+  MyApplication.hello.execute();
+```
 
 This pattern allows you to write in a literate style while making your intentions clear and methods succinct. However, if you prefer a shorter syntax or make your module completely protable (transplant to any application), Ninjs defines two aliases to work with your application and modules that are more terse. Your application object will be aliased as "_" (underscore). When using either the run or execute methods to call the module's actions, the module will be available through the "__" alias. The previous hello module would look like the following:
 
-<pre name="code" class="brush: js;">	
-	_.add_module('hello');
+```js
+  _.add_module('hello');
 	
-	_.hello.actions = function() {
-		__.say_hello();
-	};
+  _.hello.actions = function() {
+    __.say_hello();
+  };
 	
-	_.hello.say_hello = function() {
-		alert('Hello World');
-	};
+  _.hello.say_hello = function() {
+    alert('Hello World');
+  };
 	
-	_.hello.run();
-</pre>
+  _.hello.run();
+```
 
 This not only makes the module less cumbersome to write, it also allows you to copy the code directly to another Ninjs application and run it without any renaming. Remember one underscore is a reference to the application and two underscores is a reference to the current module.
 
 You may ask why we are calling say_hello() in the actions method instead of just alerting the string in actions itself. Let's set aside the fact that this is a trivial example and assume we will be adding many more methods to the module. If we simply added all of our module code inside actions, we'd quickly have a soup of code in there which would be difficult to follow. I prefer my actions method to be a list of methods called in the order they are defined. This let's my module tell a consistent story from top to bottom. The actions method serves as a table of contents. Consider a slightly more sophisticated hello module:
 
-<pre name="code" class="brush: js;">
-	MyApplication.add_module('hello');
+```js
+  MyApplication.add_module('hello');
 	
-	MyApplication.hello.actions = function() {
-		this.define_properties();
-		this.say_hello();
-	};
+  MyApplication.hello.actions = function() {
+    this.define_properties();
+    this.say_hello();
+  };
 	
-	MyApplication.hello.define_properties() = function() {
-		this.greeting = 'Hello';
-		this.name = 'World';
-	}
+  MyApplication.hello.define_properties() = function() {
+    this.greeting = 'Hello';
+    this.name = 'World';
+  }
 	
-	MyApplication.hello.say_hello = function() {
-		var message = this.greeting_string();
-		alert(message);
-	};
+  MyApplication.hello.say_hello = function() {
+    var message = this.greeting_string();
+    alert(message);
+  };
 	
-	MyApplication.hello.greeting_string = function() {
-		return this.greeting + ' ' + this.name + '!';
-	};
+  MyApplication.hello.greeting_string = function() {
+    return this.greeting + ' ' + this.name + '!';
+  };
 	
-	MyApplication.hello.run();
-</pre>
+  MyApplication.hello.run();
+```
 
 We can see what this module does by simply glancing at the actions method. From there, if methods are kept short and follow the "single responsibiliy principle":http://en.wikipedia.org/wiki/Single_responsibility_principle, it will be easy to follow and test.
 
@@ -99,16 +106,16 @@ h2. Create module elements
 
 Another common best practice that Ninjs encourages is cacheing your element selectors. For example, when using jQuery to select a DOM element, it's best practice to assign the result of the selection to a variable in case you need it again. Here's what it looks like in practice:
 
-<pre name="code" class="brush: js;">
-	// Bad no-caching
-	$('#some-element').css({ 'background-color': '#FF0000' });
-	$('#some-element').html("I turned red");
+```js
+  // Bad no-caching
+  $('#some-element').css({ 'background-color': '#FF0000' });
+  $('#some-element').html("I turned red");
 	
-	// Good caching
-	var some_element = $('#some-element);
-	some_element.css({ 'background-color': '#FF0000' });
-	some_element.html("I turned red");
-</pre>
+  // Good caching
+  var some_element = $('#some-element);
+  some_element.css({ 'background-color': '#FF0000' });
+  some_element.html("I turned red");
+```
 
 When we cache our selections, we only have to search the DOM once, improving performance.
 
@@ -116,34 +123,34 @@ The only problem with this is that we tend to manipulate a lot of selections and
 
 Elements belong to a module and can be added using the elements method. To add elements to the hello module, let's add a hello.elements.js file in the elements folder. Next add the elements to the module with the elements method:
 
-<pre name="code" class="brush: js;">
-	MyApplication.hello.elements(function() {
-		this.message_box = $('#message-box');
-	});
-</pre>
+```js
+  MyApplication.hello.elements(function() {
+    this.message_box = $('#message-box');
+  });
+```
 
 And that's it for the elements code. We've added a cached element with the id of "message-box" to our module. All there is left is to add the elements to the module using the "Sprockets require directive":http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive
 
-<pre name="code" class="brush: js;">
-	MyApplication.add_module('hello');
+```js
+  MyApplication.add_module('hello');
 	
-	//= require '../elements/hello.elements.js'
+  //= require '../elements/hello.elements.js'
 	
-	...
-</pre>
+  ...
+```
 
 Be sure to require the elements file after the "add_module" method is called. Now all elements defined in the elements method will be available to the module. Let's take our hello example and instead of alerting the greeting, let's put it in the message_box element (assuming an html page with this element):
 
-<pre name="code" class="brush: js;">
-	...
+```js
+  ...
 	
-	MyApplication.hello.say_hello = function() {
-		var message = this.greeting_string();
-		this.message_box.html(message);
-	};
+  MyApplication.hello.say_hello = function() {
+    var message = this.greeting_string();
+    this.message_box.html(message);
+  };
 	
-	...
-</pre>
+  ...
+```
 
 Again, this pattern keeps the logic very clear and our code very concise. It's easy to read, test, and refactor. Be careful when naming your cached elements, be sure you're not overwriting another property of the module. With time you'll develop your own naming conventions and standards. The important thing is to focus on good semantic names that accurately describe the properties and behavior of your application.
 
@@ -155,63 +162,63 @@ Ninjs models are simply files in the models directory that define a data structu
 
 Let's suppose I have multiple "jQueryUI dialog windows":http://jqueryui.com/demos/dialog/ that I want to share a certain default configuration. Instead of creating an options object each time I call dialog on an element, I can use a model.  Let's see how this might look in our hello example. Let's create the model in /models/hello.model.js:
 
-<pre name="code" class="brush: js;">
-	MyApplication.hello.dialog_settings = {
-		width: 300,
-		height: 150,
-		autoOpen: false
-	}
-</pre>
+```js
+  MyApplication.hello.dialog_settings = {
+    width: 300,
+    height: 150,
+    autoOpen: false
+ }
+```
 
 Next we include the model in the module:
 
-<pre name="code" class="brush: js;">
-	MyApplication.add_module('hello');
+```js
+  MyApplication.add_module('hello');
 	
-	//= require '../elements/hello.model.js'
-	//= require '../elements/hello.elements.js'
+  //= require '../elements/hello.model.js'
+  //= require '../elements/hello.elements.js'
 	
-	...
-</pre>
+  ...
+```
 
 Now whenever I create a dialog in my module, I can use the MyApplication.hello.dialog_settings object:
 
-<pre name="code" class="brush: js;">
-	// assumes we have elements "error_dialog" and "notice_dialog"
-	// defined in the elements file
+```js
+  // assumes we have elements "error_dialog" and "notice_dialog"
+  // defined in the elements file
 	
-	MyApplciation.hello.create_dialogs = function() {
-		this.error_dialog.dialog(this.dialog_settings);
-		this.notice_dialog.dialog(this.dialog_settings);
-	}
-</pre>
+  MyApplciation.hello.create_dialogs = function() {
+    this.error_dialog.dialog(this.dialog_settings);
+    this.notice_dialog.dialog(this.dialog_settings);
+  }
+```
 
 This way we don't have to keep redefining the same properties each time we call dialog. If we want to modify the defaults, we can use jquery's merge method
 
-<pre name="code" class="brush: js;">
-	// assumes we have elements "error_dialog" and "notice_dialog"
-	// defined in the elements file
+```js
+  // assumes we have elements "error_dialog" and "notice_dialog"
+  // defined in the elements file
 	
-	MyApplciation.hello.create_dialogs = function() {
-		this.error_dialog.dialog(this.dialog_settings);
-		this.notice_dialog.dialog($.extend(MyApplication.hello.dialog_settings, {
-			height: 300,
-			autoOpen: true
-		}));
-	}
-</pre>
+  MyApplciation.hello.create_dialogs = function() {
+    this.error_dialog.dialog(this.dialog_settings);
+    this.notice_dialog.dialog($.extend(MyApplication.hello.dialog_settings, {
+      height: 300,
+      autoOpen: true
+    }));
+  }
+```
 
 The model provides a default base that we can build from, helping use to keep our code DRY. There's also an opportunithy here to illustrate the utility of the "ninja" aliases. Notice that inside the dialog function we are unable to use the this.dialog_settings shorthand. This is because this is refering to the dialog and not the module. That's why Ninjs defines the double underscore variable to refer to the current module. The previous example can be rewritten more succinclty like so:
 
-<pre name="code" class="brush: js;">
-	MyApplciation.hello.create_dialogs = function() {
-		this.error_dialog.dialog(this.dialog_settings);
-		this.notice_dialog.dialog($.extend(__.dialog_settings, {
-			height: 300,
-			autoOpen: true
-		}));
-	}
-</pre>
+```js
+  MyApplciation.hello.create_dialogs = function() {
+    this.error_dialog.dialog(this.dialog_settings);
+    this.notice_dialog.dialog($.extend(__.dialog_settings, {
+      height: 300,
+      autoOpen: true
+    }));
+  }
+```
 
 Using "this" in Javascript can be a bit tricky so if your not sure what "this" refers to in any given context, your safe using the "_" (application alias) and "__" (module alias) aliases in Ninjs.
 
