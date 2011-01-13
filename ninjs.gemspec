@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{Ninjs is a javascript meta framework. Ninjs uses the Sprockets engine (http://getsprockets.org/) to allow you to create modular javascript applications.}
   s.email = %q{daytonn@gmail.com}
   s.executables = ["ninjs"]
-  s.files = %w(README.textile LICENSE)
+  s.files = %w(README.textile LICENSE Rakefile ninjs.gemspec)
   s.files += Dir.glob 'bin/*'
   s.files += Dir.glob 'lib/**/*'
   s.files += Dir.glob 'repository/**/*'

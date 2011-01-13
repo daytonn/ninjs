@@ -1,0 +1,38 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    diff-lcs (1.1.2)
+    fssm (0.2.2)
+    git (1.2.5)
+    jeweler (1.5.2)
+      bundler (~> 1.0.0)
+      git (>= 1.2.5)
+      rake
+    jsmin (1.0.1)
+    rake (0.8.7)
+    rcov (0.9.9)
+    rspec (2.4.0)
+      rspec-core (~> 2.4.0)
+      rspec-expectations (~> 2.4.0)
+      rspec-mocks (~> 2.4.0)
+    rspec-core (2.4.0)
+    rspec-expectations (2.4.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.4.0)
+    rubikon (0.5.3)
+    shoulda (2.11.3)
+    sprockets (1.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.0.0)
+  fssm
+  jeweler (~> 1.5.2)
+  jsmin
+  rcov
+  rspec
+  rubikon
+  shoulda
+  sprockets
