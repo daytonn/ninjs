@@ -83,7 +83,10 @@ NinjsModule.method('run', function() {
 });
 
 NinjsModule.method('elements', function(callback) {
+  this.__ = is_defined(window.__) ? window.__ : undefined;
+	window.__ = this;
 	this.call_on_ready(callback);
+	window.__ = is_defined(this.__) ? this.__ : undefined;
 });
 
 NinjsModule.method('set_data', function(key, value) {

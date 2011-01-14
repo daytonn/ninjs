@@ -11,8 +11,8 @@ group :development do
   gem "jeweler", "~> 1.5.2"
   gem "rcov", ">= 0"
   gem "rspec", ">= 0"
-  gem "rubikon"
-  gem "fssm"
-  gem "jsmin"
-  gem "sprockets"
+  gem "rubikon", ">= 0"
+  gem "fssm", ">= 0"
+  gem "jsmin", ">= 0"
+  gem "sprockets", ">= 0"
 end

@@ -8,3 +8,4 @@
 //= require "shBrushSass"
 //= require "shBrushSql"
 //= require "shBrushXml"
+//= provide "assets"
