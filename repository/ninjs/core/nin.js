@@ -50,13 +50,13 @@ NinjsModule.method('_run_tests', function() {
 });
 
 NinjsModule.method('execute', function() {
-	this.__ = is_defined(window.__) ? window.__ : undefined;
+	var old__ = is_defined(window.__) ? window.__ : undefined;
 	window.__ = this;
 	if (this.run_tests) {
 		this._run_tests();
 	}
 	this.actions();
-	window.__ = is_defined(this.__) ? this.__ : undefined;
+	window.__ = old__;
 });
 
 NinjsModule.method('call_on_ready', function(callback) {
@@ -83,10 +83,10 @@ NinjsModule.method('run', function() {
 });
 
 NinjsModule.method('elements', function(callback) {
-  this.__ = is_defined(window.__) ? window.__ : undefined;
+  var old__ = is_defined(window.__) ? window.__ : undefined;
 	window.__ = this;
 	this.call_on_ready(callback);
-	window.__ = is_defined(this.__) ? this.__ : undefined;
+	window.__ = old__;
 });
 
 NinjsModule.method('set_data', function(key, value) {
@@ -103,7 +103,9 @@ NinjsModule.method('set_data', function(key, value) {
 		}
 		else if (is_typeof(Object, key)) {
 			var data = key;
-			this.data = data;
+			for(var property in data) {
+        this.data[property] = data[property]
+			}
 		}
 		
 		return this;

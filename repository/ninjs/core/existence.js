@@ -39,3 +39,39 @@ if (is_undefined(is_mumeric)) {
 		}
 	};
 }
+
+if (is_undefined(is_string)) {
+  var is_string = function(suspect) {
+    return is_typeof(String, suspect);
+  }
+}
+
+if (is_undefined(is_array)) {
+  var is_array = function(suspect) {
+    return is_typeof(Array, suspect);
+  }
+}
+
+if (is_undefined(is_number)) {
+  var is_number = function(suspect) {
+    return is_typeof(Number, suspect);
+  }
+}
+
+if (is_undefined(is_date)) {
+  var is_date = function(suspect) {
+    return is_typeof(Date, suspect);
+  }
+}
+
+if (is_undefined(is_bool)) {
+  var is_bool = function(suspect) {
+    return is_typeof(Boolean, suspect);
+  }
+}
+
+if (is_undefined(is_regex)) {
+  var is_regex = function(suspect) {
+    return is_typeof(RegExp, suspect);
+  }
+}
