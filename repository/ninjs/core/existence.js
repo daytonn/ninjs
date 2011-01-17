@@ -28,8 +28,8 @@ if (is_undefined(is_typeof)) {
 	};
 }
 
-if (is_undefined(is_mumeric)) {
-	var is_mumeric = function(suspect) {
+if (is_undefined(is_numeric)) {
+	var is_numeric = function(suspect) {
 		if(is_typeof(Number, suspect)) {
 			return true;
 		}
