@@ -163,38 +163,51 @@ module Ninjs
     end
     
     def update_application_file
-      message = File.exists?("#{@project_path}application/#{@app_filename}.js") ? "application/#{@app_filename}.js updated" : "application/#{@app_filename}.js created"            
-      filename = "#{@project_path}application/#{@app_filename}.js"
+      application_file = "#{@project_path}application/#{@app_filename}.js"
       
-      File.open(filename, "w+") do |file|
-        @config.dependencies.each do |dependency|
-          file << "/*---------- #{dependency} ----------*/"
-          file << "\n//= require #{dependency}\n\n" if dependency.match(/^\<.+\>$/)
-          file << "\n//= require \"#{dependency}\"\n\n" if dependency.match(/^[^\<].+|[^\>]$/)
-        end
-        
-        file << "/*---------- Ninjs core ../lib/nin.js ----------*/\n"
-        file << "//= require \"../lib/nin.js\"\n\n"
-        file << "\nvar #{@config.name} = new NinjsApplication();\n\n"
-        
-        @config.autoload.each do |auto_file|
-          file << "/*---------- Ninjs autoload #{auto_file} ----------*/"
-          file << "\n//= require #{auto_file}\n\n" if auto_file.match(/^\<.+\>$/)
-          file << "\n//= require \"#{auto_file}\"\n\n" if auto_file.match(/^[^\<].+|[^\>]$/)
-        end
+      File.open(application_file, "w+") do |file|
+        write_dependencies(file)
+        write_core(file)
+        write_autoload(file)
       end
       
+      compile_application_file application_file
+    end
+    
+    def write_dependencies(file)
+      @config.dependencies.each do |dependency|
+        file << "/*---------- #{dependency} ----------*/"
+        file << "\n//= require #{dependency}\n\n" if dependency.match(/^\<.+\>$/)
+        file << "\n//= require \"#{dependency}\"\n\n" if dependency.match(/^[^\<].+|[^\>]$/)
+      end
+    end
+    
+    def write_core(file)
+      file << "/*---------- Ninjs core ../lib/nin.js ----------*/\n"
+      file << "//= require \"../lib/nin.js\"\n\n"
+      file << "\nvar #{@config.name} = new NinjsApplication();\n\n"
+    end
+    
+    def write_autoload(file)
+      @config.autoload.each do |auto_file|
+        file << "/*---------- Ninjs autoload #{auto_file} ----------*/"
+        file << "\n//= require #{auto_file}\n\n" if auto_file.match(/^\<.+\>$/)
+        file << "\n//= require \"#{auto_file}\"\n\n" if auto_file.match(/^[^\<].+|[^\>]$/)
+      end
+    end
+    
+    def compile_application_file(file)
       begin
         ninjs_lib_secretary = Sprockets::Secretary.new(
           :root         => "#{Ninjs.base_directory}",
           :asset_root   => "#{@config.asset_root}",
           :load_path    => ["repository"],
-          :source_files => ["#{filename}"]
+          :source_files => ["#{file}"]
         )
 
         application_file = ninjs_lib_secretary.concatenation
         ninjs_lib_secretary.install_assets
-        application_file.save_to "#{filename}"
+        application_file.save_to "#{file}"
       rescue Exception => error
         @errors = true
         puts "\e[0;31m!!!\e[0m Sprockets error: #{error.message}"
