@@ -11,7 +11,7 @@ Array.method('each', function(callback) {
 		if(is_undefined(callback)) {
 			throw new SyntaxError("Array.each(callback): callback is undefined");
 		}
-		
+
 		for (var i = 0; i < this.length; i++) {
 			var args = [this[i], i];
 			callback.apply(this, args);
@@ -29,6 +29,6 @@ Array.method('contains', function(suspect) {
 			matches.push(index);
 		}
 	});
-	
+
 	return matches.not_empty() ? matches : false;
 });

@@ -104,7 +104,7 @@ NinjsModule.method('set_data', function(key, value) {
 		else if (is_typeof(Object, key)) {
 			var data = key;
 			for(var property in data) {
-        this.data[property] = data[property]
+        		this.data[property] = data[property];
 			}
 		}
 		
@@ -135,7 +135,7 @@ NinjsApplication.method('add_module', function(name) {
 		if (is_defined(this[name])) {
 			throw new SyntaxError("NinjsApplication.add_module(name): '" + name + "' already declared");
 		}
-		this[name] = new NinjsModule();
+		this[name] = new NinjsModule(name);
 	}
 	catch(error) {
 		alert(error.message);

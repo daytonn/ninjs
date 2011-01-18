@@ -1,9 +1,9 @@
 String.method('is_empty', function() {
-	return (this === '') ? true : false;
+	return (this.length < 1) ? true : false;
 });
 
 String.method('not_empty', function() {
-	return (this === '') ? false : true;
+	return (this.length < 1) ? false : true;
 });
 
 String.method('is_numeric', function() {
@@ -28,7 +28,7 @@ String.method('each', function(callback) {
 		if(is_undefined(callback)) {
 			throw new SyntaxError("String.each(callback): callback is undefined");
 		}
-		
+
 		for (var i = 0; i < this.length; i++) {
 			var args = [this.charAt(i), i];
 			callback.apply(this, args);
