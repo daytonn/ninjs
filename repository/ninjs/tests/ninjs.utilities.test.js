@@ -52,12 +52,6 @@ test("can test if an array contains an element", function() {
 	equals(test_array.contains('not in there'), false, 'non-existent value is false');
 });
 
-test("can shuffle an array", function() {
-	var array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	ok(array != [1, 2, 3, 4, 5, 6, 7, 8, 9], "array is shuffled");	
-	same(array, [1, 2, 3, 4, 5, 6, 7, 8, 9], 'array is not altered');
-});
-
 module("string utility tests");
 
 test("can test for emptiness", function() {
@@ -68,11 +62,11 @@ test("can test for emptiness", function() {
 });
 
 test('can test for number', function() {
-	equals('34'.is_number(), true, "34 is a number");
-	equals('0.5'.is_number(), true, ".5 is a number");
-	equals('-34'.is_number(), true, '-34 is a number');
-	equals('-0.5'.is_number(), true, '-.05 is a number');
-	equals('hello'.is_number(), false, 'hello is not a number');
+	equals('34'.is_numeric(), true, "34 is numeric");
+	equals('0.5'.is_numeric(), true, ".5 is numeric");
+	equals('-34'.is_numeric(), true, '-34 is numeric');
+	equals('-0.5'.is_numeric(), true, '-.05 is numeric');
+	equals('hello'.is_numeric(), false, 'hello is numeric');
 });
 
 test('can trim a string', function() {
@@ -141,9 +135,3 @@ test("can compress a string", function() {
 	var string = "satan\n\t oscillate\n\t my\n\t metallic\n sonatas";
 	same(string.compress(), 'satanoscillatemymetallicsonatas', "string is compressed correctly");
 });
-
-test("can shuffle a string", function() {
-	var string = 'Hello World';
-	ok('Hello World' != string.shuffle(), "string is shuffled");
-	same(string, 'Hello World', 'array is not altered');
-}); 

@@ -26,15 +26,37 @@ test("can check the type strictly with is_typeof", function() {
 		name: 'SomeObject',
 		method: function() {}
 	};
-	var FauxClass = function(){};
-	var fauxinstance = new FauxClass();
+	var SomeClass = function(){};
+	var some_instance = new SomeClass();
 	equals(is_typeof(Number, 4), true, 'can check against Number');
 	equals(is_typeof(String, 'Hello World'), true, 'can check against String');
 	equals(is_typeof(Array, ['one', 'two', 'three']), true, 'can check against Array');
 	equals(is_typeof(Function, foo), true, 'can check against Function');
 	equals(is_typeof(Object, bar), true, 'can check against Object');
-	equals(is_typeof(RegExp, /^_*/), true, 'can check against Regexp');
-	equals(is_typeof(FauxClass, fauxinstance), true, 'can check against custom object');
+	equals(is_typeof(RegExp, /pattern/), true, 'can check against Regexp');
+	equals(is_typeof(SomeClass, some_instance), true, 'can check against custom object');
+});
+
+module("typeof proxys");
+
+test("can check for default types", function() {
+	var today = new Date();
+	var easy_as = [1,2,3];
+	var pattern = new RegExp(/pattern/);
+	
+	ok(is_string('hello'), 'hello is_string');
+	ok(is_number(42), '42 is_number');
+	ok(is_array(easy_as), 'easy_as is_array');
+	ok(is_bool(false), 'false is_bool');
+	ok(is_date(today), 'today is_date');
+	ok(is_regex(pattern), 'pattern is_regex');
+	
+	equals(is_regex('hello'), false, 'hello fails is_regex');
+	equals(is_date(42), false, '42 fails is_date');
+	equals(is_bool(easy_as), false, 'easy_as fails is_bool');
+	equals(is_array(today), false, 'today fails is_array');
+	equals(is_number(true), false, 'true fails is_number');
+	equals(is_string(pattern), false, 'pattern fails is_string');
 });
 
 test("can determine a number", function() {
@@ -49,7 +71,7 @@ test("can determine a number", function() {
 module("extend tests");
 
 test("can add a method to the prototype", function() {
-	ok(is_defined(Object.prototype.method), "Object.prototype.method is defined");
+	ok(is_defined(Function.prototype.method), "Object.prototype.method is defined");
 	
 	String.method('test_method', function() {
 		return 'This is a test';
@@ -58,52 +80,81 @@ test("can add a method to the prototype", function() {
 	equals('Hello'.test_method(), 'This is a test', 'can create a prototype method with method');
 });
 
-test("can clone something", function() {
-	var object = {
-		hello: 'world',
-		simple: 'object'
-	};
-
-	var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, object, 'one', 'two', 'three', 'four', 'five'];
-	
-	var clone_object = object.clone();
-	var clone_array = array.clone();
-
-	ok(object !== clone_object, 'cloned object is not a reference');
-	ok(array !== clone_array, 'cloned array is not a reference');
-	
-	same(object, clone_object, "object successfully cloned");
-	same(array, clone_array, "array successfully cloned");
-});
-
 module("Ninjs application tests");
 
-test("can create a judo application object", function() {
-	var MyApp = new JudoApplication();
-	ok(is_defined(MyApp), 'MyApp is defined');
-	ok(is_typeof(JudoApplication, MyApp), 'MyApp is a valid JudoApplication');
+test("can create a ninjs application object", function() {
+	var testapp = new NinjsApplication();
+	ok(is_defined(testapp), 'testapp is defined');
+	ok(is_typeof(NinjsApplication, testapp), 'testapp is a valid NinjsApplication');
 });
 
 test("can create a NinjsModule", function() {
-	var MyApp = new JudoApplication();
-	MyApp.add_module('Test');
-	ok(is_defined(MyApp.Test), 'MyApp.Test is defined');
-	ok(is_typeof(NinjsModule, MyApp.Test), 'MyApp.Test is a valid Judo Module');
+	var testapp = new NinjsApplication();
+	testapp.add_module('testmodule');
+	ok(is_defined(testapp.testmodule), 'testapp.testmodule is defined');
+	ok(is_typeof(NinjsModule, testapp.testmodule), 'testapp.testmodule is a valid NinjsModule');
 });
 
-module('Judo Module tests');
+module('Ninjs Module tests');
 
-test("can add actions to module", function() {
-	var MyApp = new JudoApplication();
-	MyApp.add_module('Test');
-	ok(is_defined(MyApp.Test.actions), 'MyApp.Test.actions is defined');
-	ok(is_typeof(Function, MyApp.Test.actions), "MyApp.Test.actions is a valid Function");
-	ok(is_defined(MyApp.Test.run), 'MyApp.Test.run is defined');
-	ok(is_typeof(Function, MyApp.Test.run), "MyApp.Test.run is a valid Function");
+test("module defaults", function() {
+	var testapp = new NinjsApplication();
+	testapp.add_module('testmodule');
 	
-	MyApp.Test.actions = function() {
-		ok(true, 'MyApp.Test.actions ran');
+	// properties
+	ok(is_defined(testapp.testmodule.run_tests), 'testapp.testmodule.run_tests is defined');
+	equals(testapp.testmodule.run_tests, false, 'testapp.testmodule.run_tests defaults to false');
+	ok(is_defined(testapp.testmodule.data), "testapp.testmodule.data is defined");
+	ok(is_defined(testapp.testmodule.name), 'testapp.testmodule.name is defined');
+	equals(testapp.testmodule.name, 'testmodule', 'testapp.testmodule.name is correct');
+	ok(is_defined(testapp.testmodule.tests), 'testapp.testmodule.tests is defined');
+	ok(is_array(testapp.testmodule.tests), 'testapp.testmodule.tests is_array');
+	ok(testapp.testmodule.tests.is_empty(), 'testapp.testmodule.tests is empty');
+	ok(is_defined(_), '_ is defined');
+	ok(is_defined(_.testmodule), '_.testmodule is defined');
+	
+	// methods
+	ok(is_defined(testapp.testmodule.actions), 'testapp.testmodule.actions is defined');
+	ok(is_typeof(Function, testapp.testmodule.actions), "testapp.testmodule.actions is a valid Function");
+	ok(is_defined(testapp.testmodule.run), 'testapp.testmodule.run is defined');
+	ok(is_typeof(Function, testapp.testmodule.run), "testapp.testmodule.run is a valid Function");
+	ok(is_defined(testapp.testmodule.call_on_ready), 'testmodule.testapp.call_on_ready is defined');
+	ok(is_defined(testapp.testmodule.execute), 'testmodule.testapp.execute is defined');
+	ok(is_defined(testapp.testmodule.elements), 'testapp.testmodule.elements is defined');
+	ok(is_defined(testapp.testmodule.set_data), 'testapp.testmodule.set_data is defined');
+});
+
+// Qunit waits for DOM to load before running tests
+// to test DOM wait feature, we need to run some code outside the tests
+(function() {
+	var testapp = new NinjsApplication();
+	testapp.add_module('testmodule');	
+	testapp.testmodule.actions = function() {
+		// append an element to be sure the DOM is ready for manipulation and test for the element's existence
+		$('body').append('<div id="made-by-actions"/>');
+		
+		test("Ninjs module can run actions", function() { 
+			equals($('#made-by-actions').length, 1,'testapp.test.actions ran after DOM was ready');
+			ok(is_defined(__, '__ is defined'));
+			equals(__.name, 'testmodule', '__ is testmodule');
+		});
 	};
 	
-	MyApp.Test.run();
-});
+	testapp.testmodule.run();
+}());
+
+// Qunit waits for DOM to load before running tests
+// to test DOM wait feature, we need to run some code outside the tests
+(function() {
+	var testapp = new NinjsApplication();
+	testapp.add_module('testmodule');	
+	testapp.testmodule.elements(function() {
+		testapp.testmodule.qunit_header = $('#qunit-header');
+		testapp.testmodule.qunit_banner = $('#qunit-banner');
+		
+		test('Ninjs module can cache elements', function() {
+			equals(testapp.testmodule.qunit_header[0].tagName, 'H1', '#qunit-header returns an h1');
+			equals(testapp.testmodule.qunit_banner[0].tagName, 'H2', '#qunit-banner returns an h2');
+		});
+	});
+}());

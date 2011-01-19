@@ -97,6 +97,8 @@ module Ninjs
       File.copy "#{Ninjs.base_directory}/repository/ninjs/tests/index.html", "#{@project_path}tests"
       File.copy "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.test.js", "#{@project_path}tests"
       File.copy "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@project_path}tests"
+      File.copy "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.js", "#{@project_path}tests/qunit"
+      File.copy "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.css", "#{@project_path}tests/qunit"
     end
     
     def update
