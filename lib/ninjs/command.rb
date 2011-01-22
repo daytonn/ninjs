@@ -9,8 +9,23 @@ module Ninjs
       puts "\e[32m>>>#{color_end} Ninjs are watching for changes. Press Ctrl-C to stop."
       project = Ninjs::Project.init_with_config(project_path)
       project.update
-	  
+	    
+	    # TODO make this smaller using globs
       FSSM.monitor do
+        path "#{Ninjs.base_directory}/repository" do
+          glob "**/*.js"
+
+          update do |base, relative|
+            puts "#{color_start}<<<#{color_end} ninjs repository updated #{relative}"
+            project.update
+          end
+
+          create do |base, relative|
+            puts "#{relative} created in repository"
+            project.update
+          end
+        end
+        
         path "#{project_path}elements" do
           glob "**/*.js"
 

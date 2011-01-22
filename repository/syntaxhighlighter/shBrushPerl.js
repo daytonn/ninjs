@@ -26,7 +26,7 @@
 		var funcs = 
 			'abs accept alarm atan2 bind binmode chdir chmod chomp chop chown chr ' + 
 			'chroot close closedir connect cos crypt defined delete each endgrent ' + 
-			'endhostent endnetent endprotoent endpwent endservent eof exec is_defined ' + 
+			'endhostent endnetent endprotoent endpwent endservent eof exec exists ' + 
 			'exp fcntl fileno flock fork format formline getc getgrent getgrgid ' + 
 			'getgrnam gethostbyaddr gethostbyname gethostent getlogin getnetbyaddr ' + 
 			'getnetbyname getnetent getpeername getpgrp getppid getpriority ' + 

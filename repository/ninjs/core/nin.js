@@ -2,18 +2,97 @@
 
 var NinjsModule = function(name) {
 	this.data = {};
-	this.run_tests = false;
-	this.tests = [];
 	this.name = name;
+	this.run_tests = false; // beta
+	this.tests = [];// beta
 };
 
 NinjsModule.method('actions', function() {});
+
+NinjsModule.method('run', function() {
+	this.call_on_ready(this.execute);
+});
+
+NinjsModule.method('call_on_ready', function(callback) {
+	var timer;
+	var module = this;
+
+	function check_ready() {
+		timer = setInterval(is_ready, 13);
+	}
+
+	function is_ready() {
+		if (document && document.getElementsByTagName && document.getElementById && document.body) {
+			clearInterval(timer);
+			timer = null;
+			callback.call(module);
+		}
+	}
+
+	check_ready();
+});
+
+NinjsModule.method('execute', function() {
+	// swap out the __ alias
+	this.old__ = is_defined(window.__) ? window.__ : undefined;
+	window.__ = this;
+	
+	if (this.run_tests) {
+		this._run_tests();
+	}
+	this.actions();
+	
+	// reset the __ alias
+	if(is_defined(this.old__)) {
+		window.__ = this.old__;
+	}
+});
+
+NinjsModule.method('elements', function(callback) {
+	// swap out the __ alias
+	this.old__ = is_defined(window.__) ? window.__ : undefined;
+	window.__ = this;
+	
+	this.call_on_ready(callback);
+	
+ 	// reset the __ alias
+	if(is_defined(this.old__)) {
+		window.__ = this.old__;
+	}
+});
+
+NinjsModule.method('set_data', function(key, value) {
+	try {
+		if (is_undefined(key)) {
+			throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
+		}
+		
+		if (is_typeof(String, key) && is_undefined(value)) {
+			throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
+		}
+
+		if (is_typeof(String, key)) {
+			this.data[key] = value;
+		}
+		else if (is_typeof(Object, key)) {
+			var data = key;
+			for(var property in data) {
+				this.data[property] = data[property];
+			}
+		}
+
+		return this;
+	}
+	catch(error) {
+		alert(error.message);
+	}
+});
 
 NinjsModule.method('add_test', function(test_file) {
 	this.tests.push(test_file);
 });
 
-NinjsModule.method('_run_tests', function() {
+NinjsModule.method('run_tests', function() {
 	var test_template = [];
 	test_template.push('<div class="test-results" title="Test Results">');
 	test_template.push('<h1 id="qunit-header">' + this.name + ' module tests</h1>');
@@ -21,9 +100,9 @@ NinjsModule.method('_run_tests', function() {
 	test_template.push('<h2 id="qunit-userAgent"></h2>');
 	test_template.push('<ol id="qunit-tests"></ol>');
 	test_template.push('</div>');
-	
+
 	$('body').append(test_template.join("\n"));
-	
+
 	this.tests.each(function(test) {
 		$.getScript('tests/' + some + '.test.js', function() {
 			var test_results_dialog = $('.test-results');
@@ -49,78 +128,11 @@ NinjsModule.method('_run_tests', function() {
 	});
 });
 
-NinjsModule.method('execute', function() {
-	var old__ = is_defined(window.__) ? window.__ : undefined;
-	window.__ = this;
-	if (this.run_tests) {
-		this._run_tests();
-	}
-	this.actions();
-	window.__ = old__;
-});
-
-NinjsModule.method('call_on_ready', function(callback) {
-	var timer;
-	var module = this;
-	
-	function check_ready() {
-		timer = setInterval(is_ready, 13);
-	}
-	
-	function is_ready() {
-		if (document && document.getElementsByTagName && document.getElementById && document.body) {
-			clearInterval(timer);
-			timer = null;
-			callback.call(module);
-		}
-	}
-	
-	check_ready();
-});
-
-NinjsModule.method('run', function() {
-	this.call_on_ready(this.execute);
-});
-
-NinjsModule.method('elements', function(callback) {
-  var old__ = is_defined(window.__) ? window.__ : undefined;
-	window.__ = this;
-	this.call_on_ready(callback);
-	window.__ = old__;
-});
-
-NinjsModule.method('set_data', function(key, value) {
-	try {
-		if (is_undefined(key)) {
-			throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
-		}
-		if (is_typeof(String, key) && is_undefined(value)) {
-			throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
-		}
-		
-		if (is_typeof(String, key)) {
-			this.data[key] = value;
-		}
-		else if (is_typeof(Object, key)) {
-			var data = key;
-			for(var property in data) {
-        		this.data[property] = data[property];
-			}
-		}
-		
-		return this;
-	}
-	catch(error) {
-		alert(error.message);
-		return false;
-	}
-});
-
 var NinjsApplication = function() {
 	if (is_undefined(window._)) {
 		window._ = this;
 	}
-	
+
 	if (is_undefined(window.app)) {
 		window.app = this;
 	}
@@ -131,7 +143,7 @@ NinjsApplication.method('add_module', function(name) {
 		if (is_undefined(name)) {
 			throw new SyntaxError("NinjsApplication.add_module(name): name is undefined");
 		}
-		
+
 		if (is_defined(this[name])) {
 			throw new SyntaxError("NinjsApplication.add_module(name): '" + name + "' already declared");
 		}
