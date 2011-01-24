@@ -48,3 +48,13 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+namespace :ndoc do
+  desc "Generate documentation with NaturalDocs"
+  
+  task :generate do
+    output = `ndocs -i /Volumes/Storage/Development/ninjs/repository/ninjs/ -o HTML /Volumes/Storage/Development/ninjs/repository/ninjs/docs -p /Volumes/Storage/Development/ninjs/repository/ninjs/docs` #  -s Slick
+    puts output
+  end
+  
+end
