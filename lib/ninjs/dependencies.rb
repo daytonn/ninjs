@@ -3,7 +3,7 @@ begin
   require 'jsmin'
   require 'tempfile'
   require 'sprockets'
-  require 'ftools'
+  require 'fileutils'
   require 'time'
 rescue LoadError
   require 'rubygems'
@@ -11,6 +11,6 @@ rescue LoadError
   require 'jsmin'
   require 'tempfile'
   require 'sprockets'
-  require 'ftools'
+  require 'fileutils'
   require 'time'
 end
