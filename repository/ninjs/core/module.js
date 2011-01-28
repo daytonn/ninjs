@@ -190,10 +190,10 @@ NinjsModule.method('add_test', function(test_file) {
 });
 
 /*
-   Method: run_tests
+   Method: _run_tests
       Runs the test files in the test array. This method is automatically called by the execute method if run_tests === true
 */
-NinjsModule.method('run_tests', function() {
+NinjsModule.method('_run_tests', function() {
 	var test_template = [];
 	test_template.push('<div class="test-results" title="Test Results">');
 	test_template.push('<h1 id="qunit-header">' + this.name + ' module tests</h1>');
@@ -202,25 +202,31 @@ NinjsModule.method('run_tests', function() {
 	test_template.push('<ol id="qunit-tests"></ol>');
 	test_template.push('</div>');
 
+	var qunit_dependencies = '<script src="' + _.tests_path +'qunit/qunit.js"></script>';
+	$.getScript(_.tests_path + 'qunit/qunit.js');
+	var qunit_styles = '<link rel="stylesheet" href="' + _.tests_path + 'qunit/qunit.css">';
+	$('body').append(qunit_styles);
 	$('body').append(test_template.join("\n"));
 
 	this.tests.each(function(test) {
-		$.getScript('tests/' + some + '.test.js', function() {
+		$.getScript(_.tests_path + test + '.test.js', function() {
 			var test_results_dialog = $('.test-results');
-			var height = test_results_dialog.height() + 130;
+			var height = $(window).height() - 200;
 			var width = $(window).width() - 300;
-			var maxHeight = $(window).height() - 200;
 			try {
 				test_results_dialog.dialog({
 					width: width,
 					height: height,
-					maxHeight: maxHeight,
+					autoOpen: false,
 					buttons: {
 						"Thanks buddy": function() {
 							test_results_dialog.dialog('close');
 						}
 					}
 				});
+				var failed = $('.failed');
+				console.log(failed.html());
+				test_results_dialog.dialog('open');
 			}
 			catch(error) {
 				alert("Test harness requires jQueryUI");

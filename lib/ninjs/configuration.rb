@@ -9,7 +9,9 @@ module Ninjs
                   :dependencies,
                   :autoload,
                   :config_path,
-                  :asset_root
+                  :asset_root,
+                  :base_url,
+                  :tests_path
                   
       def initialize(project_path, name = 'NinjsApplication')
         @defaults = {
@@ -18,7 +20,9 @@ module Ninjs
           :asset_root => project_path,
           :output => 'expanded',
           :dependencies => ['<jquery/latest>'],
-          :autoload => ['<ninjs/utilities/all>']
+          :autoload => ['<ninjs/utilities/all>'],
+          :base_url => 'http://www.example.com/',
+          :tests_path => 'tests/'
         }
 
         @defaults.each do |label, setting|
@@ -39,6 +43,8 @@ asset_root: #{options[:project_path]}
 output: #{options[:output]}
 dependencies: [#{options[:dependencies].join(', ')}]
 autoload: [#{options[:autoload].join(', ')}]
+base_url: #{options[:base_url]}
+tests_path: #{options[:tests_path]}
         CONF
       end
       
@@ -57,7 +63,9 @@ autoload: [#{options[:autoload].join(', ')}]
           :asset_root => @project_path,
           :output => @output,
           :dependencies => @dependencies,
-          :autoload => @autoload
+          :autoload => @autoload,
+          :base_url => @base_url,
+          :tests_path => @tests_path
         })
         create_conf_file content
       end
@@ -74,6 +82,8 @@ autoload: [#{options[:autoload].join(', ')}]
           @output = config['output']
           @dependencies = config['dependencies'] || Array.new
           @autoload = config['autoload'] || Array.new
+          @base_url = config['base_url'] || 'http://www.example.com/'
+          @tests_path = config['tests_path'] || 'tests/'
         rescue IOError => e
           puts e.message
           puts e.backtrace.inspect

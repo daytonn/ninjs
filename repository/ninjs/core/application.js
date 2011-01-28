@@ -7,13 +7,20 @@
    See Also:
       <NinjsModule>
 */
-var NinjsApplication = function() {
+var NinjsApplication = function(base_url, tests_path) {
 	if (is_undefined(window._)) {
 		window._ = this;
 	}
-
-	if (is_undefined(window.app)) {
-		window.app = this;
+	
+	if(is_defined(tests_path)) {
+		this.tests_path = tests_path;
+	}
+	
+	if(is_defined(base_url)) {
+		this.site_url = function(path) {
+			var path = path || '';
+			return base_url + path;
+		}
 	}
 };
 

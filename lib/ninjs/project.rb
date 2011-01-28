@@ -1,6 +1,5 @@
 module Ninjs
-  class Project
-    
+  class Project    
     attr_reader :app_filename,
                 :project_path,
                 :config
@@ -89,7 +88,7 @@ module Ninjs
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
         file << File.open("#{@project_path}lib/nin.js", 'r').readlines.join('')
-        file << "\nvar #{@config.name} = new NinjsApplication();"
+        file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.tests_path}');"
       end
     end
     
@@ -187,7 +186,7 @@ module Ninjs
     def write_core(file)
       file << "/*---------- Ninjs core ../lib/nin.js ----------*/\n"
       file << "//= require \"../lib/nin.js\"\n\n"
-      file << "\nvar #{@config.name} = new NinjsApplication();\n\n"
+      file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.tests_path}');\n\n"
     end
     
     def write_autoload(file)
