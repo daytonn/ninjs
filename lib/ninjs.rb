@@ -3,7 +3,7 @@ end
 
 module Ninjs
   def version
-    '0.9.4'
+    '0.10.1'
   end
   
   def base_directory
