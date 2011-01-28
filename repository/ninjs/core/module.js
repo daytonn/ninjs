@@ -96,7 +96,7 @@ NinjsModule.method('execute', function() {
 	window.__ = this;
 	
 	if (this.run_tests) {
-		this.run_tests();
+		this._run_tests();
 	}
 	this.actions();
 	
