@@ -18,15 +18,13 @@ module Ninjs
       project
     end
     
-    def initialize(name = 'NinjsApplication', project_dir = '/')
-      name.gsub!(/\s|\-|\./)
+    def initialize(name = 'NinjsApplication', project_dir = '/')      
+      app_name = name.gsub(/\s|\-|\./, '')
       proj_dir = clean_project_path project_dir
       @modules = Array.new
-
       @color_start = "\e[32m"
       @color_end = "\e[0m"
-
-      @app_filename = name.downcase
+      @app_filename = app_name.downcase
       @project_path = "#{Ninjs.root_directory}#{proj_dir}"
       @config = Ninjs::Configuration.new @project_path, name
     end
@@ -93,11 +91,11 @@ module Ninjs
     end
     
     def import_test_files
-      Fileutils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/index.html", "#{@project_path}tests"
-      Fileutils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.test.js", "#{@project_path}tests"
-      Fileutils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@project_path}tests"
-      Fileutils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.js", "#{@project_path}tests/qunit"
-      Fileutils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.css", "#{@project_path}tests/qunit"
+      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/index.html", "#{@project_path}tests"
+      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.test.js", "#{@project_path}tests"
+      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@project_path}tests"
+      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.js", "#{@project_path}tests/qunit"
+      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.css", "#{@project_path}tests/qunit"
     end
     
     def update
