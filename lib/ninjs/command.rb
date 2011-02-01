@@ -155,7 +155,37 @@ Example:
   ninjs watch
       DOC
     end
+    
+    def generate(object, name, create_elements = false, create_models = false, elements = false, models = false)
+      begin
+        project_path = Dir.getwd << '/'
+        raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
+        project = Ninjs::Project.init_with_config(project_path)
+        if object === 'module'
+          File.open "#{project_path}modules/#{name.downcase}.module.js", "w" do |file|
+            file << project.config.name + ".add_module('" + name + "');\n\n"
+            file << '//= require "../elements/' + name.downcase + '.elements.js"' + "\n\n" if elements
+            file << '//= require "../models/' + name.downcase + '.model.js"' + "\n\n" if models
+            file << project.config.name + "." + name + ".actions = function() {\n\n}\n\n"
+            file << project.config.name + "." + name + ".run();"
+            puts "+++ created #{name.downcase}.module.js"
+          end unless File.exists? "#{project_path}modules/#{name.downcase}.module.js"
+        elsif object === 'elements'
+          File.open("#{project_path}elements/#{name.downcase}" + ".elements.js", "w") do |file|
+            file << project.config.name + "." + name + ".elements(function({\n\n}));"
+            puts "+++ created #{name.downcase}.elements.js"
+          end unless File.exists? "#{project_path}elements/#{name.downcase}.elements.js"
+        elsif object === 'model'
+          File.open "#{project_path}models/#{name.downcase}.model.js", "w" do |file|
+            file << project.config.name + "." + name + ".set_data({});"
+            puts "+++ created #{name.downcase}.model.js"
+          end unless File.exists? "#{project_path}models/#{name.downcase}.model.js" 
+        end
+      rescue
+        
+      end
+    end
 
-    module_function :create, :watch, :compile, :help, :import
+    module_function :create, :watch, :compile, :help, :import, :generate
   end
 end

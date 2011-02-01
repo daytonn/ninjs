@@ -42,11 +42,24 @@ class NinjsConsole < Rubikon::Application::Base
     Ninjs::Command.import
   end
   
-  option :directory, :dir do
-    @directory = dir
-  end
   option :p => :directory
-  command :create, :app_name do
-    Ninjs::Command.create(app_name, @directory)
+  command :create, :app_name, :p => :directory do
+    Ninjs::Command.create(app_name, directory)
+  end
+  
+  #flag :e do
+  #  Ninjs::Command.generate('elements', obj_name)
+  #end
+  #flag :m do
+  #  Ninjs::Command.generate('model', obj_name)
+  #end
+  option :e
+  option :m
+  command :generate, :object, :obj_name do
+    Ninjs::Command.generate('elements', obj_name) if e.given?
+    Ninjs::Command.generate('model', obj_name) if m.given?
+    elements = e.given? || false
+    models = m.given? || false
+    Ninjs::Command.generate(object, obj_name, elements, models)
   end
 end
