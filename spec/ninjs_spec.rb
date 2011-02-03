@@ -4,7 +4,6 @@ describe Ninjs do
   context 'When instantiating a new project' do
     before :each do
       @new_project = Ninjs::Project.new('MyApplication', 'spec/js')
-      @path = File.dirname(__FILE__)
     end
 
     it 'should have the correct app_filename' do
@@ -142,40 +141,51 @@ describe Ninjs do
       utility_lib_content.should === expected_utility_lib_content
     end
     
-    context 'When a project is updated' do      
+    context 'and a project is updated' do
+      
+      before :each do
+        @path = Dir.getwd
+        @project = Ninjs::Project.init_with_config("#{@path}/spec/js/")
+        
+        FileUtils.cp("#{@path}/spec/fixtures/global.module.js", "#{@path}/spec/js/modules") unless File.exists?("#{@path}/spec/js/modules/global.module.js")
+        FileUtils.cp("#{@path}/spec/fixtures/test.module.js", "#{@path}/spec/js/modules") unless File.exists?("#{@path}/spec/js/modules/test.module.js")
+        FileUtils.cp("#{@path}/spec/fixtures/test.elements.js", "#{@path}/spec/js/elements") unless File.exists?("#{@path}/spec/js/elements/test.elements.js")
+        FileUtils.cp("#{@path}/spec/fixtures/test.model.js", "#{@path}/spec/js/models") unless File.exists?("#{@path}/spec/js/models/test.model.js")
+        @project.update
+      end
+      
       it 'should have created the /application/global.js module' do
-        @path = File.dirname(__FILE__)
-        FileUtils.cp("#{@path}/fixtures/global.module.js", "#{@path}/js/modules")
-        FileUtils.cp("#{@path}/fixtures/test.module.js", "#{@path}/js/modules")
-        FileUtils.cp("#{@path}/fixtures/test.elements.js", "#{@path}/js/elements")
-        FileUtils.cp("#{@path}/fixtures/test.model.js", "#{@path}/js/models")
-        
-        @new_project.update
-        
-        File.exists?("#{@path}/js/application/global.js").should be_true
+        File.exists?("#{@path}/spec/js/application/global.js").should be_true
       end
       
       it 'should have created the /application/test.js module' do
-        File.exists?("#{@path}/js/application/test.js").should be_true
+        File.exists?("#{@path}/spec/js/application/test.js").should be_true
+      end
+      
+      it 'should have the correct /application/global.js content' do
+        expected_global_file = File.open("#{@path}/spec/fixtures/global.js", "r")
+        expected_global_content = expected_global_file.readlines
+        expected_global_file.close
+        
+        actual_global_file = File.open("#{@path}/spec/js/application/global.js", "r")
+        actual_global_content = actual_global_file.readlines
+        actual_global_file.close
+        
+        actual_global_content.should == expected_global_content
+      end
+      
+      it 'should have the correct /application/test.js content' do
+        expected_test_file = File.open("#{@path}/spec/fixtures/test.js", "r")
+        expected_test_content = expected_test_file.readlines
+        expected_test_file.close
+        
+        actual_test_file = File.open("#{@path}/spec/js/application/test.js", "r")
+        actual_test_content = actual_test_file.readlines
+        actual_test_file.close
+        
+        actual_test_content.should == expected_test_content
       end
     end
-
-    #  expected_file = File.open("/Volumes/Storage/Development/judojs/tests/fixtures/global.js", "r")
-    #  actual_file = File.open("/Volumes/Storage/Development/judojs/tests/js/application/global.js", "r")
-    #  expected_content = expected_file.readlines
-    #  actual_content = actual_file.readlines
-    #  assert_equal(expected_content, actual_content, "global.js file has correct contents")
-    #  actual_file.close
-    #  expected_file.close
-
-    #  expected_file = File.open("/Volumes/Storage/Development/judojs/tests/fixtures/test.js", "r")
-    #  actual_file = File.open("/Volumes/Storage/Development/judojs/tests/js/application/test.js", "r")
-    #  expected_content = expected_file.readlines
-    #  actual_content = actual_file.readlines
-    #  assert_equal(expected_content, actual_content, "test.js file has correct contents")
-    #  actual_file.close
-    #  expected_file.close
-    #end
     
   end# context When instantiating a new project
   

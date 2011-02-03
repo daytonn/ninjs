@@ -1,3 +1,7 @@
 MyApplication.add_module('Global');
 
-//= require <judojs/utilities/all>
+MyApplication.Global.actions = function() {
+  alert('hello world');
+};
+
+MyApplication.Global.run();

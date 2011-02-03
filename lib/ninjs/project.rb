@@ -184,7 +184,7 @@ module Ninjs
     def write_core(file)
       file << "/*---------- Ninjs core ../lib/nin.js ----------*/\n"
       file << "//= require \"../lib/nin.js\"\n\n"
-      file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.tests_path}');\n\n"
+      file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.test_path}');\n\n"
     end
     
     def write_autoload(file)

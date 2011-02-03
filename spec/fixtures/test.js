@@ -12,6 +12,4 @@ MyApplication.TestModule.actions = function() {
   console.log(MyApplication.TestModule.test_id.html());
 };
 
-$(document).ready(function(){
-  MyApplication.TestModule.run();
-});
+MyApplication.TestModule.run();
