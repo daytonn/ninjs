@@ -141,8 +141,43 @@ describe Ninjs do
       
       utility_lib_content.should === expected_utility_lib_content
     end
-                
-  end
+    
+    context 'When a project is updated' do      
+      it 'should have created the /application/global.js module' do
+        @path = File.dirname(__FILE__)
+        FileUtils.cp("#{@path}/fixtures/global.module.js", "#{@path}/js/modules")
+        FileUtils.cp("#{@path}/fixtures/test.module.js", "#{@path}/js/modules")
+        FileUtils.cp("#{@path}/fixtures/test.elements.js", "#{@path}/js/elements")
+        FileUtils.cp("#{@path}/fixtures/test.model.js", "#{@path}/js/models")
+        
+        @new_project.update
+        
+        File.exists?("#{@path}/js/application/global.js").should be_true
+      end
+      
+      it 'should have created the /application/test.js module' do
+        File.exists?("#{@path}/js/application/test.js").should be_true
+      end
+    end
+
+    #  expected_file = File.open("/Volumes/Storage/Development/judojs/tests/fixtures/global.js", "r")
+    #  actual_file = File.open("/Volumes/Storage/Development/judojs/tests/js/application/global.js", "r")
+    #  expected_content = expected_file.readlines
+    #  actual_content = actual_file.readlines
+    #  assert_equal(expected_content, actual_content, "global.js file has correct contents")
+    #  actual_file.close
+    #  expected_file.close
+
+    #  expected_file = File.open("/Volumes/Storage/Development/judojs/tests/fixtures/test.js", "r")
+    #  actual_file = File.open("/Volumes/Storage/Development/judojs/tests/js/application/test.js", "r")
+    #  expected_content = expected_file.readlines
+    #  actual_content = actual_file.readlines
+    #  assert_equal(expected_content, actual_content, "test.js file has correct contents")
+    #  actual_file.close
+    #  expected_file.close
+    #end
+    
+  end# context When instantiating a new project
   
   context 'When instantiating a project from a config file' do
     before :each do
