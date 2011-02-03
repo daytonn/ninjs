@@ -11,7 +11,7 @@ module Ninjs
                   :config_path,
                   :asset_root,
                   :base_url,
-                  :tests_path
+                  :test_path
                   
       def initialize(project_path, name = 'NinjsApplication')
         @defaults = {
@@ -22,7 +22,7 @@ module Ninjs
           :dependencies => ['<jquery/latest>'],
           :autoload => ['<ninjs/utilities/all>'],
           :base_url => 'http://www.example.com/',
-          :tests_path => 'tests/'
+          :test_path => 'tests/'
         }
 
         @defaults.each do |label, setting|
@@ -44,7 +44,7 @@ output: #{options[:output]}
 dependencies: [#{options[:dependencies].join(', ')}]
 autoload: [#{options[:autoload].join(', ')}]
 base_url: #{options[:base_url]}
-tests_path: #{options[:tests_path]}
+test_path: #{options[:test_path]}
         CONF
       end
       
@@ -65,7 +65,7 @@ tests_path: #{options[:tests_path]}
           :dependencies => @dependencies,
           :autoload => @autoload,
           :base_url => @base_url,
-          :tests_path => @tests_path
+          :test_path => @test_path
         })
         create_conf_file content
       end
@@ -83,7 +83,7 @@ tests_path: #{options[:tests_path]}
           @dependencies = config['dependencies'] || Array.new
           @autoload = config['autoload'] || Array.new
           @base_url = config['base_url'] || 'http://www.example.com/'
-          @tests_path = config['tests_path'] || 'tests/'
+          @test_path = config['test_path'] || 'tests/'
         rescue IOError => e
           puts e.message
           puts e.backtrace.inspect

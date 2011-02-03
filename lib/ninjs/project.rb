@@ -86,7 +86,7 @@ module Ninjs
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
         file << File.open("#{@project_path}lib/nin.js", 'r').readlines.join('')
-        file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.tests_path}');"
+        file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.test_path}');"
       end
     end
     
