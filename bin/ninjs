@@ -42,9 +42,10 @@ class NinjsConsole < Rubikon::Application::Base
     Ninjs::Command.import
   end
   
-  command :create, :app_name, :p => :directory do
-    directory = p.given? || false
-    puts directory
+  option :withdir, [:path]
+  flag :p => :withdir
+  command :create, [:app_name] do
+    directory = (given? :p) ? withdir.path : false
     Ninjs::Command.create(app_name, directory)
   end
 
