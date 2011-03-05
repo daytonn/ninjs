@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.10.2"
+  s.version = "0.10.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
-  s.date = %q{2011-01-29}
+  s.date = %q{2011-02-13}
   s.default_executable = %q{ninjs}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
@@ -249,17 +249,29 @@ Gem::Specification.new do |s|
     "repository/syntaxhighlighter/shBrushXml.js",
     "repository/syntaxhighlighter/shCore.js",
     "repository/syntaxhighlighter/shLegacy.js",
-    "spec/spec_helper.rb",
-    "spec/test_spec.rb"
+    "spec/fixtures/global.js",
+    "spec/fixtures/global.module.js",
+    "spec/fixtures/myapplication.js",
+    "spec/fixtures/nin.js",
+    "spec/fixtures/ninjs.conf",
+    "spec/fixtures/test.elements.js",
+    "spec/fixtures/test.js",
+    "spec/fixtures/test.model.js",
+    "spec/fixtures/test.module.js",
+    "spec/fixtures/updated.myapplication.js",
+    "spec/fixtures/utilities.js",
+    "spec/ninjs_spec.rb",
+    "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/textnotspeech/ninjs}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
+  s.rubyforge_project = %q{nowarning}
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
   s.test_files = [
-    "spec/spec_helper.rb",
-    "spec/test_spec.rb"
+    "spec/ninjs_spec.rb",
+    "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then

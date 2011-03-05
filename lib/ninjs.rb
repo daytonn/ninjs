@@ -1,7 +1,4 @@
 module Ninjs
-end
-
-module Ninjs
   def version
     '0.10.1'
   end

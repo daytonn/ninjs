@@ -2,7 +2,6 @@ module Ninjs
     class Configuration
       
       attr_reader :name,
-                  :project_path,
                   :app_filename,
                   :directory,
                   :output,
@@ -13,11 +12,12 @@ module Ninjs
                   :base_url,
                   :test_path
                   
-      def initialize(project_path, name = 'NinjsApplication')
+      def initialize(project_path, name = '')
+        @project_path = project_path
         @defaults = {
           :name => name,
-          :project_path => project_path,
-          :asset_root => project_path,
+          :app_filename => name.gsub(/\s|\-|\./, '').downcase,
+          :asset_root => '../',
           :output => 'expanded',
           :dependencies => ['<jquery/latest>'],
           :autoload => ['<ninjs/utilities/all>'],
@@ -27,6 +27,10 @@ module Ninjs
 
         @defaults.each do |label, setting|
           instance_variable_set("@#{label}", setting)
+        end
+        
+        if File.exists? "#{@project_path}ninjs.conf"
+          read
         end
       end
       
@@ -38,8 +42,7 @@ module Ninjs
       def conf_content(options)
         content = <<-CONF
 name: #{options[:name]}
-project_path: #{options[:project_path]}
-asset_root: #{options[:project_path]}
+asset_root: #{options[:asset_root]}
 output: #{options[:output]}
 dependencies: [#{options[:dependencies].join(', ')}]
 autoload: [#{options[:autoload].join(', ')}]
@@ -59,8 +62,8 @@ test_path: #{options[:test_path]}
       def update
         content = conf_content({
           :name => @name,
-          :project_path => @project_path,
-          :asset_root => @project_path,
+          :app_filename => @app_filename,
+          :asset_root => @asset_root,
           :output => @output,
           :dependencies => @dependencies,
           :autoload => @autoload,
@@ -71,23 +74,15 @@ test_path: #{options[:test_path]}
       end
       
       def read
-        begin
-          raise IOError, "#{@project_path}ninjs.conf does not exist", caller unless File.exists? "#{@project_path}ninjs.conf"
-          config = YAML.load_file("#{@project_path}ninjs.conf")
-          
-          @project_path = config['project_path']
-          @asset_root = config['asset_root']
-          @name = config['name']
-          @app_filename = config['name'].downcase
-          @output = config['output']
-          @dependencies = config['dependencies'] || Array.new
-          @autoload = config['autoload'] || Array.new
-          @base_url = config['base_url'] || 'http://www.example.com/'
-          @test_path = config['test_path'] || 'tests/'
-        rescue IOError => e
-          puts e.message
-          puts e.backtrace.inspect
-        end
+        config = YAML.load_file("#{@project_path}ninjs.conf")
+        @asset_root = config['asset_root']
+        @name = config['name']
+        @app_filename = config['name'].downcase
+        @output = config['output']
+        @dependencies = config['dependencies'] || Array.new
+        @autoload = config['autoload'] || Array.new
+        @base_url = config['base_url'] || 'http://www.example.com/'
+        @test_path = config['test_path'] || 'tests/'
       end
       
     end

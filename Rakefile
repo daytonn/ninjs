@@ -59,3 +59,5 @@ namespace :ndoc do
   end
   
 end
+
+require 'metric_fu'

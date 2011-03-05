@@ -1,0 +1,1 @@
+** WARNING: Ruby 1.9 Support is experimental at best. Don't expect correct results! **

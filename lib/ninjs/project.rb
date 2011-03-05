@@ -6,37 +6,22 @@ module Ninjs
     attr_writer :config,
                 :project_path,
                 :app_filename
-  
-    def self.init_with_config(project_path)
-      config = Ninjs::Configuration.new project_path
-      config.read
-
-      project = Project.new
-      project.config = config
-      project.project_path = config.project_path
-      project.app_filename = config.name.downcase
-      project
-    end
     
-    def initialize(name = 'NinjsApplication', project_dir = '/')      
-      app_name = name.gsub(/\s|\-|\./, '')
-      proj_dir = clean_project_path project_dir
+    def initialize(sub_dir = '/', name = '')
+      path = add_slashes sub_dir
+      @project_path = Dir.getwd + path
       @modules = Array.new
-      @color_start = "\e[32m"
-      @color_end = "\e[0m"
-      @app_filename = app_name.downcase
-      @project_path = "#{Ninjs.root_directory}#{proj_dir}"
       @config = Ninjs::Configuration.new @project_path, name
     end
     
-    def clean_project_path(dir)
+    def add_slashes(dir)
       dir += '/' unless dir.match(/\/$/)
       dir = '/' << dir unless dir.match(/^\//)
       dir
     end
     
     def create
-      puts "#{@color_start}>>>#{@color_end} Creating the #{@config.name} project in #{@project_path}" 
+      puts "\e[32m>>>\e[0m Creating the #{@config.name} project in #{@project_path}" 
       create_project_structure
       puts "created the project structure"
       @config.create
@@ -49,7 +34,7 @@ module Ninjs
     def create_project_structure
       Dir.mkdir "#{@project_path}" unless File.exists? "#{@project_path}"
       Ninjs::Manifest.directories.each do |folder|
-        puts "#{folder}/ created" unless File.exists? "#{@project_path}/#{folder}"
+        puts "#{folder}/ created" unless File.exists? "#{@project_path}#{folder}"
         Dir.mkdir "#{@project_path}#{folder}" unless File.exists? "#{@project_path}#{folder}"
       end
     end
@@ -81,7 +66,7 @@ module Ninjs
     end
     
     def create_ninjs_application_file
-      filename = "#{@project_path}application/#{@app_filename}.js"
+      filename = "#{@project_path}application/#{@config.app_filename}.js"
       
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
@@ -103,7 +88,7 @@ module Ninjs
       compile_modules
       update_application_file
       compress_application if @config.output == 'compressed'
-      puts "#{@color_start}>>>#{@color_end} application updated" unless @errors
+      puts "\e[32m>>>\e[0m application updated" unless @errors
       @errors = false
     end
     
@@ -123,7 +108,7 @@ module Ninjs
     end
     
     def get_updated_modules
-      # TODO actually check the files against the cache
+      # TODO actually check the files against a cache
       @modules = Array.new
       Dir["#{@project_path}modules/*.js"].each do |file|
         module_filename = file.gsub(@project_path + 'modules/', '')
@@ -162,7 +147,7 @@ module Ninjs
     end
     
     def update_application_file
-      application_file = "#{@project_path}application/#{@app_filename}.js"
+      application_file = "#{@project_path}application/#{@config.app_filename}.js"
       
       File.open(application_file, "w+") do |file|
         write_dependencies(file)

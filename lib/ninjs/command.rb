@@ -4,127 +4,54 @@ module Ninjs
       require "fssm"
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
-      color_start = "\e[33m"
-      color_end = "\e[0m"
-      puts "\e[32m>>>#{color_end} Ninjs are watching for changes. Press Ctrl-C to stop."
-      project = Ninjs::Project.init_with_config(project_path)
+      puts "\e[32m>>>\e[0m Ninjs are watching for changes. Press Ctrl-C to stop."
+      project = Ninjs::Project.new
       project.update
 	    
-	    # TODO make this smaller using globs
-      FSSM.monitor do
-        path "#{Ninjs.base_directory}/repository" do
-          glob "**/*.js"
+	    watch_dirs = Ninjs::Manifest.directories.reject { |dir| dir.match(/application|tests/) }
+	    watch_hash = Hash.new
+	    
+	    watch_dirs.each do |dir|
+	     watch_hash["#{project_path}#{dir}"] = "**/*.js"
+	    end
+	    
+	    watch_hash[project_path] = "**/*.conf"
+	    watch_hash["#{Ninjs.base_directory}/repository"] = "**/*.js"
+	    
+	    FSSM.monitor do
 
-          update do |base, relative|
-            puts "#{color_start}<<<#{color_end} ninjs repository updated #{relative}"
-            project.update
-          end
+	      watch_hash.each do |dir, g|
+	        
+  	     path "#{dir}" do
+           glob g
 
-          create do |base, relative|
-            puts "#{relative} created in repository"
-            project.update
-          end
-        end
-        
-        path "#{project_path}elements" do
-          glob "**/*.js"
+           update do |base, relative|
+             puts "\e[33m<<<\e[0m change detected in #{relative}"
+             project.update
+           end
 
-          update do |base, relative|
-            puts "#{color_start}<<<#{color_end} change detected in #{relative}"
-            project.update
-          end
+           create do |base, relative|
+             puts "\e[33m+++\e[0m #{relative} created"
+             project.update
+           end
+         end
+         
+  	    end
 
-          create do |base, relative|
-            puts "#{relative} created"
-            project.update
-          end
-        end
-        
-        path "#{project_path}models" do
-          glob "**/*.js"
-
-          update do |base, relative|
-            puts "#{@color_start}<<<#{@color_end} change detected in #{relative}"
-            project.update
-          end
-
-          create do |base, relative|
-            puts "#{relative} created"
-            project.update
-          end
-        end
-        
-        path "#{project_path}modules" do
-          glob "**/*.js"
-
-          update do |base, relative|
-            puts "#{color_start}<<<#{color_end} change detected in #{relative}"
-            project.update
-          end
-
-          create do |base, relative|
-            puts "#{relative} created"
-            project.update
-          end
-        end
-
-        path "#{project_path}lib" do
-          glob "**/*.js"
-
-          update do |base, relative|
-            puts "#{color_start}<<<#{color_end} change detected in #{relative}"
-            project.config.read
-            project.update_application_file
-            project.update
-          end
-
-          create do |base, relative|
-            puts "+++ created #{relative}"
-            project.update
-          end
-        end
-        
-        path "#{project_path}plugins" do
-          glob "**/*.js"
-
-          update do |base, relative|
-            puts "#{color_start}<<<#{color_end} change detected in #{relative}"
-            project.config.read
-            project.update_application_file
-            project.update
-          end
-
-          create do |base, relative|
-            puts "+++ created #{relative}"
-            project.update
-          end
-        end
-        
-        path "#{project_path}" do
-          glob "**/*.conf"
-          
-          update do |base, relative|
-            puts "#{color_start}<<<#{color_end} change detected in #{relative}"
-            project.config.read
-            project.update_application_file
-            project.update
-          end
-        end
-        
-      end
-      
+	    end
+	           
     end
 
     def create(name, directory = false)
       raise 'you must specify a project name: ninjs create ProjectName' if name.nil?
-      project = directory ? Ninjs::Project.new(name, directory) : Ninjs::Project.new(name)
+      project = directory ? Ninjs::Project.new(directory, name) : Ninjs::Project.new('/', name)
       project.create
     end
     
     def compile
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
-      project = Ninjs::Project.init_with_config(project_path)
+      project = Ninjs::Project.new
       project.update
     end
     
@@ -160,7 +87,7 @@ Example:
       begin
         project_path = Dir.getwd << '/'
         raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
-        project = Ninjs::Project.init_with_config(project_path)
+        project = Ninjs::Project.new
         if object === 'module'
           File.open "#{project_path}modules/#{name.downcase}.module.js", "w" do |file|
             file << project.config.name + ".add_module('" + name + "');\n\n"
@@ -182,7 +109,7 @@ Example:
           end unless File.exists? "#{project_path}models/#{name.downcase}.model.js" 
         end
       rescue
-        
+        # TODO rescue this
       end
     end
 

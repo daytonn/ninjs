@@ -3,19 +3,21 @@ require "spec_helper"
 describe Ninjs do
   context 'When instantiating a new project' do
     before :each do
-      @new_project = Ninjs::Project.new('MyApplication', 'spec/js')
+      @spec_dir = File.expand_path(File.join(File.dirname(__FILE__))) + '/'
+      @project_path = @spec_dir + 'js/'
+      @new_project = Ninjs::Project.new 'spec/js', 'MyApplication'
     end
 
     it 'should have the correct app_filename' do
-      @new_project.app_filename.should === 'myapplication'
+      @new_project.config.app_filename.should === 'myapplication'
     end
 
     it 'should have the correct project_path' do
-      @new_project.project_path.should === '/Volumes/Storage/Development/ninjs/spec/js/'
+      @new_project.project_path.should === @project_path
     end
 
     it 'should have the correct asset_root' do
-      @new_project.config.asset_root === '/Volumes/Storage/Development/ninjs/spec/js/'
+      @new_project.config.asset_root === @project_path
     end
 
     it 'should have a @config property' do
@@ -57,36 +59,36 @@ describe Ninjs do
   
     it 'should have created the Ninjs::Manifest directories' do
       Ninjs::Manifest.directories.each do |folder|
-        File.exists?("/Volumes/Storage/Development/ninjs/spec/js/#{folder}").should be_true
+        File.exists?("#{@project_path}#{folder}").should be_true
       end
     end
     
     it 'should have created a config file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/ninjs.conf').should be_true
+      File.exists?("#{@project_path}ninjs.conf").should be_true
     end
     
     it 'should have created the application file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/application/myapplication.js').should be_true
+      File.exists?("#{@project_path}application/myapplication.js").should be_true
     end
     
     it 'should have created the /lib/nin.js file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/lib/nin.js')
+      File.exists?("#{@project_path}lib/nin.js")
     end
     
     it 'should have created the /lib/utilities.js file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/lib/utilities.js').should be_true
+      File.exists?("#{@project_path}lib/utilities.js").should be_true
     end
     
     it 'should have created the /tests/index.html file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/tests/index.html').should be_true
+      File.exists?("#{@project_path}tests/index.html").should be_true
     end
     
     it 'should have created the /tests/ninjs.test.js file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/tests/ninjs.test.js').should be_true
+      File.exists?("#{@project_path}tests/ninjs.test.js").should be_true
     end
     
     it 'should have created the /tests/ninjs.utilties.test.js file' do
-      File.exists?('/Volumes/Storage/Development/ninjs/spec/js/tests/ninjs.utilities.test.js').should be_true
+      File.exists?("#{@project_path}tests/ninjs.utilities.test.js").should be_true
     end
     
     it 'should have the correct config file content' do
@@ -94,7 +96,7 @@ describe Ninjs do
       expected_conf_content = expected_conf_file.readlines
       expected_conf_file.close
       
-      ninjs_conf_file = File.open('/Volumes/Storage/Development/ninjs/spec/js/ninjs.conf', 'r')
+      ninjs_conf_file = File.open("#{@project_path}ninjs.conf", 'r')
       ninjs_conf_content = ninjs_conf_file.readlines
       ninjs_conf_file.close
       
@@ -109,7 +111,7 @@ describe Ninjs do
       expected_content.shift
       expected_file.close
       
-      actual_file = File.open('/Volumes/Storage/Development/ninjs/spec/js/application/myapplication.js', 'r')
+      actual_file = File.open("#{@project_path}application/myapplication.js", 'r')
       actual_content = actual_file.readlines
       actual_content.shift
       actual_file.close
@@ -122,7 +124,7 @@ describe Ninjs do
       expected_ninjs_lib_content= expected_ninjs_lib_file.readlines
       expected_ninjs_lib_file.close
       
-      ninjs_lib_file = File.open("/Volumes/Storage/Development/ninjs/spec/js/lib/nin.js", "r")
+      ninjs_lib_file = File.open("#{@project_path}lib/nin.js", "r")
       ninjs_lib_content = ninjs_lib_file.readlines
       ninjs_lib_file.close
       
@@ -134,7 +136,7 @@ describe Ninjs do
       expected_utility_lib_content = expected_utility_lib_file.readlines
       expected_utility_lib_file.close
       
-      utility_lib_file = File.open("/Volumes/Storage/Development/ninjs/spec/js/lib/utilities.js", "r")
+      utility_lib_file = File.open("#{@project_path}lib/utilities.js", "r")
       utility_lib_content = utility_lib_file.readlines
       utility_lib_file.close
       
@@ -145,7 +147,7 @@ describe Ninjs do
       
       before :each do
         @path = Dir.getwd
-        @project = Ninjs::Project.init_with_config("#{@path}/spec/js/")
+        @project = Ninjs::Project.new 'spec/js/'
         
         FileUtils.cp("#{@path}/spec/fixtures/global.module.js", "#{@path}/spec/js/modules") unless File.exists?("#{@path}/spec/js/modules/global.module.js")
         FileUtils.cp("#{@path}/spec/fixtures/test.module.js", "#{@path}/spec/js/modules") unless File.exists?("#{@path}/spec/js/modules/test.module.js")
@@ -191,15 +193,17 @@ describe Ninjs do
   
   context 'When instantiating a project from a config file' do
     before :each do
-      @existing_project = Ninjs::Project.init_with_config '/Volumes/Storage/Development/ninjs/spec/js/'
+      @spec_dir = File.expand_path(File.join(File.dirname(__FILE__))) + '/'
+      @project_path = @spec_dir + 'js/'
+      @existing_project = Ninjs::Project.new 'spec/js'
     end
     
     it 'should have the correct app_filename' do
-      @existing_project.app_filename.should === 'myapplication'
+      @existing_project.config.app_filename.should === 'myapplication'
     end
     
     it 'should have the correct project_path' do
-      @existing_project.project_path.should === '/Volumes/Storage/Development/ninjs/spec/js/'
+      @existing_project.project_path.should === @project_path
     end
     
     it 'should have the correct @config.name' do
@@ -227,25 +231,25 @@ describe Ninjs do
     end
     
     it 'should not need a hack to delete all the files' do
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/ninjs.conf') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/ninjs.conf')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/application/myapplication.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/application/myapplication.js')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/application/global.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/application/global.js')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/application/test.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/application/test.js')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/elements/test.elements.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/elements/test.elements.js')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/models/test.model.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/models/test.model.js')    
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/lib/nin.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/lib/nin.js')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/lib/utilities.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/lib/utilities.js')
-      File.delete("/Volumes/Storage/Development/ninjs/spec/js/tests/index.html") if File.exists?("/Volumes/Storage/Development/ninjs/spec/js/tests/index.html")
-      File.delete("/Volumes/Storage/Development/ninjs/spec/js/tests/ninjs.test.js") if File.exists?("/Volumes/Storage/Development/ninjs/spec/js/tests/ninjs.test.js")      
-      File.delete("/Volumes/Storage/Development/ninjs/spec/js/tests/ninjs.utilities.test.js") if File.exists?("/Volumes/Storage/Development/ninjs/spec/js/tests/ninjs.utilities.test.js")
-      File.delete("/Volumes/Storage/Development/ninjs/spec/js/tests/qunit/qunit.css") if File.exists?("/Volumes/Storage/Development/ninjs/spec/js/tests/qunit/qunit.css")
-      File.delete("/Volumes/Storage/Development/ninjs/spec/js/tests/qunit/qunit.js") if File.exists?("/Volumes/Storage/Development/ninjs/spec/js/tests/qunit/qunit.js")
-      Dir.delete("/Volumes/Storage/Development/ninjs/spec/js/tests/qunit") if File.exists?("/Volumes/Storage/Development/ninjs/spec/js/tests/qunit")
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/modules/global.module.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/modules/global.module.js')
-      File.delete('/Volumes/Storage/Development/ninjs/spec/js/modules/test.module.js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js/modules/test.module.js')
+      File.delete("#{@project_path}ninjs.conf") if File.exists?("#{@project_path}ninjs.conf")
+      File.delete("#{@project_path}application/myapplication.js") if File.exists?("#{@project_path}application/myapplication.js")
+      File.delete("#{@project_path}application/global.js") if File.exists?("#{@project_path}application/global.js")
+      File.delete("#{@project_path}application/test.js") if File.exists?("#{@project_path}application/test.js")
+      File.delete("#{@project_path}elements/test.elements.js") if File.exists?("#{@project_path}elements/test.elements.js")
+      File.delete("#{@project_path}models/test.model.js") if File.exists?("#{@project_path}models/test.model.js")    
+      File.delete("#{@project_path}lib/nin.js") if File.exists?("#{@project_path}lib/nin.js")
+      File.delete("#{@project_path}lib/utilities.js") if File.exists?("#{@project_path}lib/utilities.js")
+      File.delete("#{@project_path}tests/index.html") if File.exists?("#{@project_path}tests/index.html")
+      File.delete("#{@project_path}tests/ninjs.test.js") if File.exists?("#{@project_path}tests/ninjs.test.js")      
+      File.delete("#{@project_path}tests/ninjs.utilities.test.js") if File.exists?("#{@project_path}tests/ninjs.utilities.test.js")
+      File.delete("#{@project_path}tests/qunit/qunit.css") if File.exists?("#{@project_path}tests/qunit/qunit.css")
+      File.delete("#{@project_path}tests/qunit/qunit.js") if File.exists?("#{@project_path}tests/qunit/qunit.js")
+      Dir.delete("#{@project_path}tests/qunit") if File.exists?("#{@project_path}tests/qunit")
+      File.delete("#{@project_path}modules/global.module.js") if File.exists?("#{@project_path}modules/global.module.js")
+      File.delete("#{@project_path}modules/test.module.js") if File.exists?("#{@project_path}modules/test.module.js")
 
       Ninjs::Manifest.directories.each do |folder|
-        Dir.delete("/Volumes/Storage/Development/ninjs/spec/js/#{folder}") if File.exists? "/Volumes/Storage/Development/ninjs/spec/js/#{folder}"
+        Dir.delete("#{@project_path}#{folder}") if File.exists? "#{@project_path}#{folder}"
       end
 
       Dir.delete('/Volumes/Storage/Development/ninjs/spec/js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js')
