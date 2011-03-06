@@ -17,7 +17,6 @@ module Ninjs
         @defaults = {
           :name => name,
           :app_filename => name.gsub(/\s|\-|\./, '').downcase,
-          :asset_root => '../',
           :output => 'expanded',
           :dependencies => ['<jquery/latest>'],
           :autoload => ['<ninjs/utilities/all>'],
@@ -35,20 +34,18 @@ module Ninjs
       end
       
       def create
-        default_content = conf_content @defaults
+        options = @defaults
+        options.delete :app_filename
+        default_content = conf_content options
         create_conf_file default_content
       end
       
       def conf_content(options)
-        content = <<-CONF
-name: #{options[:name]}
-asset_root: #{options[:asset_root]}
-output: #{options[:output]}
-dependencies: [#{options[:dependencies].join(', ')}]
-autoload: [#{options[:autoload].join(', ')}]
-base_url: #{options[:base_url]}
-test_path: #{options[:test_path]}
-        CONF
+        content = String.new
+        options.each do |option, value|
+          content << "#{option}: #{value}\n"
+        end
+        content
       end
       
       def create_conf_file(content)
@@ -60,22 +57,24 @@ test_path: #{options[:test_path]}
       end
       
       def update
-        content = conf_content({
+        options = {
           :name => @name,
-          :app_filename => @app_filename,
           :asset_root => @asset_root,
           :output => @output,
           :dependencies => @dependencies,
           :autoload => @autoload,
           :base_url => @base_url,
           :test_path => @test_path
-        })
+        }
+        options.reject! { |option| option.nil? }
+        
+        content = conf_content options
         create_conf_file content
       end
       
       def read
         config = YAML.load_file("#{@project_path}ninjs.conf")
-        @asset_root = config['asset_root']
+        @asset_root = config['asset_root'] unless config['asset_root'].nil?
         @name = config['name']
         @app_filename = config['name'].downcase
         @output = config['output']

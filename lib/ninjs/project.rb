@@ -42,7 +42,6 @@ module Ninjs
     def create_ninjs_lib_file
       ninjs_lib_secretary = Sprockets::Secretary.new(
         :root         => "#{Ninjs.base_directory}",
-        :asset_root   => "#{@config.asset_root}",
         :load_path    => ["repository"],
         :source_files => ["repository/ninjs/core/nin.js"]
       )
@@ -55,7 +54,6 @@ module Ninjs
     def create_utility_lib_file
       utility_lib_secretary = Sprockets::Secretary.new(
         :root         => "#{Ninjs.base_directory}",
-        :asset_root   => "#{@config.asset_root}",
         :load_path    => ["repository"],
         :source_files => ["repository/ninjs/utilities/all.js"]
       )
@@ -129,7 +127,7 @@ module Ninjs
 
         ninjs_lib_secretary = Sprockets::Secretary.new(
           :root         => "#{Ninjs.base_directory}",
-          :asset_root   => "#{@config.asset_root}",
+          :asset_root   => @config.asset_root || @project_path.gsub(/[a-zA-z0-9\.\-\_\s]+\/$/, ''),
           :load_path    => ["repository"],
           :source_files => ["#{module_src}"]
         )
@@ -184,7 +182,7 @@ module Ninjs
       begin
         ninjs_lib_secretary = Sprockets::Secretary.new(
           :root         => "#{Ninjs.base_directory}",
-          :asset_root   => "#{@config.asset_root}",
+          :asset_root   => @config.asset_root || @project_path.gsub(/[a-zA-z0-9\.\-\_\s]+\/$/, ''),
           :load_path    => ["repository"],
           :source_files => ["#{file}"]
         )

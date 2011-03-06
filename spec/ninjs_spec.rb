@@ -16,10 +16,6 @@ describe Ninjs do
       @new_project.project_path.should === @project_path
     end
 
-    it 'should have the correct asset_root' do
-      @new_project.config.asset_root === @project_path
-    end
-
     it 'should have a @config property' do
       @new_project.config.should_not be_nil
     end
@@ -41,11 +37,11 @@ describe Ninjs do
     end
 
     it 'should have the corect @config.base_url' do
-      @new_project.config.base_url == 'http://www.example.com'
+      @new_project.config.base_url.should == 'http://www.example.com/'
     end
 
     it 'should have the correct @config.test_path' do
-      @new_project.config.test_path == 'tests/'
+      @new_project.config.test_path.should == 'tests/'
     end
     
     it 'should respond to create' do
@@ -223,7 +219,7 @@ describe Ninjs do
     end
 
     it 'should have the corect @config.base_url' do
-      @existing_project.config.base_url == 'http://www.example.com'
+      @existing_project.config.base_url == 'http://www.example.com/'
     end
 
     it 'should have the correct @config.test_path' do
@@ -255,5 +251,7 @@ describe Ninjs do
       Dir.delete('/Volumes/Storage/Development/ninjs/spec/js') if File.exists?('/Volumes/Storage/Development/ninjs/spec/js')
       true.should be_true
     end
+    
   end
+
 end
