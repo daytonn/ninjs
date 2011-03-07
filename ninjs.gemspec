@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.10.1"
+  s.version = "0.11.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
-  s.date = %q{2011-02-13}
+  s.date = %q{2011-03-06}
   s.default_executable = %q{ninjs}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
     "lib/ninjs/helpers.rb",
     "lib/ninjs/manifest.rb",
     "lib/ninjs/project.rb",
+    "ninjs.conf",
     "ninjs.gemspec",
     "repository/jquery/1.1.4.js",
     "repository/jquery/1.2.6.js",
@@ -42,6 +43,7 @@ Gem::Specification.new do |s|
     "repository/jquery/1.4.2.js",
     "repository/jquery/1.4.3.js",
     "repository/jquery/1.4.4.js",
+    "repository/jquery/1.5.js",
     "repository/jquery/fancybox/1.3.1.js",
     "repository/jquery/fancybox/assets/1.3.1/css/fancybox.css",
     "repository/jquery/fancybox/assets/1.3.1/images/fancybox/blank.gif",
@@ -68,6 +70,19 @@ Gem::Specification.new do |s|
     "repository/jquery/fancybox/assets/1.3.1/scss/fancybox.scss",
     "repository/jquery/fancybox/latest.js",
     "repository/jquery/latest.js",
+    "repository/jquery/mobile/1.0a3.js",
+    "repository/jquery/mobile/1.0a3/assets/css/jquery.mobile.css",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/ajax-loader.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/form-check-off.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/form-check-on.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/form-radio-off.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/form-radio-on.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/icon-search-black.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/icons-18-black.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/icons-18-white.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/icons-36-black.png",
+    "repository/jquery/mobile/1.0a3/assets/images/jquerymobile/icons-36-white.png",
+    "repository/jquery/mobile/latest.js",
     "repository/jquery/mousewheel/3.0.2.js",
     "repository/jquery/mousewheel/latest.js",
     "repository/jquery/ui/1.8.7.js",
@@ -261,7 +276,35 @@ Gem::Specification.new do |s|
     "spec/fixtures/updated.myapplication.js",
     "spec/fixtures/utilities.js",
     "spec/ninjs_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "tmp/ff9e83aa019b712b90200b8d1b8fa0c7e14576af.json",
+    "tmp/metric_fu/_data/20110305.yml",
+    "tmp/metric_fu/output/bluff-min.js",
+    "tmp/metric_fu/output/churn.html",
+    "tmp/metric_fu/output/excanvas.js",
+    "tmp/metric_fu/output/flay.html",
+    "tmp/metric_fu/output/flay.js",
+    "tmp/metric_fu/output/flog.html",
+    "tmp/metric_fu/output/flog.js",
+    "tmp/metric_fu/output/hotspots.html",
+    "tmp/metric_fu/output/index.html",
+    "tmp/metric_fu/output/js-class.js",
+    "tmp/metric_fu/output/lib_ninjs.rb.html",
+    "tmp/metric_fu/output/lib_ninjs_command.rb.html",
+    "tmp/metric_fu/output/lib_ninjs_configuration.rb.html",
+    "tmp/metric_fu/output/lib_ninjs_dependencies.rb.html",
+    "tmp/metric_fu/output/lib_ninjs_helpers.rb.html",
+    "tmp/metric_fu/output/lib_ninjs_manifest.rb.html",
+    "tmp/metric_fu/output/lib_ninjs_project.rb.html",
+    "tmp/metric_fu/output/rails_best_practices.js",
+    "tmp/metric_fu/output/rcov.html",
+    "tmp/metric_fu/output/rcov.js",
+    "tmp/metric_fu/output/reek.html",
+    "tmp/metric_fu/output/reek.js",
+    "tmp/metric_fu/output/roodi.html",
+    "tmp/metric_fu/output/roodi.js",
+    "tmp/metric_fu/report.yml",
+    "tmp/metric_fu/scratch/rcov/rcov.txt"
   ]
   s.homepage = %q{http://github.com/textnotspeech/ninjs}
   s.licenses = ["MIT"]
@@ -283,6 +326,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
       s.add_runtime_dependency(%q<sprockets>, [">= 0"])
+      s.add_development_dependency(%q<metric_fu>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -298,6 +342,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
       s.add_dependency(%q<sprockets>, [">= 0"])
+      s.add_dependency(%q<metric_fu>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -314,6 +359,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
     s.add_dependency(%q<sprockets>, [">= 0"])
+    s.add_dependency(%q<metric_fu>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
