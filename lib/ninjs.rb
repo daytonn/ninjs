@@ -26,6 +26,6 @@ module Ninjs
                   :repository_root
 end
 
-%w(dependencies configuration helpers manifest project command).each do |lib|
+%w(dependencies configuration helpers manifest project command notification).each do |lib|
   require "#{Ninjs.lib_directory}/ninjs/#{lib}"
 end

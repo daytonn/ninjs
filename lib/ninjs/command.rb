@@ -4,7 +4,7 @@ module Ninjs
       require "fssm"
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
-      puts "\e[32m>>>\e[0m Ninjs are watching for changes. Press Ctrl-C to stop."
+      Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."
       project = Ninjs::Project.new
       project.update
 	    
@@ -26,12 +26,12 @@ module Ninjs
            glob g
 
            update do |base, relative|
-             puts "\e[33m<<<\e[0m change detected in #{relative}"
+             Ninjs::Notification.event "change detected in #{relative}"
              project.update
            end
 
            create do |base, relative|
-             puts "\e[33m+++\e[0m #{relative} created"
+             Ninjs::Notification.event "#{relative} created"
              project.update
            end
          end
@@ -95,17 +95,17 @@ Example:
             file << '//= require "../models/' + name.downcase + '.model.js"' + "\n\n" if models
             file << project.config.name + "." + name + ".actions = function() {\n\n}\n\n"
             file << project.config.name + "." + name + ".run();"
-            puts "+++ created #{name.downcase}.module.js"
+            Ninjs::Notification.added "created #{name.downcase}.module.js"
           end unless File.exists? "#{project_path}modules/#{name.downcase}.module.js"
         elsif object === 'elements'
           File.open("#{project_path}elements/#{name.downcase}" + ".elements.js", "w") do |file|
             file << project.config.name + "." + name + ".elements(function({\n\n}));"
-            puts "+++ created #{name.downcase}.elements.js"
+            Ninjs::Notification.added "created #{name.downcase}.elements.js"
           end unless File.exists? "#{project_path}elements/#{name.downcase}.elements.js"
         elsif object === 'model'
           File.open "#{project_path}models/#{name.downcase}.model.js", "w" do |file|
             file << project.config.name + "." + name + ".set_data({});"
-            puts "+++ created #{name.downcase}.model.js"
+            Ninjs::Notification.added "created #{name.downcase}.model.js"
           end unless File.exists? "#{project_path}models/#{name.downcase}.model.js" 
         end
       rescue
