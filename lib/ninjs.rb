@@ -1,31 +1,10 @@
 module Ninjs
-  def version
-    '0.10.1'
-  end
-  
-  def base_directory
-    File.expand_path(File.join(File.dirname(__FILE__), '..'))
-  end
-  
-  def lib_directory
-    File.expand_path(File.join(File.dirname(__FILE__)))
-  end
-  
-  def root_directory
-    Dir.getwd
-  end
-  
-  def repository_root
-    base_directory + '/repository/'
-  end
-  
-  module_function :version,
-                  :base_directory,
-                  :lib_directory,
-                  :root_directory,
-                  :repository_root
+  VERSION = '0.11.0'
+  BASE_DIR = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+  LIB_DIR = File.expand_path(File.join(File.dirname(__FILE__)))
+  ROOT_DIR = Dir.getwd
 end
 
 %w(dependencies configuration helpers manifest project command notification).each do |lib|
-  require "#{Ninjs.lib_directory}/ninjs/#{lib}"
+  require "#{Ninjs::LIB_DIR}/ninjs/#{lib}"
 end

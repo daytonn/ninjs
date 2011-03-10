@@ -16,7 +16,7 @@ module Ninjs
 	    end
 	    
 	    watch_hash[project_path] = "**/*.conf"
-	    watch_hash["#{Ninjs.base_directory}/repository"] = "**/*.js"
+	    watch_hash["#{Ninjs::BASE_DIR}/repository"] = "**/*.js"
 	    
 	    FSSM.monitor do
 

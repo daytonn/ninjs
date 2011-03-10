@@ -41,7 +41,7 @@ module Ninjs
     
     def create_ninjs_lib_file
       ninjs_lib_secretary = Sprockets::Secretary.new(
-        :root         => "#{Ninjs.base_directory}",
+        :root         => "#{Ninjs::BASE_DIR}",
         :load_path    => ["repository"],
         :source_files => ["repository/ninjs/core/nin.js"]
       )
@@ -53,7 +53,7 @@ module Ninjs
     
     def create_utility_lib_file
       utility_lib_secretary = Sprockets::Secretary.new(
-        :root         => "#{Ninjs.base_directory}",
+        :root         => "#{Ninjs::BASE_DIR}",
         :load_path    => ["repository"],
         :source_files => ["repository/ninjs/utilities/all.js"]
       )
@@ -74,11 +74,11 @@ module Ninjs
     end
     
     def import_test_files
-      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/index.html", "#{@project_path}tests"
-      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.test.js", "#{@project_path}tests"
-      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@project_path}tests"
-      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.js", "#{@project_path}tests/qunit"
-      FileUtils.cp "#{Ninjs.base_directory}/repository/ninjs/tests/qunit/qunit.css", "#{@project_path}tests/qunit"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/index.html", "#{@project_path}tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.test.js", "#{@project_path}tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@project_path}tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.js", "#{@project_path}tests/qunit"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.css", "#{@project_path}tests/qunit"
     end
     
     def update
@@ -126,7 +126,7 @@ module Ninjs
         module_src = "#{@project_path}modules/#{module_file}"
 
         ninjs_lib_secretary = Sprockets::Secretary.new(
-          :root         => "#{Ninjs.base_directory}",
+          :root         => "#{Ninjs::BASE_DIR}",
           :asset_root   => @config.asset_root || @project_path.gsub(/[a-zA-z0-9\.\-\_\s]+\/$/, ''),
           :load_path    => ["repository"],
           :source_files => ["#{module_src}"]
@@ -180,7 +180,7 @@ module Ninjs
     def compile_application_file(file)
       begin
         ninjs_lib_secretary = Sprockets::Secretary.new(
-          :root         => "#{Ninjs.base_directory}",
+          :root         => "#{Ninjs::BASE_DIR}",
           :asset_root   => @config.asset_root || @project_path.gsub(/[a-zA-z0-9\.\-\_\s]+\/$/, ''),
           :load_path    => ["repository"],
           :source_files => ["#{file}"]

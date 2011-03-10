@@ -22,7 +22,7 @@ class NinjsConsole < Rubikon::Application::Base
     if version.given?
       time = Time.now
       copyright_year = time.year == 2010 ? '2010' : '2010-' << time.year
-      Ninjs::Notification.notice 'ninjs ' + Ninjs.version
+      Ninjs::Notification.notice 'ninjs ' + Ninjs::VERSION
       Ninjs::Notification.notice "Copyright (c) #{copyright_year} Dayton Nolan"
       Ninjs::Notification.notice "Released under the MIT License"
     else
