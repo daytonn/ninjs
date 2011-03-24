@@ -91,19 +91,14 @@ NinjsModule.method('call_on_ready', function(callback) {
    > MyModule.execute();
 */
 NinjsModule.method('execute', function() {
-	// swap out the __ alias
-	this.old__ = is_defined(window.__) ? window.__ : undefined;
+	// create the __ alias
 	window.__ = this;
 	
 	if (this.run_tests) {
 		this._run_tests();
 	}
-	this.actions();
 	
-	// reset the __ alias
-	if(is_defined(this.old__)) {
-		window.__ = this.old__;
-	}
+	this.actions();
 });
 
 /*
@@ -117,17 +112,8 @@ NinjsModule.method('execute', function() {
    >    // element definitions go here
    > });
 */
-NinjsModule.method('elements', function(callback) {
-	// swap out the __ alias
-	this.old__ = is_defined(window.__) ? window.__ : undefined;
-	window.__ = this;
-	
+NinjsModule.method('elements', function(callback) {	
 	this.call_on_ready(callback);
-	
- 	// reset the __ alias
-	if(is_defined(this.old__)) {
-		window.__ = this.old__;
-	}
 });
 
 
