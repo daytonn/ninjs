@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.11.1"
+  s.version = "0.12.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
-  s.date = %q{2011-03-24}
+  s.date = %q{2011-04-07}
   s.default_executable = %q{ninjs}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
@@ -143,7 +143,6 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/files/core/extend-js.html",
     "repository/ninjs/docs/files/core/module-js.html",
     "repository/ninjs/docs/files/core/nin-js.html",
-    "repository/ninjs/docs/files/existence-js.html",
     "repository/ninjs/docs/index.html",
     "repository/ninjs/docs/index/Classes.html",
     "repository/ninjs/docs/index/Files.html",
@@ -165,6 +164,7 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/FunctionsM.html",
     "repository/ninjs/docs/search/FunctionsR.html",
     "repository/ninjs/docs/search/FunctionsS.html",
+    "repository/ninjs/docs/search/FunctionsSymbols.html",
     "repository/ninjs/docs/search/GeneralA.html",
     "repository/ninjs/docs/search/GeneralC.html",
     "repository/ninjs/docs/search/GeneralD.html",
@@ -175,6 +175,7 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/GeneralN.html",
     "repository/ninjs/docs/search/GeneralR.html",
     "repository/ninjs/docs/search/GeneralS.html",
+    "repository/ninjs/docs/search/GeneralSymbols.html",
     "repository/ninjs/docs/search/GeneralT.html",
     "repository/ninjs/docs/search/GeneralV.html",
     "repository/ninjs/docs/search/NoResults.html",
@@ -183,7 +184,6 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/VariablesR.html",
     "repository/ninjs/docs/search/VariablesT.html",
     "repository/ninjs/docs/styles/main.css",
-    "repository/ninjs/docs/styles/mystyles.css",
     "repository/ninjs/tests/index.html",
     "repository/ninjs/tests/ninjs.test.js",
     "repository/ninjs/tests/ninjs.utilities.test.js",
@@ -310,7 +310,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
   s.test_files = [
     "spec/ninjs_spec.rb",
@@ -318,6 +318,7 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
