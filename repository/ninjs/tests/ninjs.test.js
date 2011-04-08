@@ -80,6 +80,31 @@ test("can add a method to the prototype", function() {
 	equals('Hello'.test_method(), 'This is a test', 'can create a prototype method with method');
 });
 
+test("can test a condition with unless", function() {
+   var is_true = false;
+   
+   unless (false,
+      function() {
+         is_true = true;
+      }
+   );
+   
+   ok(is_true, "unless works");
+   
+   var does_fallback_work = false;
+   
+   unless (true,
+      function() {
+      
+      },
+      function() {
+         does_fallback_work = true;
+      }
+   );
+   
+   ok(does_fallback_work, 'fallback works');
+});
+
 module("Ninjs application tests");
 
 test("can create a ninjs application object", function() {
@@ -110,8 +135,7 @@ test("module defaults", function() {
 	ok(is_defined(testapp.testmodule.tests), 'testapp.testmodule.tests is defined');
 	ok(is_array(testapp.testmodule.tests), 'testapp.testmodule.tests is_array');
 	ok(testapp.testmodule.tests.is_empty(), 'testapp.testmodule.tests is empty');
-	ok(is_defined(_), '_ is defined');
-	ok(is_defined(_.testmodule), '_.testmodule is defined');
+	ok(is_defined(app), 'app is defined');
 	
 	// methods
 	ok(is_defined(testapp.testmodule.actions), 'testapp.testmodule.actions is defined');
@@ -135,8 +159,6 @@ test("module defaults", function() {
 		
 		test("Ninjs module can run actions", function() { 
 			equals($('#made-by-actions').length, 1,'testapp.test.actions ran after DOM was ready');
-			ok(is_defined(__, '__ is defined'));
-			equals(__.name, 'testmodule', '__ is testmodule');
 		});
 	};
 	

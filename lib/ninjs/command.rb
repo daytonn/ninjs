@@ -61,7 +61,7 @@ module Ninjs
 
     def help
       puts <<-DOC
-      
+--dev
 Description: 
 The ninjs command line tool will compile your ninjs application into modules.
 To compile your ninjs application into module files:

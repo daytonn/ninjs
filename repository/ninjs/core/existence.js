@@ -2,7 +2,7 @@
 if (is_defined === undefined) {
    /*
       Function: is_defined
-         Checks if a variable is undefined.
+         Checks if a variable is undefined. This is a convenience method to enhance clarity in your conditions.
 
       Parameters:
          suspect - suspect variable to test
@@ -15,14 +15,14 @@ if (is_defined === undefined) {
          <is_undefined>
    */
 	var is_defined = function(suspect) {	
-		return (suspect === undefined) ? false : true;
+		return ((suspect === undefined) || (suspect === null)) ? false : true;
 	};
 }
 
 if (!is_defined(is_undefined)) {
    /*
       Function: is_undefined
-         Checks if a variable is defined.
+         Checks if a variable is defined. This is a convenience method to enhance clarity in your conditions.
 
       Parameters:
          suspect - suspect variable to test
@@ -42,11 +42,11 @@ if (!is_defined(is_undefined)) {
 if (is_undefined(is_typeof)) {
    /*
       Function: is_typeof
-         Determine an object's type strictly by comparing constructors.
-
+         Strict type checking by comparing constructors.
+         (Pro Javascript Techniques, John Resig, Apress p.24 Listing 2-8: Example of using the constructor property to determine the type of an object http://amzn.to/fTsDRg)
       Parameters:
-         type - The type you expect (ie. String, Number, Array without quotes: is_typeof(String, 'hello'): // true)
-         suspect - The variable to check against type
+         type - The type you expect (ie. String, Number, Array (note: without quotes): is_typeof(String, 'hello'): // true)
+         suspect - The suspect variable to check against type
 
       Returns:
          bool
@@ -81,7 +81,7 @@ if (is_undefined(is_numeric)) {
    /*
       Function: is_numeric
          Determine if the suspect string represents a numeric value.
-
+         (JavaScript: The Good Parts, Douglas Crockford, O'Reilly p.69 Chapter 7: Regular Expressions An Example)
       Parameters:
          suspect - variable to check for numeric value
 
