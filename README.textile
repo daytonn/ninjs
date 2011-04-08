@@ -205,6 +205,9 @@ This way we don't have to keep redefining the same properties each time we call 
 
 The model provides a default base that we can build from, helping use to keep our code DRY.
 
+
+h1. Reference and Style
+
 Notice the "this" variable used in the module methods. In this context "this" refers to the module itself. You need to be careful here because "this" in javascript is a fickle thing. Once you're inside another function, "this" no longer refers to the module, it refers to the current function. We need a way to refer to the modules without using the full namespace to access our module but that is quite a mouthful and tends to clutter up the methods, making them harder to read. The best way to get a local, private alias to our module is to wrap it in a closure like so:
 
 <pre name="code" class="brush: js;">
