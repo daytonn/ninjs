@@ -48,23 +48,23 @@ The run method will execute the actions method. Please note that the "run" metho
 	myapplication.hello.execute();
 </pre>
 
-This pattern allows you to write in a literate style while making your intentions clear and methods succinct. However, if you prefer a shorter syntax or make your module completely protable (transplant to any application), Ninjs defines two aliases to work with your application and modules that are more terse. Your application object will be aliased as "_" (underscore). When using either the run or execute methods to call the module's actions, the module will be available through the "__" alias. The previous hello module would look like the following:
+This pattern allows you to write in a literate style while making your intentions clear and methods succinct. However, if you prefer a shorter syntax or make your module completely protable (transplant to any application), Ninjs defines an application alias to make your module code cleaner and your modules portable. Your application object will be aliased as "app". With the app alias we can write the previous module like so:
 
 <pre name="code" class="brush: js;">	
-	_.add_module('hello');
+	app.add_module('hello');
 	
-	_.hello.actions = function() {
-		__.say_hello();
+	app.hello.actions = function() {
+		this.say_hello();
 	};
 	
-	_.hello.say_hello = function() {
+	app.hello.say_hello = function() {
 		alert('Hello World');
 	};
 	
-	_.hello.run();
+	app.hello.run();
 </pre>
 
-This not only makes the module less cumbersome to write, it also allows you to port modules directly into other Ninjs application's and run them without any renaming. Remember one underscore is a reference to the application and two underscores is a reference to the current module.
+This not only makes the module less cumbersome to write, it also allows you to port modules directly into other Ninjs application's and run them without any renaming.
 
 You may ask why we are calling say_hello() in the actions method instead of just alerting the string in actions itself. Let's set aside the fact that this is a trivial example and assume we will be adding many more methods to the module. If we simply added all of our module code inside actions, we'd quickly have a soup of code in there which would be difficult to follow. The Ninjs javascript framework encourages syntactic clarity. It's preferable for the actions method to be a list of methods called in the module. This let's my module tell a consistent story from top to bottom. The actions method serves as a table of contents. Consider a slightly more sophisticated hello module:
 
@@ -203,17 +203,58 @@ This way we don't have to keep redefining the same properties each time we call 
 	}
 </pre>
 
-The model provides a default base that we can build from, helping use to keep our code DRY. There's also an opportunity here to illustrate the utility of the "ninja" aliases. Notice that inside the dialog function we are unable to use the this.dialog_settings shorthand. Using "this" in Javascript can be a bit tricky. In this case, "this" is referring to the dialog and not the module. That's why Ninjs defines the double underscore ( __ ) variable to refer to the current module. The previous example can be rewritten more succinctly like so:
+The model provides a default base that we can build from, helping use to keep our code DRY.
+
+Notice the "this" variable used in the module methods. In this context "this" refers to the module itself. You need to be careful here because "this" in javascript is a fickle thing. Once you're inside another function, "this" no longer refers to the module, it refers to the current function. We need a way to refer to the modules without using the full namespace to access our module but that is quite a mouthful and tends to clutter up the methods, making them harder to read. The best way to get a local, private alias to our module is to wrap it in a closure like so:
 
 <pre name="code" class="brush: js;">
-	MyApplciation.hello.create_dialogs = function() {
-  	__.error_dialog.dialog(__.dialog_settings);
-  	__.notice_dialog.dialog($.extend(__.dialog_settings, {
-  		height: 300,
-  		autoOpen: true
-  	}));
-  }
+  (function(){
+      var self = myapplication.add_module('mymodule);
+      
+      myapplication.mymodule.actions = function() {
+          
+          self.loading_element.show();
+          
+          $.get(self.ajax_link.attr('href'), function(response) {
+               self.target_element.html(response);
+               self.loading_element.hide();
+		  });
+          
+      };
+
+      ...      
+  })();
 </pre>
+
+Because the add_module method returns the module it just created, we can assign it to "self". This gives us a clear, consistent way to refer to the module. Although the framework is flexible in how you access your application and module objects, my favorite way to define modules looks something like this:
+
+<pre name="code" class="brush: js;">
+    (function(){
+          var self = app.add_module('mymodule);
+
+          app.mymodule.actions = function() {
+             app.setup_some_plugin();
+          };
+          
+          app.mymodule.setup_some_plugin = function() {
+              self.some_element.some_plugin(self.data.some_plugin_config);
+          };
+          
+          app.mymodule.observe_some_element_click = function() {
+             self.some_element.click(function() {
+                 self.make_something_happen();
+             });
+          };
+          
+          app.mymodule.make_something_happen = function() {
+              alert('something happened');
+          };
+
+          app.mymodule.run();      
+      })();
+</pre>
+
+Using the app alias makes your module copy-paste compatible with other ninjs applications, and it also cuts down on the typing. I like to define the methods using the app.module namespace because it helps me remember where I am when I'm in the middle of the file. Inside the methods I only refer to the module as self to be clear.
 
 h1. Compiling the application
 
