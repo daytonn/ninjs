@@ -42,7 +42,12 @@ NinjsApplication.method('add_module', function(name) {
 		if (is_defined(this[name])) {
 			throw new SyntaxError("NinjsApplication.add_module(name): '" + name + "' already declared");
 		}
-		this[name] = new NinjsModule(name);
+		
+		if (this.name === name) {
+			throw new SyntaxError("NinjsApplication.add_module(name): a module cannot have the same name as the application");
+		}
+		
+		return this[name] = new NinjsModule(name);
 	}
 	catch(error) {
 		alert(error.message);
