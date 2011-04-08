@@ -215,14 +215,17 @@ Notice the "this" variable used in the module methods. In this context "this" re
       var self = myapplication.add_module('mymodule);
       
       myapplication.mymodule.actions = function() {
-          
-          self.loading_element.show();
-          
-          $.get(self.ajax_link.attr('href'), function(response) {
-               self.target_element.html(response);
-               self.loading_element.hide();
-		  });
-          
+          self.observe_some_element_click();
+      };
+      
+      myapplication.mymodule.observe_some_element_click = function() {
+           self.some_element.click(function() {
+               self.make_something_happen();
+           });
+        };
+        
+      myapplication.mymodule.make_something_happen = function() {
+          alert('something happened');
       };
 
       ...      
