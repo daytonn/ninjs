@@ -11,7 +11,7 @@ if (browserType) {document.write("<div class=" + browserType + ">");if (browserV
 
 
 
-<div id=Content><div class="CFile"><div class=CTopic id=MainTopic><h1 class=CTitle><a name="extend.js"></a>extend.js</h1><div class=CBody><!--START_ND_SUMMARY--><div class=Summary><div class=STitle>Summary</div><div class=SBorder><table border=0 cellspacing=0 cellpadding=0 class=STable><tr class="SMain"><td class=SEntry><a href="#extend.js" >extend.js</a></td><td class=SDescription></td></tr><tr class="SGroup"><td class=SEntry><a href="#Functions" >Functions</a></td><td class=SDescription></td></tr><tr class="SFunction SIndent1 SMarked"><td class=SEntry><a href="#method" id=link1 onMouseOver="ShowTip(event, 'tt1', 'link1')" onMouseOut="HideTip('tt1')">method</a></td><td class=SDescription>Method to add a method to an object (ie. </td></tr></table></div></div><!--END_ND_SUMMARY--></div></div></div>
+<div id=Content><div class="CFile"><div class=CTopic id=MainTopic><h1 class=CTitle><a name="extend.js"></a>extend.js</h1><div class=CBody><!--START_ND_SUMMARY--><div class=Summary><div class=STitle>Summary</div><div class=SBorder><table border=0 cellspacing=0 cellpadding=0 class=STable><tr class="SMain"><td class=SEntry><a href="#extend.js" >extend.js</a></td><td class=SDescription></td></tr><tr class="SGroup"><td class=SEntry><a href="#Functions" >Functions</a></td><td class=SDescription></td></tr><tr class="SFunction SIndent1 SMarked"><td class=SEntry><a href="#method" id=link1 onMouseOver="ShowTip(event, 'tt1', 'link1')" onMouseOut="HideTip('tt1')">method</a></td><td class=SDescription>Method to add a method to an object (ie. </td></tr><tr class="SFunction SIndent1"><td class=SEntry><a href="#unless" id=link2 onMouseOver="ShowTip(event, 'tt2', 'link2')" onMouseOut="HideTip('tt2')">unless</a></td><td class=SDescription>Function to better express negative conditions (ie. </td></tr></table></div></div><!--END_ND_SUMMARY--></div></div></div>
 
 <div class="CGroup"><div class=CTopic><h3 class=CTitle><a name="Functions"></a>Functions</h3></div></div>
 
@@ -20,6 +20,15 @@ if (browserType) {document.write("<div class=" + browserType + ">");if (browserV
 });
 
 &quot;hello&quot;.custom_method();</pre></blockquote></div></div></div>
+
+<div class="CFunction"><div class=CTopic><h3 class=CTitle><a name="unless"></a>unless</h3><div class=CBody><blockquote><table border=0 cellspacing=0 cellpadding=0 class="Prototype"><tr><td><table border=0 cellspacing=0 cellpadding=0><tr><td class="PBeforeParameters  prettyprint "nowrap>var unless = function(</td><td class="PParameter  prettyprint " nowrap>expression,</td></tr><tr><td></td><td class="PParameter  prettyprint " nowrap>callback,</td></tr><tr><td></td><td class="PParameter  prettyprint " nowrap>fallback</td><td class="PAfterParameters  prettyprint "nowrap>)</td></tr></table></td></tr></table></blockquote><p>Function to better express negative conditions (ie. if (!something))</p><h4 class=CHeading>Parameters</h4><table border=0 cellspacing=0 cellpadding=0 class=CDescriptionList><tr><td class=CDLEntry>expression</td><td class=CDLDescription>expression to be tested</td></tr><tr><td class=CDLEntry>callback</td><td class=CDLDescription>function to be executed unless expression is true (see how that works)</td></tr><tr><td class=CDLEntry>fallback</td><td class=CDLDescription>function to be executed if the expression is false (optional)</td></tr></table><h4 class=CHeading>Returns</h4><p>undefined</p><blockquote><pre>unless(test_expression === 'some condition',
+  function() {
+        alert('we do something');
+   },
+   function() {
+       alert('we can do something if it meets the condition too');
+   }
+);</pre></blockquote></div></div></div>
 
 </div><!--Content-->
 
@@ -34,7 +43,7 @@ var searchPanel = new SearchPanel("searchPanel", "HTML", "../../search");
 
 
 <!--START_ND_TOOLTIPS-->
-<div class=CToolTip id="tt1"><div class=CFunction><blockquote><table border=0 cellspacing=0 cellpadding=0 class="Prototype"><tr><td><table border=0 cellspacing=0 cellpadding=0><tr><td class="PBeforeParameters  prettyprint "nowrap>Function.prototype.method = function(</td><td class="PParameter  prettyprint " nowrap>name,</td></tr><tr><td></td><td class="PParameter  prettyprint " nowrap>func</td><td class="PAfterParameters  prettyprint "nowrap>)</td></tr></table></td></tr></table></blockquote>Method to add a method to an object (ie. </div></div><!--END_ND_TOOLTIPS-->
+<div class=CToolTip id="tt1"><div class=CFunction><blockquote><table border=0 cellspacing=0 cellpadding=0 class="Prototype"><tr><td><table border=0 cellspacing=0 cellpadding=0><tr><td class="PBeforeParameters  prettyprint "nowrap>Function.prototype.method = function(</td><td class="PParameter  prettyprint " nowrap>name,</td></tr><tr><td></td><td class="PParameter  prettyprint " nowrap>func</td><td class="PAfterParameters  prettyprint "nowrap>)</td></tr></table></td></tr></table></blockquote>Method to add a method to an object (ie. </div></div><div class=CToolTip id="tt2"><div class=CFunction><blockquote><table border=0 cellspacing=0 cellpadding=0 class="Prototype"><tr><td><table border=0 cellspacing=0 cellpadding=0><tr><td class="PBeforeParameters  prettyprint "nowrap>var unless = function(</td><td class="PParameter  prettyprint " nowrap>expression,</td></tr><tr><td></td><td class="PParameter  prettyprint " nowrap>callback,</td></tr><tr><td></td><td class="PParameter  prettyprint " nowrap>fallback</td><td class="PAfterParameters  prettyprint "nowrap>)</td></tr></table></td></tr></table></blockquote>Function to better express negative conditions (ie. </div></div><!--END_ND_TOOLTIPS-->
 
 
 

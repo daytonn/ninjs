@@ -5,6 +5,6 @@ module Ninjs
   ROOT_DIR = Dir.getwd
 end
 
-%w(dependencies configuration helpers manifest project command notification).each do |lib|
+%w(dependencies configuration helpers manifest project notification generator command).each do |lib|
   require "#{Ninjs::LIB_DIR}/ninjs/#{lib}"
 end

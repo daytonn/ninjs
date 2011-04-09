@@ -40,6 +40,7 @@ module Ninjs
     end
     
     def create_ninjs_lib_file
+      operation = File.exists?("#{@project_path}lib/nin.js") ? 'updated' : 'created'
       ninjs_lib_secretary = Sprockets::Secretary.new(
         :root         => "#{Ninjs::BASE_DIR}",
         :load_path    => ["repository"],
@@ -48,7 +49,7 @@ module Ninjs
 
       ninjs_lib_secretary.concatenation.save_to "#{@project_path}lib/nin.js"
 
-      Ninjs::Notification.added "lib/nin.js created"
+      Ninjs::Notification.added "lib/nin.js #{operation}"
     end
     
     def create_utility_lib_file
@@ -163,7 +164,7 @@ module Ninjs
       end
     end
     
-    def write_core(file)
+    def write_core(file)      
       file << "/*---------- Ninjs core ../lib/nin.js ----------*/\n"
       file << "//= require \"../lib/nin.js\"\n\n"
       file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.test_path}');\n\n"

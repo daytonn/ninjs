@@ -60,8 +60,6 @@ if (is_undefined(unless)) {
       >        alert('we can do something if it meets the condition too');
       >    }
       > );
-      >
-      > "hello".custom_method();
    */
    var unless = function(expression, callback, fallback) {
       try {

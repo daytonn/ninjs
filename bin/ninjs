@@ -52,10 +52,15 @@ class NinjsConsole < Rubikon::Application::Base
   option :e
   option :m
   command :generate, :object, :obj_name do
-    Ninjs::Command.generate('elements', obj_name) if e.given?
-    Ninjs::Command.generate('model', obj_name) if m.given?
-    elements = e.given? || false
-    models = m.given? || false
-    Ninjs::Command.generate(object, obj_name, elements, models)
+    with = {
+        :model => m.given?,
+        :elements => e.given?
+    }
+        
+    Ninjs::Command.generate(object, obj_name, with)
+  end
+  
+  command :upgrade do
+    Ninjs::Command.upgrade
   end
 end

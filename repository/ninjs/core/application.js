@@ -7,6 +7,7 @@
    See Also:
       <NinjsModule>
 */
+
 var NinjsApplication = function(base_url, tests_path) {
 	if (is_undefined(window.app)) {
 		window.app = this;
@@ -20,7 +21,7 @@ var NinjsApplication = function(base_url, tests_path) {
 		this.site_url = function(path) {
 			var path = path || '';
 			return base_url + path;
-		}
+		};
 	}
 };
 

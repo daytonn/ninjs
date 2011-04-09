@@ -83,36 +83,33 @@ Example:
       DOC
     end
     
-    def generate(object, name, create_elements = false, create_models = false, elements = false, models = false)
+    def generate(object, name, with)
       begin
-        project_path = Dir.getwd << '/'
-        raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
-        project = Ninjs::Project.new
-        if object === 'module'
-          File.open "#{project_path}modules/#{name.downcase}.module.js", "w" do |file|
-            file << project.config.name + ".add_module('" + name + "');\n\n"
-            file << '//= require "../elements/' + name.downcase + '.elements.js"' + "\n\n" if elements
-            file << '//= require "../models/' + name.downcase + '.model.js"' + "\n\n" if models
-            file << project.config.name + "." + name + ".actions = function() {\n\n}\n\n"
-            file << project.config.name + "." + name + ".run();"
-            Ninjs::Notification.added "created #{name.downcase}.module.js"
-          end unless File.exists? "#{project_path}modules/#{name.downcase}.module.js"
-        elsif object === 'elements'
-          File.open("#{project_path}elements/#{name.downcase}" + ".elements.js", "w") do |file|
-            file << project.config.name + "." + name + ".elements(function({\n\n}));"
-            Ninjs::Notification.added "created #{name.downcase}.elements.js"
-          end unless File.exists? "#{project_path}elements/#{name.downcase}.elements.js"
-        elsif object === 'model'
-          File.open "#{project_path}models/#{name.downcase}.model.js", "w" do |file|
-            file << project.config.name + "." + name + ".set_data({});"
-            Ninjs::Notification.added "created #{name.downcase}.model.js"
-          end unless File.exists? "#{project_path}models/#{name.downcase}.model.js" 
-        end
-      rescue
-        # TODO rescue this
+        conf_path = "#{Dir.getwd}/ninjs.conf"
+        raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
+        generator = Ninjs::Generator.new(Ninjs::Project.new, name)
+        
+        case object
+        when 'module'       
+          generator.generate_module_file(with)
+          generator.generate_elements_file if with[:elements]
+          generator.generate_model_file if with[:model]
+        when 'elements'
+          generator.generate_elements_file
+        when 'model'
+          generator.generate_model_file
+        end #case
       end
     end
 
-    module_function :create, :watch, :compile, :help, :import, :generate
+    def upgrade
+      project_path = Dir.getwd << '/'
+      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
+      project = Ninjs::Project.new
+      
+      project.create_ninjs_lib_file
+    end
+    
+    module_function :create, :watch, :compile, :help, :import, :generate, :upgrade
   end
 end
