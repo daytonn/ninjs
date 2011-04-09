@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.12.2"
+  s.version = "0.12.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/ninjs/command.rb",
     "lib/ninjs/configuration.rb",
     "lib/ninjs/dependencies.rb",
+    "lib/ninjs/generator.rb",
     "lib/ninjs/helpers.rb",
     "lib/ninjs/manifest.rb",
     "lib/ninjs/notification.rb",
@@ -165,6 +166,7 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/FunctionsR.html",
     "repository/ninjs/docs/search/FunctionsS.html",
     "repository/ninjs/docs/search/FunctionsSymbols.html",
+    "repository/ninjs/docs/search/FunctionsU.html",
     "repository/ninjs/docs/search/GeneralA.html",
     "repository/ninjs/docs/search/GeneralC.html",
     "repository/ninjs/docs/search/GeneralD.html",
@@ -177,6 +179,7 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/GeneralS.html",
     "repository/ninjs/docs/search/GeneralSymbols.html",
     "repository/ninjs/docs/search/GeneralT.html",
+    "repository/ninjs/docs/search/GeneralU.html",
     "repository/ninjs/docs/search/GeneralV.html",
     "repository/ninjs/docs/search/NoResults.html",
     "repository/ninjs/docs/search/VariablesD.html",
