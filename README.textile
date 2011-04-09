@@ -232,7 +232,7 @@ Notice the "this" variable used in the module methods. In this context "this" re
   })();
 </pre>
 
-Because the add_module method returns the module it just created, we can assign it to "self". This gives us a clear, consistent way to refer to the module. Although the framework is flexible in how you access your application and module objects, my favorite way to define modules looks something like this:
+Because the add_module method returns the module it just created, we can assign it to "self". This gives us a clear, consistent way to refer to the module. Although the framework is flexible in how you access your application and module objects, my preferred method looks something like this:
 
 <pre name="code" class="brush: js;">
     (function(){

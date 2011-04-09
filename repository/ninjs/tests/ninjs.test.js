@@ -148,6 +148,12 @@ test("module defaults", function() {
 	ok(is_defined(testapp.testmodule.set_data), 'testapp.testmodule.set_data is defined');
 });
 
+test("add_module returns the created module", function() {
+   var testapp = new NinjsApplication();
+   var module = testapp.add_module('some_module');
+   equals(module, testapp.some_module, 'hey');
+});
+
 // Qunit waits for DOM to load before running tests
 // to test DOM wait feature, we need to run some code outside the tests
 (function() {
