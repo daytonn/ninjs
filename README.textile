@@ -16,7 +16,9 @@ h2. Installation
 
 You will need Ruby (1.8.x or 1.9.x) and RubyGems installed on your system to install ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
 
-```bashgem install ninjs```
+```sh
+gem install ninjs
+```
 
 For development, clone the project and add bin/ninjs to your path (or my favorite trick which is to put it in my development folder and make symbolic link in /usr/local/bin):
 
@@ -33,7 +35,9 @@ h1. Create a Ninjs application
 
 The first ninjs command you'll need is the create command. As it's name implies, this command creates a brand new Ninjs application template, creating the necessary files and directories. The create command accepts 2 arguments. The first argument is the name of your application object which is required. The second argument, which is optional, is a sub directory in which to install the application. For example, from the root of your project, you may wish to put your application in a "js" or "javascripts" directory (creating the directory if it does not exist). Omitting the directory option will create the application in your current working directory. Here is an example of creating a ninjs application in a sub directory named "js" in the current working directory:
 
-```shninjs create myapplication```
+```sh
+ninjs create myapplication
+```
 
 This will create a Ninjs application in a directory named "js" in the current working directory. Now we can begin developing our application.
 
@@ -91,8 +95,9 @@ ninjs generate module hello -n
 
 Which generates:
 
-```js(function(){
-	var self = myapplication.add_module('hello');
+```js
+(function(){
+    var self = myapplication.add_module('hello');
 
 	myapplication.hello.actions = function() {
 
