@@ -312,14 +312,14 @@ ninjs watch
 That's it! you've created a basic Ninjs application! The only step left is to include the compiled script files in our markup:
 
 <pre name="code" class="html">
-    &lt;!DOCTYPE html&gt;
-     &lt;head&gt;
-        &lt;title&gt;Ninjs Demo&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;script src="js/application/myapplication.js"&gt;&lt;/script&gt;
-        &lt;script src="js/application/hello.js"&gt;&lt;/script&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;
+    <!DOCTYPE html>
+     <head>
+        <title>Ninjs Demo</title>
+    </head>
+    <body>
+        <script src="js/application/myapplication.js"></script>
+        <script src="js/application/hello.js"></script>
+    </body>
+    </html>
     ...
 </pre>
