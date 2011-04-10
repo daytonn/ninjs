@@ -16,14 +16,13 @@ class NinjsConsole < Rubikon::Application::Base
     @directory = '/'
   end
   
+  flag :v => :version
   option :version
-  option :v => :version
   default do
     if version.given?
       time = Time.now
-      copyright_year = time.year == 2010 ? '2010' : '2010-' << time.year
       Ninjs::Notification.notice 'ninjs ' + Ninjs::VERSION
-      Ninjs::Notification.notice "Copyright (c) #{copyright_year} Dayton Nolan"
+      Ninjs::Notification.notice "Copyright (c) #{time.year} Dayton Nolan"
       Ninjs::Notification.notice "Released under the MIT License"
     else
       Ninjs::Command.help
@@ -42,11 +41,8 @@ class NinjsConsole < Rubikon::Application::Base
     Ninjs::Command.import
   end
   
-  option :withdir, :path
-  flag :p => :withdir
-  command :create, :app_name do
-    directory = (given? :p) ? withdir.path : false
-    Ninjs::Command.create(app_name, directory)
+  command :create, :app_name, :dir => :optional do
+    dir.nil? ? Ninjs::Command.create(app_name) : Ninjs::Command.create(app_name, dir)
   end
 
   option :e

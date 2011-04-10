@@ -9,8 +9,9 @@ h2. Installation
 You can install Ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
 <pre name="code" class="brush: sh;">$ gem install ninjs</pre>
 
-If you want to use the development code you should clone the Git repository and add the binary to your path:
-<pre name="code" class="brush: sh">$ git clone git://github.com/textnotspeech/ninjs.git
+For development you should clone the Git repository and add the application to your path:
+<pre name="code" class="brush: sh">
+$ git clone git://github.com/textnotspeech/ninjs.git
 $ export PATH=/path/to/ninjs/bin:$PATH
 </pre>
 
@@ -21,6 +22,13 @@ h1. Create a Ninjs application
 This will create a Ninjs application in the current working directory. Now we can create Ninjs modules by adding them in the modules directory.
 
 h1. Create a Ninjs module
+
+Using the generate command we can create a module stub. The generate command takes two argument, the first is the type of file you'd like to generate and the second is the name of the file/module.
+
+<pre name="code" class="brush: sh;">
+$ ninjs generate module mymodule
+// creates /modules/mymodule.module.js
+</pre>
 
 Create a module file in the /modules directory. By convention, we'll name the file with a suffix of .module. An example of a module named hello would look like this:
 

@@ -23,7 +23,6 @@ module Ninjs
     def create
       Ninjs::Notification.notice "Creating the #{@config.name} project in #{@project_path}" 
       create_project_structure
-      Ninjs::Notification.notice "created the project structure"
       @config.create
       create_ninjs_lib_file
       create_utility_lib_file

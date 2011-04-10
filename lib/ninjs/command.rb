@@ -61,25 +61,58 @@ module Ninjs
 
     def help
       puts <<-DOC
---dev
-Description: 
-The ninjs command line tool will compile your ninjs application into modules.
-To compile your ninjs application into module files:
+ninjs #{Ninjs::VERSION}
+Copyright (c) #{Time.new.year} Dayton Nolan
+Released under the MIT License
 
-Usage: ninjs [action] [options]
+Description: 
+The ninjs command line application is a simple way to quickly develop and manage your application. With it you can create an application, generate scaffolding, compile, and upgrade your application.
+
+Usage: ninjs [command] [arguments]
   
-Actions:
-  compile  Compiles the ninjs project in the current working directory
-  watch    Watches the current working directory for 
-           file changes and compiles when files change
-  create   Generates ninjs application architecture and files  
-           Options:
-             -p, --directory  Optional install directory for a new ninjs project
-                              (creates the folder if it does not exist)
-  
-Example:
-  ninjs create MyApplication
-  ninjs watch
+Commands:
+  create    Creates a new ninjs application in the current working 
+            directory or sub directory within.
+          
+            Arguments:
+            application name - Name of the ninjs application
+            sub directory* - Directory where the application will be 
+                            installed (created if non existent)
+                                      
+            examples:
+            ninjs create myapp
+            ninjs create myapp subdirectory
+
+  generate  Generates scoffolding for the given component file type. 
+
+            Arguments:
+            file type - Type of application file to create (module, elements,
+                        model).
+            module name* - Name of the module to generate the scaffold for
+
+            Flags:
+            -e - Generate an elements file for the same module
+            -m - Generate a model file for the same module
+
+            examples:
+            ninjs generate model mymodule -e -m
+            ninjs generate elements mymodule
+            ninjs generate model mymodule
+            
+  compile   Compiles the ninjs project in the current working directory.
+            
+            example:
+            ninjs compile
+            
+  watch     Watches the current working directory for file changes and
+            compiles when changes are detected.
+            
+            example:
+            ninjs watch
+            
+  upgrade   Upgrades your application's core files to the latest version.
+
+  * optional argument
       DOC
     end
     

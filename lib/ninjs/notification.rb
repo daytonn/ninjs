@@ -5,7 +5,7 @@ module Ninjs
       :none => "",
       :log => "\e[32m>>>\e[0m ",
       :event => "\e[33m<<<\e[0m ",
-      :added => "\e[33m+++\e[0m ",
+      :added => "\e[32m+++\e[0m ",
       :error => "\e[0;31m!!!\e[0m "
     }
     

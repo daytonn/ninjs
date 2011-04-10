@@ -53,7 +53,7 @@ module Ninjs
           conf_file << conf_content(@defaults)
         end
         
-        Ninjs::Notification.notice "ninjs.conf created"
+        Ninjs::Notification.notify "ninjs.conf created", :added
       end
       
       def update
