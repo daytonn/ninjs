@@ -2,286 +2,308 @@ h1. Readme
 
 h2. About
 
-Ninjs is a command line application written in ruby that leverages the "Sprockets":http://getsprockets.org JavaScript compiler to create modular javascript applications without having to compile your scripts manually. Ninjs also contains a "'Good Parts'":http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742/ref=sr_1_1?ie=UTF8&qid=1294628522&sr=8-1 JavaScript framework to encourage best practices like name-spacing and modular separation. 
+Ninjs is a new way of building Javascript applications that allows you to write modular, testable, and reusable javascript. Ninjs is not just a framework. It provides three essential Javascript development tools in one coherent package.
+
+1 Ninjs uses the [[Sprockets|http://getsprockets.org]] javascript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
+
+2 Ninjs includes a small javascript framework, based on the [[module pattern|http://javascript.crockford.com/private.html]] and [[JavaScript: The Good Parts|http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846]], which provides a solid foundation for any javascript application.
+
+3 The "ninjs" command line application eases the pain of repetitive tasks like compiling, scaffolding, and updating your application.
+
+Ninjs is written in [[Ruby|http://ruby-lang.org]] and packaged as a [[Ruby gem|http://rubygems.org]]. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
 
 h2. Installation
 
-You can install Ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
-<pre name="code" class="brush: sh;">$ gem install ninjs</pre>
+You will need Ruby (1.8.x or 1.9.x) and RubyGems installed on your system to install ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
 
-For development you should clone the Git repository and add the application to your path:
-<pre name="code" class="brush: sh">
-$ git clone git://github.com/textnotspeech/ninjs.git
-$ export PATH=/path/to/ninjs/bin:$PATH
+<pre name="code" class="brush: bash;">gem install ninjs</pre>
+
+For development, clone the [[Github repository|https://github.com/textnotspeech/ninjs]] and add bin/ninjs to your path (or my favorite trick which is to put it in my development folder and make symbolic link in /usr/local/bin):
+
+<pre name="code" class="brush: bash">
+git clone git://github.com/textnotspeech/ninjs.git
+ln -s ninjs/bin/ninjs /usr/local/bin/ninjs
 </pre>
+
+h1. Using the Command Line Application
+
+The ninjs command line application is a simple way to quickly develop and manage your application. With it you can create an application, generate scaffolding, compile, and upgrade your application.
 
 h1. Create a Ninjs application
 
-<pre name="code" class="brush: sh;">$ ninjs create myapplication</pre>
+The first ninjs command you'll need is the create command. As it's name implies, this command creates a brand new Ninjs application template, creating the necessary files and directories. The create command accepts 2 arguments. The first argument is the name of your application object which is required. The second argument, which is optional, is a sub directory in which to install the application. For example, from the root of your project, you may wish to put your application in a "js" or "javascripts" directory (creating the directory if it does not exist). Omitting the directory option will create the application in your current working directory. Here is an example of creating a ninjs application in a sub directory named "js" in the current working directory:
 
-This will create a Ninjs application in the current working directory. Now we can create Ninjs modules by adding them in the modules directory.
+<pre name="code" class="brush: bash;">ninjs create myapplication</pre>
+
+This will create a Ninjs application in a directory named "js" in the current working directory. Now we can begin developing our application.
 
 h1. Create a Ninjs module
 
-Using the generate command we can create a module stub. The generate command takes two argument, the first is the type of file you'd like to generate and the second is the name of the file/module.
+Using the generate command we can create a module stub. The generate command takes two argument, the first is the type of file you'd like to generate and the second is the name of the file/module the file is for. Here's some examples of the generate command with a module name of hello:
 
-<pre name="code" class="brush: sh;">
-$ ninjs generate module mymodule
-// creates /modules/mymodule.module.js
+<pre name="code" class="brush: bash;">
+ninjs generate module hello
+ninjs generate elements hello
+ninjs generate model hello
 </pre>
 
-Create a module file in the /modules directory. By convention, we'll name the file with a suffix of .module. An example of a module named hello would look like this:
+If you'd like to generate a module with elements and a model all in one go you can pass the -e and -m flags respectively:
 
-/modules/hello.module.js
+<pre name="code" class="brush: bash;">
+ninjs generate module hello -em
+</pre>
 
-The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods. A Ninjs module is an extremely lightweight object that contains a very simple api which helps you write clear, concise code. The following is the bare minimum you need to have a working module a.k.a Ninjs' "Hello World":
+Although the generate method is very convenient, you may choose to create a module file manually in the /modules directory. By convention the file name ends with a suffix of .module. An example of a module named hello would look like this:
 
+<pre name="code" class="brush: bash;">
+  /modules/hello.module.js
+</pre>
+
+The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods within your application. A Ninjs module is an extremely lightweight object with a simple api which helps you write clear, concise code. The following is an empty module scaffold:
+   
 <pre name="code" class="brush: js;">
-	myapplication.add_module('hello');
-	
-	myapplication.hello.actions = function() {
-		this.say_hello();
-	};
-	
-	myapplication.hello.say_hello = function() {
-		alert('Hello World');
-	};
-	
-	myapplication.hello.run();
-</pre>
+(function(){
+	var self = app.add_module('hello');
 
-The run method will execute the actions method. Please note that the "run" method will wait for the DOM to be ready before it is executed. If you wish the actions to be executed immediately, you may call the execute method like so:
-
-<pre name="code" class="brush: js;">
-	myapplication.hello.execute();
-</pre>
-
-This pattern allows you to write in a literate style while making your intentions clear and methods succinct. However, if you prefer a shorter syntax or make your module completely protable (transplant to any application), Ninjs defines an application alias to make your module code cleaner and your modules portable. Your application object will be aliased as "app". With the app alias we can write the previous module like so:
-
-<pre name="code" class="brush: js;">	
-	app.add_module('hello');
-	
 	app.hello.actions = function() {
-		this.say_hello();
+
+	};
+
+	app.hello.run();
+})();
+</pre>
+
+Notice we wrap the entire module in a closure. This allows us to make a reference to the current module named "self" due to the fact that the add_module method returns the module it creates. This gives us a consistent way to reference the module without having to use the entire namespace. We may also decide to put private variables and functions available to the module but not exposed to the rest of the application. You'll also notice that instead of your application name, ninjs uses the alias "app" as a shorthand for the full application name. This is a convenience as well as a way to write generic modules for use in any application. 
+
+The actions method is the main method of your module. Also known as the composed method pattern, the actions method should simply be a list of other module methods. This makes it easy to scan the actions method to get a sense of what a given module does. It also encourages the [[single responsibility principle|http://en.wikipedia.org/wiki/Single_responsibility_principle]].
+
+The run method will execute the actions method when the DOM is ready to be manipulated. This is similar to jQuery's $(document).ready() method. If you wish to execute your modules actions as soon as the script is parsed you may call the execute method instead of run:
+
+<pre name="code" class="brush: js;">
+app.hello.execute();
+</pre>
+
+This pattern allows you to write in a literate style while making your intentions clear and methods succinct. It's idiomatic to use the full namespace when defining your module names to enhance clarity. If you prefer to use the full application namespace (using your application name), pass the -n flag to the generate command:
+
+<pre name="code" class="brush: bash;">
+ninjs generate module hello -n
+</pre>
+
+Which generates:
+
+<pre name="code" class="brush: js;">(function(){
+	var self = myapplication.add_module('hello');
+
+	myapplication.hello.actions = function() {
+
+	};
+
+	myapplication.hello.run();
+})();
+</pre>
+
+This will generate a scaffold using the application name instead of the "app" alias. Having both your application name and the "app" variable available to reference your application object gives you flexibility in how you'd like to refer to your application. Feel free to use whatever you're most comfortable with.
+
+Keep in mind however, using the app alias makes the module less cumbersome to write, and allows you to copy the code directly into another Ninjs application and run it without any renaming.
+
+Let's take a closer look at the "actions" composed method pattern. Let's define a simple module which demonstrates this:
+   
+<pre name="code" class="brush: js;">
+(function(){
+	var self = app.add_module('hello');
+
+	app.hello.actions = function() {
+        self.set_defaults();
+        self.say_hello();
+	};
+	
+	app.hello.set_defaults = function() {
+	    self.greeting = 'Hello';
+    	self.guest = 'World';
 	};
 	
 	app.hello.say_hello = function() {
-		alert('Hello World');
+	    alert(self.get_greeting());
 	};
 	
+	app.get_greeting = function() {
+	    return self.greeting + ' ' + self.guest + '!';
+	};
+
 	app.hello.run();
+})();
 </pre>
 
-This not only makes the module less cumbersome to write, it also allows you to port modules directly into other Ninjs application's and run them without any renaming.
+Although the complexity of this module is contrived, we can easily see what this module does simply by glancing at the actions method. This will make your application logic easier to write, understand, modify, and test
 
-You may ask why we are calling say_hello() in the actions method instead of just alerting the string in actions itself. Let's set aside the fact that this is a trivial example and assume we will be adding many more methods to the module. If we simply added all of our module code inside actions, we'd quickly have a soup of code in there which would be difficult to follow. The Ninjs javascript framework encourages syntactic clarity. It's preferable for the actions method to be a list of methods called in the module. This let's my module tell a consistent story from top to bottom. The actions method serves as a table of contents. Consider a slightly more sophisticated hello module:
+h1. Create module elements
 
+Another common best practice that Ninjs encourages is cacheing your element selectors. For example, when using jQuery to select a DOM element, it's typical to assign the result of the selection to a variable in case you need it again. Here's what this looks like in practice:
+   
 <pre name="code" class="brush: js;">
-	myapplication.add_module('hello');
-	
-	myapplication.hello.actions = function() {
-		this.define_properties();
-		this.say_hello();
-	};
-	
-	myapplication.hello.define_properties() = function() {
-		this.greeting = 'Hello';
-		this.name = 'World';
-	}
-	
-	myapplication.hello.say_hello = function() {
-		var message = this.greeting_string();
-		alert(message);
-	};
-	
-	myapplication.hello.greeting_string = function() {
-		return this.greeting + ' ' + this.name + '!';
-	};
-	
-	myapplication.hello.run();
+// Bad no-caching
+$('#some-element').css({ 'background-color': '#FF0000' });
+$('#some-element').html("I turned red");
+
+// Good caching
+var some_element = $('#some-element');
+
+some_element.css({ 'background-color': '#FF0000' });
+some_element.html("I turned red");
 </pre>
-
-We can see what this module does by simply glancing at the actions method. From there, if methods are kept short and follow the "single responsibiliy principle":http://en.wikipedia.org/wiki/Single_responsibility_principle, it will be easy to follow and test.
-
-h2. Create module elements
-
-Another common best practice that Ninjs encourages is cacheing your element selectors. For example, when using jQuery to select a DOM element, it's best practice to assign the result of the selection to a variable in case you need it again. Here's what it looks like in practice:
-
-<pre name="code" class="brush: js;">
-	// Bad no-caching
-	$('#some-element').css({ 'background-color': '#FF0000' });
-	$('#some-element').html("I turned red");
-	
-	// Good caching
-	var some_element = $('#some-element);
-	some_element.css({ 'background-color': '#FF0000' });
-	some_element.html("I turned red");
-</pre>
-
+   
 When we cache our selections, we only have to search the DOM once, improving performance.
 
-The only problem with this is that we tend to manipulate a lot of selections and our code can become littered with them. At worst, they're strewn about the file wherever they are first used, making it easy to accidentally "re-cache" them. At best, all selections are cached in one place and easy to see, which prevents us from accidentally caching them twice. Ninjs goes a step further by putting these cached selectors in their own file in the elements folder.
+The only problem with this is that we tend to manipulate a lot of elements and our code can become littered with them. At worst, they're strewn about the file wherever they are used, making it easy to accidentally re-assign them. At best, all selections are cached in one place and easy to see, which prevents us from accidentally caching them twice. Ninjs goes a step further by putting these cached selectors in their own file in the elements folder. This gives us one place to manage all the cached selectors available to our module.
 
-Elements belong to a module and can be added using the elements method. To add elements to the hello module, let's add a hello.elements.js file in the elements folder. Next add the elements to the module with the elements method:
+Elements belong to a module and can be added using the elements method. To add elements to the hello module, let's add a hello.elements.js with the generate command:
+
+<pre name="code" class="brush: bash;">
+ninjs generate elements hello
+</pre>
+
+This will create a hello.elements.js file inside the elements directory. The elements scaffold looks like this:
 
 <pre name="code" class="brush: js;">
-	myapplication.hello.elements(function() {
+    app.hello.elements(function() {
+        
+    });
+</pre>
+
+The elements method is really just a wrapper so we can get the context of "this" to be the module. Keep in mind that this file is going to be required into the module file, when compiled, the self variable will be available so we can consistently refer to the current module as "self".
+
+<pre name="code" class="brush: js;">
+	app.hello.elements(function() {
+		self.message_box = $('#message-box');
+		
+		// this will also work here
 		this.message_box = $('#message-box');
 	});
 </pre>
 
-And that's it for the elements code. We've added a cached element with the id of "message-box" to our module. All there is left is to add the elements to the module using the "Sprockets require directive":http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive
-
+That's all there is to creating an elements file. We've added a cached element named "message_box" to our module (app.hello.message_box === $('#message-box)). Now we require the file in the module using the [[Sprockets require directive|:http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive]] in hello.module.js. 
+   
 <pre name="code" class="brush: js;">
-	myapplication.add_module('hello');
-	
-	//= require '../elements/hello.elements.js'
-	
-	...
+    (function(){
+    	var self = app.add_module('hello');
+
+        //= require "../elements/hello.elements"
+        
+    	...
+    })();
 </pre>
-
-Be sure to require the elements file after the "add_module" method is called. Now all elements defined in the elements method will be available to the module. Let's take our hello example and instead of alerting the greeting, let's put it in the message_box element (assuming an html page with this element):
-
+   
+Be sure to require the elements file after the "add_module" method is called. Now all elements defined in the elements method will be available to the module. Let's take our hello example and instead of alerting the greeting, let's put it in the message_box element (assuming an html page containing this element):
+   
 <pre name="code" class="brush: js;">
-	...
-	
-	myapplication.hello.say_hello = function() {
-		var message = this.greeting_string();
-		this.message_box.html(message);
-	};
-	
-	...
-</pre>
+...
 
-Again, this pattern keeps the logic very clear and our code very concise. It's easy to read, test, and refactor. Be careful when naming your cached elements, be sure you're not overwriting another property of the module. With time you'll develop your own naming conventions and standards. The important thing is to focus on good semantic names that accurately describe the properties and behavior of your application.
+app.hello.say_hello = function() {
+	self.message_box.html(self.get_greeting());
+};
+
+...
+</pre>
+   
+Again, this pattern keeps the logic very clear and our code very concise. It's easy to read, test, and refactor. Be careful when naming your cached elements, make sure you don't overwrite another property of the module. With time you'll develop your own naming conventions and standards. The important thing is to focus on good semantic names that accurately describe the properties and behavior of your application.
 
 Most modules will be exactly like the one we just created, only with more methods. However, there is one more piece that helps you achieve greater modularity, which is Ninjs models.
 
-h2. Create a Ninjs model
+h1. Create a Ninjs model
 
-Ninjs models are simply files in the models directory that define a data structure. By convention models are simply object literals that are useful for reusing inside your modules and throughout your application.
+Ninjs models are simply files in the /models directory that define a data structure for the module. Every module has a data object that stores properties for reuse or configuration.
 
-Let's suppose I have multiple "jQueryUI dialog windows":http://jqueryui.com/demos/dialog/ that I want to share a certain default configuration. Instead of creating an options object each time I call dialog on an element, I can use a model.  Let's see how this might look in our hello example. Let's create the model in /models/hello.model.js:
+Let's suppose I have a plugin that I want to use in my module. The plugin takes a configuration object, but I want to be able to set a default configuration for my module. I'll use the generate command to create a model:
 
-<pre name="code" class="brush: js;">
-	myapplication.hello.set_data('dialog_settings', {
-		width: 300,
-		height: 150,
-		autoOpen: false
-	});
+<pre name="code" class="brush: bash;">
+ninjs generate model hello
 </pre>
 
-The set_data method will add the dialog_settings object to the module's data property (one of the only default module properties). You could add objects directly to the data property, but the set_data method has more syntactic clarity. You can think of this method as setting the modules "instance" variables.
-
-Next we include the model in the module:
+This will create an empty model scaffold that looks like this:
 
 <pre name="code" class="brush: js;">
-	myapplication.add_module('hello');
-	
-	//= require '../elements/hello.model.js'
-	//= require '../elements/hello.elements.js'
-	
+app.hello.set_data({
+    
+});
+</pre>
+
+The set_data method takes either an object or a string as the first argument. When an object is used as the first argument, the key value pairs contained in the object will be copied to the module's "data" object. When a string is used, the first argument is a string representing the name of the property to assign and the second is the value to assign to that property. Using the string method, we could define a configuration object for the plugin like so:
+
+<pre name="code" class="brush: js;">
+    app.hello.set_data('plugin_config', {
+        width: 300,
+        height: 250
+    });
+</pre>
+
+If we wish to set several properties at once we can use just an object as the first argument:
+
+<pre name="code" class="brush: js;">
+    app.hello.set_data({
+        plugin_config: {
+            width: 300,
+            height: 250
+        },
+        another_property: 'some value'
+    });
+</pre>
+
+Next we include the model in the module file:
+
+<pre name="code" class="brush: js;">
+(function(){
+	var self = app.add_module('hello');
+    
+    //= require "../elements/hello.model.js"
+    //= require "../elements/hello.elements"
+    
 	...
+})();
 </pre>
 
-Now whenever I create a dialog in my module, I can use the dialog_settings object like so:
-
+Now whenever I use the plugin in my module, I can mix in the config object like so:
+   
 <pre name="code" class="brush: js;">
-	// assumes we have elements "error_dialog" and "notice_dialog"
-	// defined in the elements file
-	
-	myapplication.hello.create_dialogs = function() {
-		this.error_dialog.dialog(this.data.dialog_settings);
-		this.notice_dialog.dialog(this.data.dialog_settings);
-	}
+...
+
+app.hello.setup_plugin = function() {
+	self.some_element.some_plugin(self.data.plugin_config);
+	self.another_element.some_plugin(self.data.plugin_config);
+};
+
+...
 </pre>
 
-This way we don't have to keep redefining the same properties each time we call dialog. If we want to modify the defaults, we can use jquery's merge method
-
+This way, we don't have to keep redefining the same properties each time we use this plugin. If we want to extend the defaults, we can use something like jQuery's merge method
+   
 <pre name="code" class="brush: js;">
-	// assumes we have elements "error_dialog" and "notice_dialog"
-	// defined in the elements file
-	
-	myapplication.hello.create_dialogs = function() {
-		this.error_dialog.dialog(this.data.dialog_settings);
-		this.notice_dialog.dialog($.extend(myapplication.hello.data.dialog_settings, {
-			height: 300,
-			autoOpen: true
-		}));
-	}
+...
+
+app.hello.setup_plugin = function() {
+	self.some_element.some_plugin(self.data.plugin_config);
+	self.another_element.some_plugin($.extend(self.data.plugin_config, {
+		height: 300,
+		color: #FF0000
+	}));
+};
+
+...
 </pre>
 
-The model provides a default base that we can build from, helping use to keep our code DRY.
-
-
-h1. Reference and Style
-
-Notice the "this" variable used in the module methods. In this context "this" refers to the module itself. You need to be careful here because "this" in javascript is a fickle thing. Once you're inside another function, "this" no longer refers to the module, it refers to the current function. We need a way to refer to the modules without using the full namespace to access our module but that is quite a mouthful and tends to clutter up the methods, making them harder to read. The best way to get a local, private alias to our module is to wrap it in a closure like so:
-
-<pre name="code" class="brush: js;">
-  (function(){
-      var self = myapplication.add_module('mymodule);
-      
-      myapplication.mymodule.actions = function() {
-          self.observe_some_element_click();
-      };
-      
-      myapplication.mymodule.observe_some_element_click = function() {
-           self.some_element.click(function() {
-               self.make_something_happen();
-           });
-        };
-        
-      myapplication.mymodule.make_something_happen = function() {
-          alert('something happened');
-      };
-
-      ...      
-  })();
-</pre>
-
-Because the add_module method returns the module it just created, we can assign it to "self". This gives us a clear, consistent way to refer to the module. Although the framework is flexible in how you access your application and module objects, my preferred method looks something like this:
-
-<pre name="code" class="brush: js;">
-    (function(){
-          var self = app.add_module('mymodule);
-
-          app.mymodule.actions = function() {
-             app.setup_some_plugin();
-          };
-          
-          app.mymodule.setup_some_plugin = function() {
-              self.some_element.some_plugin(self.data.some_plugin_config);
-          };
-          
-          app.mymodule.observe_some_element_click = function() {
-             self.some_element.click(function() {
-                 self.make_something_happen();
-             });
-          };
-          
-          app.mymodule.make_something_happen = function() {
-              alert('something happened');
-          };
-
-          app.mymodule.run();      
-      })();
-</pre>
-
-Using the app alias makes your module copy-paste compatible with other ninjs applications, and it also cuts down on the typing. I like to define the methods using the app.module namespace because it helps me remember where I am when I'm in the middle of the file. Inside the methods I only refer to the module as self to be clear.
+The model provides a fondation we can build from, helping use to keep our code DRY.
 
 h1. Compiling the application
 
-Now that we have a complete module including elements and a model, we need to compile these files into one coherent file to use in our html.  To do so we have 2 options.  Open a terminal window (command prompt) and navigate to the root of your Ninjs application. We can compile our application with one of 2 commands. The first choice is the compile command. From the root of your Ninjs application type:
+Now that we have a complete module including elements and a model, we need to compile these into one coherent file to use in our html. To do so, we have 2 options. Open up a terminal and navigate to the root of your Ninjs application. We can compile our application with one of 2 commands. The first choice is the compile command. From the root of your Ninjs application type:
 
 <pre name="code" class="brush: bash;">
-	$ ninjs compile
+ninjs compile
 </pre>
 
-This will compile all the files in the modules folder, resolving all dependencies using the Sprockets engine, and finally outputting them into the application directory with the .module suffix removed.  Our hello example module would compile into the application folder as hello.js. Now we can include the hello.js file (along with the myapplication.js) in our html document. Since running compile every time we make a change to any one of our module source files would quickly become a tedious chore, Ninjs also provides a watch command which will watch your root directory for changes and automatically compile when a file is changed. This speeds up development considerably and frankly makes Ninjs usable in a daily development context. To watch a Ninjs project simply navigate to the project root and issue the watch command:
+This will compile all the files in the modules folder, resolving all dependencies using the Sprockets engine, and finally outputting them into the /application directory with the .module suffix removed.  Our hello example module would compile into the application folder as hello.js. Now we can include the hello.js file (along with the myapplication.js) in our html document. Since running compile every time we make a change to any one of our module source files would quickly become a tedious chore, ninjs also has a watch command which will watch your project directory for changes and automatically compile when a file is changed. This speeds up development considerably and frankly makes Ninjs usable in a daily development context. To watch a Ninjs project simply navigate to the project root and issue the watch command:
 
 <pre name="code" class="brush: bash;">
-	$ ninjs watch
+ninjs watch
 </pre>
 
-That's the basics of creating a Ninjs application!
+That's it! you've created a basic Ninjs application!
