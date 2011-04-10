@@ -10,7 +10,7 @@ Ninjs is a new way of building Javascript applications that allows you to write 
 
 3 The "ninjs" command line application eases the pain of repetitive tasks like compiling, scaffolding, and updating your application.
 
-Ninjs is written in "Ruby|http://ruby-lang.org]] and packaged as a [[Ruby gem":http://rubygems.org. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
+Ninjs is written in "Ruby":http://ruby-lang.org and packaged as a "Ruby gem":http://rubygems.org. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
 
 h2. Installation
 
