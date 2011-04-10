@@ -54,7 +54,7 @@ namespace :ndoc do
   desc "Generate documentation with NaturalDocs"
   
   task :generate do
-    output = `ndocs -i /Volumes/Storage/Development/ninjs/repository/ninjs/ -o HTML /Volumes/Storage/Development/ninjs-ghpages/repository/ninjs/docs -p /Volumes/Storage/Development/ninjs-ghpages/repository/ninjs/docs` #  -s Slick
+    output = `ndocs -i /Volumes/Storage/Development/ninjs/repository/ninjs/ -o HTML /Volumes/Storage/Development/ninjs-ghpages/docs -p /Volumes/Storage/Development/ninjs-ghpages/docs` #  -s Slick
     puts output
   end
   
