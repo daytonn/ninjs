@@ -58,20 +58,20 @@ ninjs generate module hello -em
 Although the generate method is very convenient, you may choose to create a module file manually in the /modules directory. By convention the file name ends with a suffix of .module. An example of a module named hello would look like this:
 
 <pre name="code" class="sh">
-  /modules/hello.module.js
+    /modules/hello.module.js
 </pre>
 
 The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods within your application. A Ninjs module is an extremely lightweight object with a simple api which helps you write clear, concise code. The following is an empty module scaffold:
    
 <pre name="code" class="js">
 (function(){
-	var self = app.add_module('hello');
+    var self = app.add_module('hello');
 
-	app.hello.actions = function() {
+    app.hello.actions = function() {
 
-	};
+    };
 
-	app.hello.run();
+    app.hello.run();
 })();
 </pre>
 
@@ -97,11 +97,11 @@ Which generates:
 (function(){
     var self = myapplication.add_module('hello');
 
-    myapplication.hello.actions = function() {
+    app.hello.actions = function() {
 
     };
 
-    myapplication.hello.run();
+    app.hello.run();
 })();
 </pre>
 
@@ -113,27 +113,27 @@ Let's take a closer look at the "actions" composed method pattern. Let's define 
    
 <pre name="code" class="js">
 (function(){
-	var self = app.add_module('hello');
+    var self = app.add_module('hello');
 
-	app.hello.actions = function() {
+    app.hello.actions = function() {
         self.set_defaults();
         self.say_hello();
-	};
-	
-	app.hello.set_defaults = function() {
-	    self.greeting = 'Hello';
-    	self.guest = 'World';
-	};
-	
-	app.hello.say_hello = function() {
-	    alert(self.get_greeting());
-	};
-	
-	app.get_greeting = function() {
-	    return self.greeting + ' ' + self.guest + '!';
-	};
+    };
+    
+    app.hello.set_defaults = function() {
+        self.greeting = 'Hello';
+        self.guest = 'World';
+    };
+    
+    app.hello.say_hello = function() {
+        alert(self.get_greeting());
+    };
+    
+    app.get_greeting = function() {
+        return self.greeting + ' ' + self.guest + '!';
+    };
 
-	app.hello.run();
+    app.hello.run();
 })();
 </pre>
 
@@ -176,23 +176,23 @@ This will create a hello.elements.js file inside the elements directory. The ele
 The elements method is really just a wrapper so we can get the context of "this" to be the module. Keep in mind that this file is going to be required into the module file, when compiled, the self variable will be available so we can consistently refer to the current module as "self".
 
 <pre name="code" class="js">
-	app.hello.elements(function() {
-		self.message_box = $('#message-box');
-		
-		// this will also work here
-		this.message_box = $('#message-box');
-	});
+    app.hello.elements(function() {
+        self.message_box = $('#message-box');
+        
+        // this will also work here
+        this.message_box = $('#message-box');
+    });
 </pre>
 
 That's all there is to creating an elements file. We've added a cached element named "message_box" to our module (app.hello.message_box === $('#message-box)). Now we require the file in the module using the "Sprockets require directive"::http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive in hello.module.js. 
    
 <pre name="code" class="js">
     (function(){
-    	var self = app.add_module('hello');
+        var self = app.add_module('hello');
 
         //= require "../elements/hello.elements"
         
-    	...
+        ...
     })();
 </pre>
    
@@ -202,7 +202,7 @@ Be sure to require the elements file after the "add_module" method is called. No
 ...
 
 app.hello.say_hello = function() {
-	self.message_box.html(self.get_greeting());
+    self.message_box.html(self.get_greeting());
 };
 
 ...
@@ -255,12 +255,12 @@ Next we include the model in the module file:
 
 <pre name="code" class="js">
 (function(){
-	var self = app.add_module('hello');
+    var self = app.add_module('hello');
     
     //= require "../elements/hello.model.js"
     //= require "../elements/hello.elements"
     
-	...
+    ...
 })();
 </pre>
 
@@ -270,8 +270,8 @@ Now whenever I use the plugin in my module, I can mix in the config object like 
 ...
 
 app.hello.setup_plugin = function() {
-	self.some_element.some_plugin(self.data.plugin_config);
-	self.another_element.some_plugin(self.data.plugin_config);
+    self.some_element.some_plugin(self.data.plugin_config);
+    self.another_element.some_plugin(self.data.plugin_config);
 };
 
 ...
@@ -283,11 +283,11 @@ This way, we don't have to keep redefining the same properties each time we use 
 ...
 
 app.hello.setup_plugin = function() {
-	self.some_element.some_plugin(self.data.plugin_config);
-	self.another_element.some_plugin($.extend(self.data.plugin_config, {
-		height: 300,
-		color: #FF0000
-	}));
+    self.some_element.some_plugin(self.data.plugin_config);
+    self.another_element.some_plugin($.extend(self.data.plugin_config, {
+        height: 300,
+        color: #FF0000
+    }));
 };
 
 ...
