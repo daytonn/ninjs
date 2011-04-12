@@ -95,7 +95,7 @@ Which generates:
 
 <pre name="code" class="js">
 (function(){
-    var self = myapplication.add_module('hello');
+    var self = app.add_module('hello');
 
     app.hello.actions = function() {
 
