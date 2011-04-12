@@ -116,22 +116,22 @@ Commands:
       DOC
     end
     
-    def generate(object, name, with)
+    def generate(object, name, with, use_alias = false)
       begin
         conf_path = "#{Dir.getwd}/ninjs.conf"
         raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
-        generator = Ninjs::Generator.new(Ninjs::Project.new, name)
+        generator = Ninjs::Generator.new(Ninjs::Project.new, name, use_alias)
         
         case object
-        when 'module'       
-          generator.generate_module_file(with)
-          generator.generate_elements_file if with[:elements]
-          generator.generate_model_file if with[:model]
-        when 'elements'
-          generator.generate_elements_file
-        when 'model'
-          generator.generate_model_file
-        end #case
+          when 'module'       
+            generator.generate_module_file(with)
+            generator.generate_elements_file if with[:elements]
+            generator.generate_model_file if with[:model]
+          when 'elements'
+            generator.generate_elements_file
+          when 'model'
+            generator.generate_model_file
+          end
       end
     end
 

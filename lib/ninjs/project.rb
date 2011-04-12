@@ -12,6 +12,7 @@ module Ninjs
       @project_path = Dir.getwd + path
       @modules = Array.new
       @config = Ninjs::Configuration.new @project_path, name
+      @app_filename = @config.name.downcase
     end
     
     def add_slashes(dir)
@@ -64,7 +65,7 @@ module Ninjs
     end
     
     def create_ninjs_application_file
-      filename = "#{@project_path}application/#{@config.app_filename}.js"
+      filename = "#{@project_path}application/#{@app_filename}.js"
       
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
@@ -144,7 +145,7 @@ module Ninjs
     end
     
     def update_application_file
-      application_file = "#{@project_path}application/#{@config.app_filename}.js"
+      application_file = "#{@project_path}application/#{@app_filename}.js"
       
       File.open(application_file, "w+") do |file|
         write_dependencies(file)

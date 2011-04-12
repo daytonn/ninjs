@@ -45,17 +45,19 @@ class NinjsConsole < Rubikon::Application::Base
     dir.nil? ? Ninjs::Command.create(app_name) : Ninjs::Command.create(app_name, dir)
   end
 
+  option :use_alias
   option :elements
   option :model
   flag :e => :elements
   flag :m => :model
+  flag :a => :use_alias
   command :generate, :object, :obj_name do
     with = {
         :model => model.given?,
         :elements => elements.given?
     }
     
-    Ninjs::Command.generate(object, obj_name, with)
+    Ninjs::Command.generate(object, obj_name, with, use_alias.given?)
   end
   
   command :upgrade do

@@ -2,10 +2,10 @@ h1. Readme
 
 h2. About
 
-ninjs is a new way of building Javascript applications that allows you to write modular, testable, and reusable javascript. ninjs is not just a framework. It provides three essential Javascript development tools in one coherent package.
+ninjs is a new way of building JavaScript applications that allows you to write modular, testable, and reusable JavaScript. ninjs is not just a framework. It provides three essential JavaScript development tools in one coherent package.
 
-# ninjs uses the "Sprockets":http://getsprockets.org javascript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
-# ninjs includes a small javascript framework, based on the "module pattern":http://javascript.crockford.com/private.html and "JavaScript: The Good Parts":http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846, which provides a solid foundation for any javascript application.
+# ninjs uses the "Sprockets":http://getsprockets.org JavaScript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
+# ninjs includes a small JavaScript framework, based on the "module pattern":http://javascript.crockford.com/private.html and "JavaScript: The Good Parts":http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846, which provides a solid foundation for any JavaScript application.
 # The "ninjs" command line application eases the pain of repetitive tasks like compiling, scaffolding, and updating your application.
 
 ninjs is written in "Ruby":http://ruby-lang.org and packaged as a "Ruby gem":http://rubygems.org. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
@@ -31,17 +31,17 @@ The ninjs command line application is a simple way to quickly develop and manage
 
 h1. Create a ninjs application
 
-The first ninjs command you'll need is the create command. As it's name implies, this command creates a brand new ninjs application template, creating the necessary files and directories. The create command accepts 2 arguments. The first argument is the name of your application object which is required. The second argument, which is optional, is a sub directory in which to install the application. For example, from the root of your project, you may wish to put your application in a "js" or "javascripts" directory (creating the directory if it does not exist). Omitting the directory option will create the application in your current working directory. Here is an example of creating a ninjs application in a sub directory named "js" in the current working directory:
+The first ninjs command you'll need is the "create" command. As it's name implies, this command creates a brand new ninjs application template, creating the necessary files and directories. The create command accepts two arguments. The first argument is the name of your application object which is required. The second argument, which is optional, is a sub directory in which to install the application. For example, from the root of your project, you may wish to put your application in a "js" or "javascripts" directory (creating the directory if it does not exist). Omitting the directory option will create the application in your current working directory. Here is an example of creating a ninjs application in a sub directory named "js" in the current working directory:
 
 <pre name="code" class="sh">
-ninjs create myapplication
+ninjs create myapplication js
 </pre>
 
 This will create a ninjs application in a directory named "js" in the current working directory. Now we can begin developing our application.
 
 h1. Create a ninjs module
 
-Using the generate command we can create a module stub. The generate command takes two argument, the first is the type of file you'd like to generate and the second is the name of the file/module the file is for. Here's some examples of the generate command with a module name of hello:
+Using the generate command we can create a module scafoold. The generate command takes two arguments, the first is the type of file you'd like to generate (module, elements, or model) and the second is the name of the file/module the scaffold is for. Here's some examples of using the generate command with a module named hello:
 
 <pre name="code" class="sh">
 ninjs generate module hello
@@ -61,11 +61,14 @@ Although the generate method is very convenient, you may choose to create a modu
     /modules/hello.module.js
 </pre>
 
-The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods within your application. A ninjs module is an extremely lightweight object with a simple api which helps you write clear, concise code. The following is an empty module scaffold:
+The basic functionality of a module is to encapsulate specific pieces of logic into a namespace. You may think of a module as a class in the sense that it allows you to namespace properties and behavior within your application. A ninjs module is an extremely lightweight object with a simple API which helps you write clear, concise code. Here's what an empty module scaffold looks like (generated with ninjs generate model hello -em):
    
 <pre name="code" class="js">
 (function(){
     var self = app.add_module('hello');
+    
+    //= require "../models/hello.model"
+    //= require "../elements/hello.elements"
 
     app.hello.actions = function() {
 
