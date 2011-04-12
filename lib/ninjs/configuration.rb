@@ -4,7 +4,8 @@ module Ninjs
       attr_reader :name,
                   :output,
                   :dependencies,
-                  :autoload
+                  :autoload,
+                  :asset_root
                   
       def initialize(project_path, name = '')
         @project_path = project_path
@@ -12,6 +13,7 @@ module Ninjs
         @defaults = {
           :name => name,
           :output => 'expanded',
+          :asset_root => @project_path,
           :dependencies => ['<jquery/latest>'],
           :autoload => ['<ninjs/utilities/all>']
         }
@@ -39,7 +41,7 @@ module Ninjs
       
       def create_conf_file(content)
         File.open("#{@project_path}ninjs.conf", "w+") do |conf_file|
-          conf_file << conf_content(@defaults.reject{ |option| option.match /alias|base_url|test/ })
+          conf_file << conf_content(@defaults.reject{ |option| option.match /asset_root/ })
         end
         
         Ninjs::Notification.notify "ninjs.conf created", :added
@@ -50,8 +52,11 @@ module Ninjs
         
         @name = config['name']
         @output = config['output']
+        
         @dependencies = config['dependencies'] || Array.new
         @autoload = config['autoload'] || Array.new
+        
+        @asset_root = config['asset_root'] unless config['ass'].nil?
       end
       
     end

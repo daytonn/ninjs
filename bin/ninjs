@@ -45,7 +45,7 @@ class NinjsConsole < Rubikon::Application::Base
     dir.nil? ? Ninjs::Command.create(app_name) : Ninjs::Command.create(app_name, dir)
   end
 
-  option :use_alias
+  option :use_alias, :alias => :optional
   option :elements
   option :model
   flag :e => :elements
@@ -57,7 +57,13 @@ class NinjsConsole < Rubikon::Application::Base
         :elements => elements.given?
     }
     
-    Ninjs::Command.generate(object, obj_name, with, use_alias.given?)
+    als = use_alias[:alias] || 'app'
+    
+    if use_alias.given?
+      Ninjs::Command.generate_with_alias(object, obj_name, with, als)
+    else
+      Ninjs::Command.generate(object, obj_name, with)
+    end
   end
   
   command :upgrade do

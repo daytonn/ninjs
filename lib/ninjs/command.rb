@@ -116,23 +116,37 @@ Commands:
       DOC
     end
     
-    def generate(object, name, with, use_alias = false)
+    def generate(object, name, with)
       begin
         conf_path = "#{Dir.getwd}/ninjs.conf"
         raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
-        generator = Ninjs::Generator.new(Ninjs::Project.new, name, use_alias)
-        
-        case object
-          when 'module'       
-            generator.generate_module_file(with)
-            generator.generate_elements_file if with[:elements]
-            generator.generate_model_file if with[:model]
-          when 'elements'
-            generator.generate_elements_file
-          when 'model'
-            generator.generate_model_file
-          end
+        generator = Ninjs::Generator.new(Ninjs::Project.new, name)
+        self.generate_object generator, object, with
       end
+    end
+    
+    def generate_with_alias(object, name, with, als = 'app')
+      begin
+        conf_path = "#{Dir.getwd}/ninjs.conf"
+        raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
+        generator = Ninjs::Generator.new(Ninjs::Project.new, name)
+        generator.alias = true
+        generator.app_name = als
+        self.generate_object generator, object, with
+      end
+    end
+    
+    def generate_object(generator, object, with)
+      case object
+        when 'module'       
+          generator.generate_module_file(with)
+          generator.generate_elements_file if with[:elements]
+          generator.generate_model_file if with[:model]
+        when 'elements'
+          generator.generate_elements_file
+        when 'model'
+          generator.generate_model_file
+        end
     end
 
     def upgrade
@@ -143,6 +157,6 @@ Commands:
       project.create_ninjs_lib_file
     end
     
-    module_function :create, :watch, :compile, :help, :import, :generate, :upgrade
+    module_function :create, :watch, :compile, :help, :import, :generate, :generate_object, :generate_with_alias, :upgrade
   end
 end

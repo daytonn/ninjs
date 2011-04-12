@@ -78,7 +78,7 @@ The basic functionality of a module is to encapsulate specific pieces of logic i
 })();
 </pre>
 
-Notice we wrap the entire module in a closure. This allows us to make a reference to the current module named "self" due to the fact that the add_module method returns the module it creates. This gives us a consistent way to reference the module without having to use the entire namespace. We may also decide to put private variables and functions available to the module but not exposed to the rest of the application. You'll also notice that instead of your application name, ninjs uses the alias "app" as a shorthand for the full application name. This is a convenience as well as a way to write generic modules for use in any application. 
+Notice we wrap the entire module in a closure. This allows us to make a reference to the current module named "self" due to the fact that the add_module method returns the module it creates. This gives us a consistent way to reference the module without having to use the entire namespace. We may also decide to put private variables and functions available to the module but not exposed to the rest of the application.  
 
 The actions method is the main method of your module. Also known as the composed method pattern, the actions method should simply be a list of other module methods. This makes it easy to scan the actions method to get a sense of what a given module does. It also encourages the "single responsibility principle":http://en.wikipedia.org/wiki/Single_responsibility_principle.
 
@@ -326,3 +326,5 @@ That's it! you've created a basic ninjs application! The only step left is to in
     </html>
     ...
 </pre>
+
+<!-- You'll also notice that instead of your application name, ninjs uses the alias "app" as a shorthand for the full application name. This is a convenience as well as a way to write generic modules for use in any application. -->

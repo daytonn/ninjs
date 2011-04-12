@@ -70,7 +70,7 @@ module Ninjs
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
         file << File.open("#{@project_path}lib/nin.js", 'r').readlines.join('')
-        file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.test_path}');"
+        file << "\nvar #{@config.name} = new NinjsApplication();"
       end
     end
     
@@ -128,7 +128,7 @@ module Ninjs
 
         ninjs_lib_secretary = Sprockets::Secretary.new(
           :root         => "#{Ninjs::BASE_DIR}",
-          :asset_root   => @config.asset_root || @project_path.gsub(/[a-zA-z0-9\.\-\_\s]+\/$/, ''),
+          :asset_root   => @config.asset_root,
           :load_path    => ["repository"],
           :source_files => ["#{module_src}"]
         )
@@ -167,7 +167,7 @@ module Ninjs
     def write_core(file)      
       file << "/*---------- Ninjs core ../lib/nin.js ----------*/\n"
       file << "//= require \"../lib/nin.js\"\n\n"
-      file << "\nvar #{@config.name} = new NinjsApplication('#{@config.base_url}', '#{@config.test_path}');\n\n"
+      file << "\nvar #{@config.name} = new NinjsApplication();\n\n"
     end
     
     def write_autoload(file)
@@ -182,7 +182,7 @@ module Ninjs
       begin
         ninjs_lib_secretary = Sprockets::Secretary.new(
           :root         => "#{Ninjs::BASE_DIR}",
-          :asset_root   => @config.asset_root || @project_path.gsub(/[a-zA-z0-9\.\-\_\s]+\/$/, ''),
+          :asset_root   => @config.asset_root,
           :load_path    => ["repository"],
           :source_files => ["#{file}"]
         )
