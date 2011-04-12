@@ -2,13 +2,13 @@ h1. Readme
 
 h2. About
 
-Ninjs is a new way of building Javascript applications that allows you to write modular, testable, and reusable javascript. Ninjs is not just a framework. It provides three essential Javascript development tools in one coherent package.
+ninjs is a new way of building Javascript applications that allows you to write modular, testable, and reusable javascript. ninjs is not just a framework. It provides three essential Javascript development tools in one coherent package.
 
-# Ninjs uses the "Sprockets":http://getsprockets.org javascript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
-# Ninjs includes a small javascript framework, based on the "module pattern":http://javascript.crockford.com/private.html and "JavaScript: The Good Parts":http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846, which provides a solid foundation for any javascript application.
+# ninjs uses the "Sprockets":http://getsprockets.org javascript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
+# ninjs includes a small javascript framework, based on the "module pattern":http://javascript.crockford.com/private.html and "JavaScript: The Good Parts":http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846, which provides a solid foundation for any javascript application.
 # The "ninjs" command line application eases the pain of repetitive tasks like compiling, scaffolding, and updating your application.
 
-Ninjs is written in "Ruby":http://ruby-lang.org and packaged as a "Ruby gem":http://rubygems.org. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
+ninjs is written in "Ruby":http://ruby-lang.org and packaged as a "Ruby gem":http://rubygems.org. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
 
 h2. Installation
 
@@ -29,17 +29,17 @@ h1. Using the Command Line Application
 
 The ninjs command line application is a simple way to quickly develop and manage your application. With it you can create an application, generate scaffolding, compile, and upgrade your application.
 
-h1. Create a Ninjs application
+h1. Create a ninjs application
 
-The first ninjs command you'll need is the create command. As it's name implies, this command creates a brand new Ninjs application template, creating the necessary files and directories. The create command accepts 2 arguments. The first argument is the name of your application object which is required. The second argument, which is optional, is a sub directory in which to install the application. For example, from the root of your project, you may wish to put your application in a "js" or "javascripts" directory (creating the directory if it does not exist). Omitting the directory option will create the application in your current working directory. Here is an example of creating a ninjs application in a sub directory named "js" in the current working directory:
+The first ninjs command you'll need is the create command. As it's name implies, this command creates a brand new ninjs application template, creating the necessary files and directories. The create command accepts 2 arguments. The first argument is the name of your application object which is required. The second argument, which is optional, is a sub directory in which to install the application. For example, from the root of your project, you may wish to put your application in a "js" or "javascripts" directory (creating the directory if it does not exist). Omitting the directory option will create the application in your current working directory. Here is an example of creating a ninjs application in a sub directory named "js" in the current working directory:
 
 <pre name="code" class="sh">
 ninjs create myapplication
 </pre>
 
-This will create a Ninjs application in a directory named "js" in the current working directory. Now we can begin developing our application.
+This will create a ninjs application in a directory named "js" in the current working directory. Now we can begin developing our application.
 
-h1. Create a Ninjs module
+h1. Create a ninjs module
 
 Using the generate command we can create a module stub. The generate command takes two argument, the first is the type of file you'd like to generate and the second is the name of the file/module the file is for. Here's some examples of the generate command with a module name of hello:
 
@@ -61,7 +61,7 @@ Although the generate method is very convenient, you may choose to create a modu
     /modules/hello.module.js
 </pre>
 
-The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods within your application. A Ninjs module is an extremely lightweight object with a simple api which helps you write clear, concise code. The following is an empty module scaffold:
+The basic functionality of a module is to encapsulate specific logic into a container. Think of a module as a class in the sense that it allows to name-space properties and methods within your application. A ninjs module is an extremely lightweight object with a simple api which helps you write clear, concise code. The following is an empty module scaffold:
    
 <pre name="code" class="js">
 (function(){
@@ -107,7 +107,7 @@ Which generates:
 
 This will generate a scaffold using the application name instead of the "app" alias. Having both your application name and the "app" variable available to reference your application object gives you flexibility in how you'd like to refer to your application. Feel free to use whatever you're most comfortable with.
 
-Keep in mind however, using the app alias makes the module less cumbersome to write, and allows you to copy the code directly into another Ninjs application and run it without any renaming.
+Keep in mind however, using the app alias makes the module less cumbersome to write, and allows you to copy the code directly into another ninjs application and run it without any renaming.
 
 Let's take a closer look at the "actions" composed method pattern. Let's define a simple module which demonstrates this:
    
@@ -141,7 +141,7 @@ Although the complexity of this module is contrived, we can easily see what this
 
 h1. Create module elements
 
-Another common best practice that Ninjs encourages is cacheing your element selectors. For example, when using jQuery to select a DOM element, it's typical to assign the result of the selection to a variable in case you need it again. Here's what this looks like in practice:
+Another common best practice that ninjs encourages is cacheing your element selectors. For example, when using jQuery to select a DOM element, it's typical to assign the result of the selection to a variable in case you need it again. Here's what this looks like in practice:
    
 <pre name="code" class="js">
 // Bad no-caching
@@ -157,7 +157,7 @@ some_element.html("I turned red");
    
 When we cache our selections, we only have to search the DOM once, improving performance.
 
-The only problem with this is that we tend to manipulate a lot of elements and our code can become littered with them. At worst, they're strewn about the file wherever they are used, making it easy to accidentally re-assign them. At best, all selections are cached in one place and easy to see, which prevents us from accidentally caching them twice. Ninjs goes a step further by putting these cached selectors in their own file in the elements folder. This gives us one place to manage all the cached selectors available to our module.
+The only problem with this is that we tend to manipulate a lot of elements and our code can become littered with them. At worst, they're strewn about the file wherever they are used, making it easy to accidentally re-assign them. At best, all selections are cached in one place and easy to see, which prevents us from accidentally caching them twice. ninjs goes a step further by putting these cached selectors in their own file in the elements folder. This gives us one place to manage all the cached selectors available to our module.
 
 Elements belong to a module and can be added using the elements method. To add elements to the hello module, let's add a hello.elements.js with the generate command:
 
@@ -210,11 +210,11 @@ app.hello.say_hello = function() {
    
 Again, this pattern keeps the logic very clear and our code very concise. It's easy to read, test, and refactor. Be careful when naming your cached elements, make sure you don't overwrite another property of the module. With time you'll develop your own naming conventions and standards. The important thing is to focus on good semantic names that accurately describe the properties and behavior of your application.
 
-Most modules will be exactly like the one we just created, only with more methods. However, there is one more piece that helps you achieve greater modularity, which is Ninjs models.
+Most modules will be exactly like the one we just created, only with more methods. However, there is one more piece that helps you achieve greater modularity, which is ninjs models.
 
-h1. Create a Ninjs model
+h1. Create a ninjs model
 
-Ninjs models are simply files in the /models directory that define a data structure for the module. Every module has a data object that stores properties for reuse or configuration.
+ninjs models are simply files in the /models directory that define a data structure for the module. Every module has a data object that stores properties for reuse or configuration.
 
 Let's suppose I have a plugin that I want to use in my module. The plugin takes a configuration object, but I want to be able to set a default configuration for my module. I'll use the generate command to create a model:
 
@@ -297,24 +297,24 @@ The model provides a fondation we can build from, helping use to keep our code D
 
 h1. Compiling the application
 
-Now that we have a complete module including elements and a model, we need to compile these into one coherent file to use in our html. To do so, we have 2 options. Open up a terminal and navigate to the root of your Ninjs application. We can compile our application with one of 2 commands. The first choice is the compile command. From the root of your Ninjs application type:
+Now that we have a complete module including elements and a model, we need to compile these into one coherent file to use in our html. To do so, we have 2 options. Open up a terminal and navigate to the root of your ninjs application. We can compile our application with one of 2 commands. The first choice is the compile command. From the root of your ninjs application type:
 
 <pre name="code" class="sh">
 ninjs compile
 </pre>
 
-This will compile all the files in the modules folder, resolving all dependencies using the Sprockets engine, and finally outputting them into the /application directory with the .module suffix removed.  Our hello example module would compile into the application folder as hello.js. Now we can include the hello.js file (along with the myapplication.js) in our html document. Since running compile every time we make a change to any one of our module source files would quickly become a tedious chore, ninjs also has a watch command which will watch your project directory for changes and automatically compile when a file is changed. This speeds up development considerably and frankly makes Ninjs usable in a daily development context. To watch a Ninjs project simply navigate to the project root and issue the watch command:
+This will compile all the files in the modules folder, resolving all dependencies using the Sprockets engine, and finally outputting them into the /application directory with the .module suffix removed.  Our hello example module would compile into the application folder as hello.js. Now we can include the hello.js file (along with the myapplication.js) in our html document. Since running compile every time we make a change to any one of our module source files would quickly become a tedious chore, ninjs also has a watch command which will watch your project directory for changes and automatically compile when a file is changed. This speeds up development considerably and frankly makes ninjs usable in a daily development context. To watch a ninjs project simply navigate to the project root and issue the watch command:
 
 <pre name="code" class="sh">
 ninjs watch
 </pre>
 
-That's it! you've created a basic Ninjs application! The only step left is to include the compiled script files in our markup:
+That's it! you've created a basic ninjs application! The only step left is to include the compiled script files in our markup:
 
 <pre name="code" class="html">
     <!DOCTYPE html>
      <head>
-        <title>Ninjs Demo</title>
+        <title>ninjs Demo</title>
     </head>
     <body>
         <script src="js/application/myapplication.js"></script>
