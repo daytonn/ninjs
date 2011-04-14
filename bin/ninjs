@@ -161,10 +161,9 @@ case command
     type = ARGV[1]
     name = ARGV[2]
     als = ARGV[3] || 'app'
-    
-    
+
     errors[:type] = "Error! Scaffold type is required (ninjs generate module mymodule)" if type.nil?
-    errors[:name] = "Error! Module name is required (ninjs generate module mymodule)" if type.nil?
+    errors[:name] = "Error! Module name is required (ninjs generate module mymodule)" if name.nil?
     
     unless errors.empty?
       errors.each do |error|
