@@ -3,70 +3,210 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
 
 begin
-  require 'rubikon'
   require 'ninjs'
+  require 'optparse'
 rescue LoadError
   require 'rubygems'
-  require 'rubikon'
   require 'ninjs'
+  require 'optparse'
 end
 
-class NinjsConsole < Rubikon::Application::Base
-  def initialize
-    @directory = '/'
-  end
-  
-  flag :v => :version
-  option :version
-  default do
-    if version.given?
-      time = Time.now
-      Ninjs::Notification.notice 'ninjs ' + Ninjs::VERSION
-      Ninjs::Notification.notice "Copyright (c) #{time.year} Dayton Nolan"
-      Ninjs::Notification.notice "Released under the MIT License"
-    else
-      Ninjs::Command.help
+header = <<-HEADER
+ninjs #{Ninjs::VERSION}
+Copyright (c) #{Time.new.year} Dayton Nolan
+Released under the MIT License
+
+Description: 
+The ninjs command line application is a simple way to quickly develop and manage your application. With it you can create an application, generate scaffolding, compile, and upgrade your application.
+
+Usage: ninjs [command] [arguments] [options (-h, --help)]
+
+Commands:
+HEADER
+
+create = <<-CREATE
+  create    Creates a new ninjs application in the current working 
+            directory or sub directory within.
+        
+            Arguments:
+            application name - Name of the ninjs application
+            subdirectory* - Directory where the application will be 
+                            installed (created if non existent)
+                                    
+            examples:
+            ninjs create myapp
+            ninjs create myapp subdirectory
+CREATE
+
+generate = <<-GEN
+  generate  Generates scoffolding for the given component file type. 
+
+            Arguments:
+            type - Type of application scaffold to create (module, elements, model).
+            name* - Name of the module to generate the scaffold for
+
+            Options:
+            -a, --alias name* - Create an alias of the application object
+                                (defaults to "app"), passing a name is optional
+            -e, --elements - Generate an elements file
+            -m, --model - Generate a model file 
+
+            examples:
+            ninjs generate module mymodule -em (generates module, elements and model)
+            ninjs generate module mymodule -a (generates an application alias)
+            ninjs generate elements mymodule -m (generates an elements and a model file)
+            ninjs generate model mymodule (generates an model file)
+GEN
+
+compile = <<-COMP
+  compile   Compiles the ninjs project in the current working directory.
+          
+            example:
+            ninjs compile
+COMP
+
+watch = <<-WATCH
+  watch     Watches the current working directory for file changes and
+            compiles when changes are detected.
+          
+            example:
+            ninjs watch
+WATCH
+
+upd = <<-UPDATE
+  update   Updates your application's core files to the latest version.
+UPDATE
+
+footer = <<-FOOTER
+* optional argument
+FOOTER
+
+help = {
+  :header => header,
+  :create => create,
+  :generate => generate,
+  :compile => compile,
+  :watch => watch,
+  :update => upd,
+  :footer => footer
+}
+
+command = ARGV[0]
+
+options = {
+  :alias => false,
+  :elements => false,
+  :model => false,
+  :help => false
+}
+
+optparse = OptionParser.new do|opts|
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    options[:help] = true
+
+    if command.nil? || command.match(/^-h/)
+      help.each do |section|
+        puts section
+      end
+      exit
     end
   end
   
-  command :compile do
-    Ninjs::Command.compile
+  opts.on( '-v', '--version', 'Display the version') do
+    time = Time.now
+    Ninjs::Notification.notice 'ninjs ' + Ninjs::VERSION
+    Ninjs::Notification.notice "Copyright (c) #{time.year} Dayton Nolan"
+    Ninjs::Notification.notice "Released under the MIT License"
+    exit
   end
   
-  command :watch do
-    Ninjs::Command.watch
+  opts.on( '-a', '--alias', 'Generate application alias') do
+    options[:alias] = true
   end
   
-  command :import do
-    Ninjs::Command.import
+  opts.on('-e', '--elements', 'Generate elements file') do
+    options[:elements] = true
   end
   
-  command :create, :app_name, :dir => :optional do
-    dir.nil? ? Ninjs::Command.create(app_name) : Ninjs::Command.create(app_name, dir)
+  opts.on('-m', '--model', 'Generate model file') do
+    options[:model] = true
   end
+end
 
-  option :use_alias, :alias => :optional
-  option :elements
-  option :model
-  flag :e => :elements
-  flag :m => :model
-  flag :a => :use_alias
-  command :generate, :object, :obj_name do
+optparse.parse!
+
+case command
+# create
+  when "create"
+    if options[:help]
+      puts help[:create]
+      exit
+    end
+    app_name = ARGV[1]
+    sub_dir = ARGV[2] || nil
+    
+    if app_name.nil?
+      puts "Error! Application name is required (ninjs create app_name)" 
+      exit
+    end
+    
+    sub_dir.nil? ? Ninjs::Command.create(app_name) : Ninjs::Command.create(app_name, sub_dir)
+# generate
+  when "generate"
+    if options[:help]
+      puts help[:generate]
+      exit
+    end
+    errors = Hash.new
+    type = ARGV[1]
+    name = ARGV[2]
+    als = ARGV[3] || 'app'
+    
+    
+    errors[:type] = "Error! Scaffold type is required (ninjs generate module mymodule)" if type.nil?
+    errors[:name] = "Error! Module name is required (ninjs generate module mymodule)" if type.nil?
+    
+    unless errors.empty?
+      errors.each do |error|
+        puts error
+      end
+      exit
+    end
+    
     with = {
-        :model => model.given?,
-        :elements => elements.given?
+        :model => options[:model],
+        :elements => options[:elements]
     }
-    
-    als = use_alias[:alias] || 'app'
-    
-    if use_alias.given?
-      Ninjs::Command.generate_with_alias(object, obj_name, with, als)
+
+    if options[:alias]
+      Ninjs::Command.generate_with_alias(type, name, with, als)
     else
-      Ninjs::Command.generate(object, obj_name, with)
+      Ninjs::Command.generate(type, name, with)
+    end
+# compile
+  when "compile"
+    if options[:help]
+      puts help[:compile]
+      exit
+    end
+    Ninjs::Command.compile
+# watch
+  when "watch"
+    if options[:help]
+      puts help[:watch]
+      exit
+    end
+    Ninjs::Command.watch
+# update
+  when "update"
+    if options[:help]
+      puts help[:update]
+      exit
+    end
+    Ninjs::Command.update
+# help
+  else
+    help.each do |section|
+      puts section
     end
   end
-  
-  command :upgrade do
-    Ninjs::Command.upgrade
-  end
-end
