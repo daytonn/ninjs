@@ -74,7 +74,6 @@ GEM
     rspec-expectations (2.4.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.4.0)
-    rubikon (0.5.3)
     ruby-progressbar (0.0.9)
     ruby2ruby (1.2.5)
       ruby_parser (~> 2.0)
@@ -97,6 +96,5 @@ DEPENDENCIES
   metric_fu
   rcov
   rspec
-  rubikon
   shoulda
-  sprockets
+  sprockets (= 1.0.2)

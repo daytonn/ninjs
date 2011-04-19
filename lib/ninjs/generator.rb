@@ -22,6 +22,8 @@ module Ninjs
         file << "})(#{@project.config.name if @alias});"
         Ninjs::Notification.added "created #{@name.downcase}.module.js"
       end unless File.exists? "#{@project.project_path}modules/#{@name.downcase}.module.js"
+      
+      self
     end
     
     def generate_elements_file
@@ -29,6 +31,8 @@ module Ninjs
         file << "#{@app_name}.#{@name}.elements(function() {\n\n});"
         Ninjs::Notification.added "created #{@name.downcase}.elements.js"
       end unless File.exists? "#{@project.project_path}elements/#{@name.downcase}.elements.js"
+      
+      self
     end
     
     def generate_model_file
@@ -36,6 +40,8 @@ module Ninjs
         file << "#{@app_name}.#{@name}.set_data({\n\t\n});"
         Ninjs::Notification.added "created #{@name.downcase}.model.js"
       end unless File.exists? "#{@project.project_path}models/#{@name.downcase}.model.js"
+      
+      self
     end
     
   end

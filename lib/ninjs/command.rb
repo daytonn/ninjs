@@ -58,63 +58,6 @@ module Ninjs
     def import(package)
       Ninjs::PackageManager.import(package)
     end
-
-    def help
-      puts <<-DOC
-ninjs #{Ninjs::VERSION}
-Copyright (c) #{Time.new.year} Dayton Nolan
-Released under the MIT License
-
-Description: 
-The ninjs command line application is a simple way to quickly develop and manage your application. With it you can create an application, generate scaffolding, compile, and upgrade your application.
-
-Usage: ninjs [command] [arguments]
-  
-Commands:
-  create    Creates a new ninjs application in the current working 
-            directory or sub directory within.
-          
-            Arguments:
-            application name - Name of the ninjs application
-            sub directory* - Directory where the application will be 
-                            installed (created if non existent)
-                                      
-            examples:
-            ninjs create myapp
-            ninjs create myapp subdirectory
-
-  generate  Generates scoffolding for the given component file type. 
-
-            Arguments:
-            file type - Type of application file to create (module, elements,
-                        model).
-            module name* - Name of the module to generate the scaffold for
-
-            Flags:
-            -e - Generate an elements file for the same module
-            -m - Generate a model file for the same module
-
-            examples:
-            ninjs generate model mymodule -e -m
-            ninjs generate elements mymodule
-            ninjs generate model mymodule
-            
-  compile   Compiles the ninjs project in the current working directory.
-            
-            example:
-            ninjs compile
-            
-  watch     Watches the current working directory for file changes and
-            compiles when changes are detected.
-            
-            example:
-            ninjs watch
-            
-  upgrade   Upgrades your application's core files to the latest version.
-
-  * optional argument
-      DOC
-    end
     
     def generate(object, name, with)
       begin
@@ -149,14 +92,15 @@ Commands:
         end
     end
 
-    def upgrade
+    def update
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
       project = Ninjs::Project.new
       
       project.create_ninjs_lib_file
+      project.create_utility_lib_file
     end
     
-    module_function :create, :watch, :compile, :help, :import, :generate, :generate_object, :generate_with_alias, :upgrade
+    module_function :create, :watch, :compile, :import, :generate, :generate_object, :generate_with_alias, :update
   end
 end
