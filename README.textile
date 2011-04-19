@@ -177,9 +177,9 @@ ninjs generate elements hello
 This will create a hello.elements.js file inside the elements directory. The elements scaffold looks like this:
 
 <pre name="code" class="js">
-    myapplication.hello.elements({
-        
-    });
+myapplication.hello.elements({
+
+});
 </pre>
 
 The elements method facilitates both setting and getting cached elements (violating the single responsibility principle for convenience). When passed an object, the elements method maps the key/value pairs of name/selector to the modules dom object. When passed a string, the elements method pulls the selector via it's name. To set a module's elements, pass an object of key value pairs like so:
