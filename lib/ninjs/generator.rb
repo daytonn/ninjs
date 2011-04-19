@@ -15,8 +15,8 @@ module Ninjs
       File.open "#{@project.project_path}modules/#{@name.downcase}.module.js", "w" do |file|
         file << "(function(#{@app_name if @alias}){\n"
         file << "\tvar self = #{@app_name}.add_module('#{@name}');\n\n"
-        file << "\t" + '//= require "../elements/' + @name.downcase + '.elements.js"' + "\n\n" if with[:elements]
-        file << "\t" + '//= require "../models/' + @name.downcase + '.model.js"' + "\n\n" if with[:model]
+        file << "\t" + '//= require "../elements/' + @name.downcase + '.elements"' + "\n\n" if with[:elements]
+        file << "\t" + '//= require "../models/' + @name.downcase + '.model"' + "\n\n" if with[:model]
         file << "\t #{@app_name}.#{@name}.actions = function() {\n\n\t};\n\n"
         file << "\t #{@app_name}.#{@name}.run();\n"
         file << "})(#{@project.config.name if @alias});"
