@@ -58,7 +58,7 @@ ninjs generate module hello -em
 Although the generate method is very convenient, you may choose to create a module file manually in the /modules directory. By convention the file name ends with a suffix of .module. An example of a module named hello would look like this:
 
 <pre name="code" class="sh">
-    /modules/hello.module.js
+/modules/hello.module.js
 </pre>
 
 The basic functionality of a module is to encapsulate specific pieces of logic into a namespace. You may think of a module as a class in the sense that it allows you to namespace properties and behavior within your application. Typically, a module encapsulates the behavior on a specific page. A ninjs module is an extremely lightweight object with a simple API which helps you write clear, concise code. Here's what an empty module scaffold looks like (generated with ninjs generate model hello -em):

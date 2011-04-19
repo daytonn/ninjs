@@ -100,17 +100,42 @@ NinjsModule.method('execute', function() {
 
 /*
    Method: elements
-      Method to define module elements.
+      Method to define and retreive module elements.
       
    Parameters:
-      callback - function to define a module's elements
+      elements or name - If the argument is an object, it will add elements to the module, if the argument is a string, it will retreive the element by name
       
-   > MyModule.elements(function() {
-   >    // element definitions go here
+   > MyModule.elements({
+   >    some_element: $('#some-element'),
+   >    another_element: $('#another-element')
    > });
+   >
+   > MyModule.elements('some_element');
 */
-NinjsModule.method('elements', function(callback) {	
-	this.call_on_ready(callback);
+NinjsModule.method('elements', function(elements) {
+	try {
+		if (is_undefined(elements)) {
+			throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
+		}
+		
+		if (is_string(elements)) {
+			var name = elements;
+			return is_defined(this[name]) ? this[name] : undefined;
+		}
+		else {
+			this.call_on_ready(function() {
+				for(var key in elements) {
+					if (elements.hasOwnProperty(key)) {
+						this[key] = elements[key];
+					}
+				}
+			});
+		}
+	}
+	catch(error) {
+		alert(error.message);
+	}
+	
 });
 
 

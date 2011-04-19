@@ -28,7 +28,7 @@ module Ninjs
     
     def generate_elements_file
       File.open("#{@project.project_path}elements/#{@name.downcase}" + ".elements.js", "w") do |file|
-        file << "#{@app_name}.#{@name}.elements(function() {\n\n});"
+        file << "#{@app_name}.#{@name}.elements({\n\n});"
         Ninjs::Notification.added "created #{@name.downcase}.elements.js"
       end unless File.exists? "#{@project.project_path}elements/#{@name.downcase}.elements.js"
       
