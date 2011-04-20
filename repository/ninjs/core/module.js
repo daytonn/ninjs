@@ -1,70 +1,17 @@
-/*
-   File: module.js
-   
-   Class: NinjsModule
-      A NinjsModule is an object which encapsulates a certain behavior or functionality.
-
-   Parameters:
-      name - the name of the module
-
-   See Also:
-      <NinjsApplication>
-*/
 var NinjsModule = function(name) {
-   /*
-      Variable: data
-         The module's data object
-   */
+	this.dom = {};
 	this.data = {};
-	/*
-      Variable: name
-         The module's name (string)
-   */
 	this.name = name;
-	/*
-      Variable: run_tests (beta)
-         Boolean to turn tests on/off
-   */
 	this.run_tests = false;
-	/*
-      Variable: tests (beta)
-         Array of test files to run 
-   */
 	this.tests = [];
 };
 
-/*
-   Method: actions
-      The actions method contains code to be executed when run is called. This method is a placeholder to be overwritten.
-      
-   > MyModule.actions = function() {
-   >  // define actions here
-   >};
-*/
 NinjsModule.method('actions', function() {});
 
-
-/*
-   Method: run
-      Waits for the DOM to load then calls execute.
-      
-   > MyModule.run();
-*/
 NinjsModule.method('run', function() {
 	this.call_on_ready(this.execute);
 });
 
-/*
-   Method: call_on_ready
-      Waits for the DOM to be ready and then executes a callback.
-   
-   Parameters:
-      callback - function to be called when the DOM is ready
-      
-   > MyModule.call_on_ready(function() {
-   >    // some code to execute when the DOM is ready
-   > });
-*/
 NinjsModule.method('call_on_ready', function(callback) {
 	var timer;
 	var module = this;
@@ -84,12 +31,6 @@ NinjsModule.method('call_on_ready', function(callback) {
 	check_ready();
 });
 
-/*
-   Method: execute
-      Wrapper method that set's up the environment and then calls actions.
-   
-   > MyModule.execute();
-*/
 NinjsModule.method('execute', function() {	
 	if (this.run_tests) {
 		this._run_tests();
@@ -98,35 +39,28 @@ NinjsModule.method('execute', function() {
 	this.actions();
 });
 
-/*
-   Method: elements
-      Method to define and retreive module elements.
-      
-   Parameters:
-      elements or name - If the argument is an object, it will add elements to the module, if the argument is a string, it will retreive the element by name
-      
-   > MyModule.elements({
-   >    some_element: $('#some-element'),
-   >    another_element: $('#another-element')
-   > });
-   >
-   > MyModule.elements('some_element');
-*/
 NinjsModule.method('elements', function(elements) {
 	try {
 		if (is_undefined(elements)) {
-			throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
+		   if (is_typeof(Object, elements)) {
+		      throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
+		   }
+		   else if (is_string(elements)) {
+		      throw new SyntaxError("NinjsModule.elements(name): name is undefined");
+		   }
 		}
 		
+		// If first argument is a string, retrieve the element
 		if (is_string(elements)) {
 			var name = elements;
-			return is_defined(this[name]) ? this[name] : undefined;
+			return is_defined(this.dom[name]) ? this.dom[name] : undefined;
 		}
+		// Set elements
 		else {
 			this.call_on_ready(function() {
 				for(var key in elements) {
 					if (elements.hasOwnProperty(key)) {
-						this[key] = elements[key];
+						this.dom[key] = elements[key];
 					}
 				}
 			});
@@ -138,25 +72,6 @@ NinjsModule.method('elements', function(elements) {
 	
 });
 
-
-/*
-   Method: set_data
-      Adds properties to the module's data object.
-      
-   Parameters:
-      key - string or object (if string = key, if object sets multiple properties)
-      value - value of key if key is string
-      
-   > MyModule.set_data('some_key', 'some_value');
-   > MyModule.data.some_key === 'some_value'
-   
-   > MyModule.set_data({
-   >    'property_one': 'value_one',
-   >    'property_two': 'value_two'
-   > });
-   > MyModule.data.property_one === 'value_one'
-   > MyModule.data.property_two === 'value_two'
-*/
 NinjsModule.method('set_data', function(key, value) {
 	try {
 		if (is_undefined(key)) {
@@ -184,23 +99,10 @@ NinjsModule.method('set_data', function(key, value) {
 	}
 });
 
-/*
-   Method: add_test
-      Adds a test file to the tests array (beta).
-      
-   Parameters:
-      test_file - File to add to the tests array
-      
-   > MyModule.add_test('mytest.test.js');
-*/
 NinjsModule.method('add_test', function(test_file) {
 	this.tests.push(test_file);
 });
 
-/*
-   Method: _run_tests
-      Runs the test files in the test array. This method is automatically called by the execute method if run_tests === true
-*/
 NinjsModule.method('_run_tests', function() {
 	var test_template = [];
 	test_template.push('<div class="test-results" title="Test Results">');
