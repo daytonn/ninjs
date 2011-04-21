@@ -6,11 +6,11 @@ About
 
 ninjs is a new way of building JavaScript applications that allows you to write modular, testable, and reusable JavaScript. ninjs is not really a framework. It provides three essential JavaScript development tools in one coherent package.
 
-1. ninjs uses the "Sprockets":http://getsprockets.org JavaScript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
-2. ninjs includes a small JavaScript framework, based on the "module pattern":http://javascript.crockford.com/private.html and "JavaScript: The Good Parts":http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846, which provides a solid foundation for any JavaScript application.
+1. ninjs uses the "Sprockets" (http://getsprockets.org) JavaScript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
+2. ninjs includes a small JavaScript framework, based on the module pattern (http://javascript.crockford.com/private.html) and "JavaScript: The Good Parts" (http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846), which provides a solid foundation for any JavaScript application.
 3. The "ninjs" command line application eases the pain of repetitive tasks like compiling, scaffolding, and updating your application.
 
-ninjs is written in "Ruby":http://ruby-lang.org and packaged as a "Ruby gem":http://rubygems.org. However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
+ninjs is written in Ruby (http://ruby-lang.org) and packaged as a Ruby gem (http://rubygems.org). However, it is not specific to Ruby or Rails development. While it certainly is usable in Rails or Ruby based projects, it is not designed for any one particular language or framework.
 
 Installation
 ------------
@@ -86,7 +86,7 @@ The basic functionality of a module is to encapsulate specific pieces of logic i
 
 Notice the module is wrapped in a closure. This allows us to make a private reference to the current module named "self" due to the fact that the add_module method returns the module it creates. This gives us a consistent way to reference the module without having to use the entire namespace. We may also decide to put private variables and functions available to the module but not exposed to the rest of the application.  
 
-The actions method is the main method of your module. Also known as the composed method pattern, the actions method should simply be a list of other module methods. This makes it easy to scan the actions method to get a sense of what a given module does. It also encourages the "single responsibility principle":http://en.wikipedia.org/wiki/Single_responsibility_principle.
+The actions method is the main method of your module. Also known as the composed method pattern, the actions method should simply be a list of other module methods. This makes it easy to scan the actions method to get a sense of what a given module does. It also encourages the "single responsibility principle" (http://en.wikipedia.org/wiki/Single_responsibility_principle).
 
 The run method will execute the actions method when the DOM is ready to be manipulated. This is similar to jQuery's $(document).ready() method. If you wish to execute your modules actions as soon as the script is parsed you may call the execute method instead of run:
 
@@ -205,7 +205,7 @@ myapplication.hello.some_method = function() {
 };
 ```
 
-This pattern provides a consistent way to access and create elements and also creates an opportunity to add logic to the process (as in the ninjs.jquery.elements.js plugin). That's all there is to creating module elements. Now we require the file in the module using the "Sprockets require directive"::http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive in hello.module.js. 
+This pattern provides a consistent way to access and create elements and also creates an opportunity to add logic to the process (as in the ninjs.jquery.elements.js plugin). That's all there is to creating module elements. Now we require the file in the module using the "Sprockets require directive" (http://getsprockets.org/installation_and_usage#specifying_dependencies_with_the_require_directive) in hello.module.js. 
    
 ```js
 (function() {
