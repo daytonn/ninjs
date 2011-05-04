@@ -2,10 +2,11 @@ module Ninjs
     class Configuration
       
       attr_reader :name,
-                  :output,
                   :dependencies,
                   :autoload,
                   :asset_root
+                  
+      attr_accessor :output
                   
       def initialize(project_path, name = '')
         @project_path = project_path

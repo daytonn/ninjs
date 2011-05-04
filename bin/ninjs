@@ -60,6 +60,9 @@ GEN
 
 compile = <<-COMP
   compile   Compiles the ninjs project in the current working directory.
+  
+            Options:
+            -c, --compress - Compress output with JsMin
           
             example:
             ninjs compile
@@ -97,7 +100,8 @@ options = {
   :alias => false,
   :elements => false,
   :model => false,
-  :help => false
+  :help => false,
+  :compress => false
 }
 
 optparse = OptionParser.new do|opts|
@@ -130,6 +134,10 @@ optparse = OptionParser.new do|opts|
   
   opts.on('-m', '--model', 'Generate model file') do
     options[:model] = true
+  end
+  
+  opts.on('-c', '--compress', 'Compress with JsMin') do
+    options[:compress] = true
   end
 end
 
@@ -188,7 +196,9 @@ case command
       puts help[:compile]
       exit
     end
-    Ninjs::Command.compile
+
+    compress_output = options[:compress] ? true : false
+    Ninjs::Command.compile(compress_output)
 # watch
   when "watch"
     if options[:help]
