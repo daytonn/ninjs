@@ -5,18 +5,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.13.1"
+  s.version = "0.13.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
-  s.date = %q{2011-04-10}
+  s.date = %q{2011-05-04}
   s.default_executable = %q{ninjs}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
   s.executables = ["ninjs"]
   s.extra_rdoc_files = [
     "LICENSE",
-    "README.textile"
+    "README.md"
   ]
   s.files = [
     ".bundle/config",
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
     "Gemfile",
     "Gemfile.lock",
     "LICENSE",
-    "README.textile",
+    "README.md",
     "Rakefile",
     "VERSION",
     "bin/ninjs",
@@ -186,6 +186,7 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/VariablesR.html",
     "repository/ninjs/docs/search/VariablesT.html",
     "repository/ninjs/docs/styles/main.css",
+    "repository/ninjs/extensions/ninjs.jquery.js",
     "repository/ninjs/tests/index.html",
     "repository/ninjs/tests/ninjs.test.js",
     "repository/ninjs/tests/ninjs.utilities.test.js",
@@ -282,37 +283,19 @@ Gem::Specification.new do |s|
     "tmp/ff9e83aa019b712b90200b8d1b8fa0c7e14576af.json",
     "tmp/metric_fu/_data/20110305.yml",
     "tmp/metric_fu/output/bluff-min.js",
-    "tmp/metric_fu/output/churn.html",
     "tmp/metric_fu/output/excanvas.js",
-    "tmp/metric_fu/output/flay.html",
-    "tmp/metric_fu/output/flay.js",
-    "tmp/metric_fu/output/flog.html",
-    "tmp/metric_fu/output/flog.js",
-    "tmp/metric_fu/output/hotspots.html",
-    "tmp/metric_fu/output/index.html",
     "tmp/metric_fu/output/js-class.js",
-    "tmp/metric_fu/output/lib_ninjs.rb.html",
-    "tmp/metric_fu/output/lib_ninjs_command.rb.html",
-    "tmp/metric_fu/output/lib_ninjs_configuration.rb.html",
     "tmp/metric_fu/output/lib_ninjs_dependencies.rb.html",
     "tmp/metric_fu/output/lib_ninjs_helpers.rb.html",
     "tmp/metric_fu/output/lib_ninjs_manifest.rb.html",
-    "tmp/metric_fu/output/lib_ninjs_project.rb.html",
     "tmp/metric_fu/output/rails_best_practices.js",
-    "tmp/metric_fu/output/rcov.html",
-    "tmp/metric_fu/output/rcov.js",
-    "tmp/metric_fu/output/reek.html",
-    "tmp/metric_fu/output/reek.js",
-    "tmp/metric_fu/output/roodi.html",
-    "tmp/metric_fu/output/roodi.js",
-    "tmp/metric_fu/report.yml",
     "tmp/metric_fu/scratch/rcov/rcov.txt"
   ]
   s.homepage = %q{http://github.com/textnotspeech/ninjs}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.5.2}
   s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
   s.test_files = [
     "spec/ninjs_spec.rb",
@@ -320,15 +303,12 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rubikon>, [">= 0"])
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
-      s.add_runtime_dependency(%q<sprockets>, [">= 0"])
-      s.add_development_dependency(%q<metric_fu>, [">= 0"])
+      s.add_runtime_dependency(%q<sprockets>, ["= 1.0.2"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -340,11 +320,9 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<sprockets>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
     else
-      s.add_dependency(%q<rubikon>, [">= 0"])
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
-      s.add_dependency(%q<sprockets>, [">= 0"])
-      s.add_dependency(%q<metric_fu>, [">= 0"])
+      s.add_dependency(%q<sprockets>, ["= 1.0.2"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -357,11 +335,9 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rubikon>, [">= 0"])
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
-    s.add_dependency(%q<sprockets>, [">= 0"])
-    s.add_dependency(%q<metric_fu>, [">= 0"])
+    s.add_dependency(%q<sprockets>, ["= 1.0.2"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
