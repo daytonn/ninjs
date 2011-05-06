@@ -107,13 +107,6 @@ options = {
 optparse = OptionParser.new do|opts|
   opts.on( '-h', '--help', 'Display this screen' ) do
     options[:help] = true
-
-    if command.nil? || command.match(/^-h/)
-      help.each do |section|
-        puts section
-      end
-      exit
-    end
   end
   
   opts.on( '-v', '--version', 'Display the version') do
@@ -216,9 +209,9 @@ case command
       exit
     end
     Ninjs::Command.update
-# help
   else
     help.each do |section|
-      puts section
+      puts section.last + "\n"
     end
+    exit
   end
