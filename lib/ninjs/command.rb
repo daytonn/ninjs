@@ -48,11 +48,11 @@ module Ninjs
       project.create
     end
     
-    def compile(compress_output)
+    def compile(compress_output = 'use_config')
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
       project = Ninjs::Project.new
-      project.config.output = compress_output ? 'compressed' : 'expanded'
+      project.config.output = compress_output ? 'compressed' : 'expanded' unless compress_output === 'use_config'
       project.update
     end
     
