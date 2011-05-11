@@ -8,11 +8,12 @@ module Ninjs
       @name = name
       @alias = false
       @app_name = @use_alias ? 'app' : @project.config.name
+      @dest = dest || @project.config.src_dir.is_a?(String) ? @project.config.src_dir : @project.config.src_dir.first
     end
     
     def generate_module_file(with = { :elements => false, :model => false })
           
-      File.open "#{@project.project_path}modules/#{@name.downcase}.module.js", "w" do |file|
+      File.open "#{@project.project_path}#{@dest}//#{@name.downcase}.module.js", "w" do |file|
         file << "(function(#{@app_name if @alias}){\n"
         file << "\tvar self = #{@app_name}.add_module('#{@name}');\n\n"
         file << "\t" + '//= require "../elements/' + @name.downcase + '.elements"' + "\n\n" if with[:elements]
@@ -21,7 +22,7 @@ module Ninjs
         file << "\t #{@app_name}.#{@name}.run();\n"
         file << "})(#{@project.config.name if @alias});"
         Ninjs::Notification.added "created #{@name.downcase}.module.js"
-      end unless File.exists? "#{@project.project_path}modules/#{@name.downcase}.module.js"
+      end unless File.exists? "#{@project.project_path}#{@dest}/#{@name.downcase}.module.js"
       
       self
     end

@@ -2,8 +2,10 @@ module Ninjs
   module Command
     def watch
       require "fssm"
+      
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
+      
       Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."
       project = Ninjs::Project.new
       project.update
@@ -60,12 +62,12 @@ module Ninjs
       Ninjs::PackageManager.import(package)
     end
     
-    def generate(object, name, with)
+    def generate(config)
       begin
         conf_path = "#{Dir.getwd}/ninjs.conf"
         raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
         generator = Ninjs::Generator.new(Ninjs::Project.new, name)
-        self.generate_object generator, object, with
+        self.generate_object generator, config
       end
     end
     
@@ -76,16 +78,21 @@ module Ninjs
         generator = Ninjs::Generator.new(Ninjs::Project.new, name)
         generator.alias = true
         generator.app_name = als
-        self.generate_object generator, object, with
+        self.generate_object generator, config
       end
     end
     
-    def generate_object(generator, object, with)
-      case object
-        when 'module'       
-          generator.generate_module_file(with)
-          generator.generate_elements_file if with[:elements]
-          generator.generate_model_file if with[:model]
+    def generate_object(generator, config)
+      case config[:type]
+        when 'module'
+          if config[:alias]
+            generator.alias = true
+            generator.app_name = config[:alias]
+          end
+          
+          generator.generate_module_file(config[:with])
+          generator.generate_elements_file if config[:with][:elements]
+          generator.generate_model_file if config[:with][:model]
         when 'elements'
           generator.generate_elements_file
         when 'model'
@@ -96,12 +103,19 @@ module Ninjs
     def update
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
-      project = Ninjs::Project.new
       
+      project = Ninjs::Project.new
       project.create_ninjs_lib_file
       project.create_utility_lib_file
     end
     
-    module_function :create, :watch, :compile, :import, :generate, :generate_object, :generate_with_alias, :update
+    module_function :create,
+                    :watch,
+                    :compile,
+                    :import,
+                    :generate,
+                    :generate_object,
+                    :generate_with_alias,
+                    :update
   end
 end

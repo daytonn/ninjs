@@ -117,8 +117,12 @@ optparse = OptionParser.new do|opts|
     exit
   end
   
-  opts.on( '-a', '--alias', 'Generate application alias') do
-    options[:alias] = true
+  opts.on( '-a', '--alias', 'Generate application alias') do |als|
+    options[:alias] = als || "app"
+  end
+  
+  opts.on( '-d', '--dest', 'Module destination directory') do |dest|
+    options[:dest] = dest
   end
   
   opts.on('-e', '--elements', 'Generate elements file') do
@@ -161,7 +165,8 @@ case command
     errors = Hash.new
     type = ARGV[1]
     name = ARGV[2]
-    als = ARGV[3] || 'app'
+    als = options[:alias] || nil
+    dest = options[:dest] || nil
 
     errors[:type] = "Error! Scaffold type is required (ninjs generate module mymodule)" if type.nil?
     errors[:name] = "Error! Module name is required (ninjs generate module mymodule)" if name.nil?
@@ -178,11 +183,21 @@ case command
         :elements => options[:elements]
     }
 
-    if options[:alias]
-      Ninjs::Command.generate_with_alias(type, name, with, als)
-    else
-      Ninjs::Command.generate(type, name, with)
-    end
+    config = {
+      :type => type,
+      :name => name,
+      :alias => als,
+      :dest => dest,
+      :with => with
+    }
+    
+    Ninjs::Command.generate(config)
+    
+    #if options[:alias]
+    #  Ninjs::Command.generate_with_alias(type, name, with, als)
+    #else
+    #  Ninjs::Command.generate(type, name, with)
+    #end
 # compile
   when "compile"
     if options[:help]

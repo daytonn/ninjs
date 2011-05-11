@@ -4,7 +4,9 @@ module Ninjs
       attr_reader :name,
                   :dependencies,
                   :autoload,
-                  :asset_root
+                  :asset_root,
+                  :src_dir,
+                  :dest_dir
                   
       attr_accessor :output
                   
@@ -15,7 +17,9 @@ module Ninjs
           :name => name,
           :output => 'expanded',
           :dependencies => ['"<jquery/latest>"'],
-          :autoload => ['"../lib/utilities"']
+          :autoload => ['"../lib/utilities"'],
+          :src_dir => 'modules',
+          :dest_dir => 'application'
         }
         
         @asset_root = @project_path
@@ -55,6 +59,8 @@ module Ninjs
         
         @name = config['name']
         @output = config['output']
+        @src_dir = config['src_dir']
+        @dest_dir = config['dest_dir']
         
         @dependencies = config['dependencies'] || Array.new
         @autoload = config['autoload'] || Array.new
