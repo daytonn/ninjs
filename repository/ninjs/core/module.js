@@ -40,63 +40,52 @@ NinjsModule.method('execute', function() {
 });
 
 NinjsModule.method('elements', function(elements) {
-	try {
-		if (is_undefined(elements)) {
-		   if (is_typeof(Object, elements)) {
-		      throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
-		   }
-		   else if (is_string(elements)) {
-		      throw new SyntaxError("NinjsModule.elements(name): name is undefined");
-		   }
-		}
-		
-		// If first argument is a string, retrieve the element
-		if (is_string(elements)) {
-			var name = elements;
-			return is_defined(this.dom[name]) ? this.dom[name] : undefined;
-		}
-		// Set elements
-		else {
-			this.call_on_ready(function() {
-				for(var key in elements) {
-					if (elements.hasOwnProperty(key)) {
-						this.dom[key] = elements[key];
-					}
-				}
-			});
-		}
-	}
-	catch(error) {
-		alert(error.message);
+	if (is_undefined(elements)) {
+	   if (is_typeof(Object, elements)) {
+	      throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
+	   }
+	   else if (is_string(elements)) {
+	      throw new SyntaxError("NinjsModule.elements(name): name is undefined");
+	   }
 	}
 	
+	// If first argument is a string, retrieve the element
+	if (is_string(elements)) {
+		var name = elements;
+		return is_defined(this.dom[name]) ? this.dom[name] : undefined;
+	}
+	// Set elements
+	else {
+		this.call_on_ready(function() {
+			for(var key in elements) {
+				if (elements.hasOwnProperty(key)) {
+					this.dom[key] = elements[key];
+				}
+			}
+		});
+	}
 });
 
 NinjsModule.method('set_data', function(key, value) {
-	try {
-		if (is_undefined(key)) {
-			throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
-		}
-		
-		if (is_typeof(String, key) && is_undefined(value)) {
-			throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
-		}
-
-		if (is_typeof(String, key)) {
-			this.data[key] = value;
-		}
-		else if (is_typeof(Object, key)) {
-			var data = key;
-			for(var property in data) {
-				this.data[property] = data[property];
-			}
-		}
-
-		return this;
+	if (is_undefined(key)) {
+		throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
 	}
-	catch(error) {
-		alert(error.message);
+	
+	if (is_typeof(String, key) && is_undefined(value)) {
+		throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
 	}
+
+	if (is_typeof(String, key)) {
+		this.data[key] = value;
+	}
+	else if (is_typeof(Object, key)) {
+		var data = key;
+		for(var property in data) {
+			this.data[property] = data[property];
+		}
+	}
+
+	return this;
 });
 
 NinjsModule.method('add_test', function(test_file) {
