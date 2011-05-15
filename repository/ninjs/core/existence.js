@@ -61,19 +61,14 @@ if (is_undefined(is_typeof)) {
          <is_regex>
    */
 	var is_typeof = function(type, suspect) {
-		try {
-			if (is_undefined(type)) {
-				throw new SyntaxError("is_typeof(Type, suspect): type is undefined");
-			}
-			if (is_undefined(suspect)) {
-				throw new SyntaxError("is_typeof(Type, suspect): suspect is undefined");
-			}
+		if (is_undefined(type)) {
+			throw new SyntaxError("is_typeof(Type, suspect): type is undefined");
+		}
+		if (is_undefined(suspect)) {
+			throw new SyntaxError("is_typeof(Type, suspect): suspect is undefined");
+		}
 
-			return (suspect.constructor == type) ? true : false;
-		}
-		catch(error) {
-			alert(error.message);
-		}
+		return (suspect.constructor == type) ? true : false;
 	};
 }
 

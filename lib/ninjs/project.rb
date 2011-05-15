@@ -107,11 +107,20 @@ module Ninjs
     end
     
     def get_updated_modules
-      # TODO actually check the files against a cache
       @modules = Array.new
-      Dir["#{@project_path}modules/*.js"].each do |file|
-        module_filename = file.gsub(@project_path + 'modules/', '')
-        @modules << module_filename unless module_filename.match(/^_/)
+      if @config.src_dir.is_a? Array
+        @config.src_dir.each do |directory| 
+          get_directory_modules "#{@project_path}#{directory}/"
+        end 
+      else
+        get_directory_modules "#{@project_path}#{@config.src_dir}/"
+      end
+    end
+    
+    def get_directory_modules(directory)
+      Dir["#{directory}*.js"].each do |file|
+        module_filename = file.gsub(directory, '')
+        @modules << "#{directory}#{module_filename}" unless module_filename.match(/^_/)
       end
     end
     
@@ -122,20 +131,27 @@ module Ninjs
       end
     end
     
+    def create_module_filename(module_name)
+      split = module_name.split(/[\.\-\s]/)
+      module_filename = String.new
+      split.each do |piece|
+        module_filename << piece unless piece.match(/^module$|^js$/i)
+      end
+      module_filename
+    end
+    
     def create_module_file(module_file, module_name)
       begin
-        module_src = "#{@project_path}modules/#{module_file}"
-
         ninjs_lib_secretary = Sprockets::Secretary.new(
           :root         => "#{Ninjs::BASE_DIR}",
           :asset_root   => @config.asset_root,
           :load_path    => ["repository"],
-          :source_files => ["#{module_src}"]
+          :source_files => ["#{module_file}"]
         )
 
         module_file = ninjs_lib_secretary.concatenation
-        message = File.exists?("#{@project_path}application/#{module_name}.js") ? "\e[32m>>>\e[0m application/#{module_name}.js updated" : "\e[32m>>>\e[0m application/#{module_name}.js created"
-        module_file.save_to "#{@project_path}application/#{module_name}.js"
+        message = File.exists?("#{@project_path}#{@config.dest_dir}/#{module_name}.js") ? "\e[32m>>>\e[0m #{@config.dest_dir}/#{module_name}.js updated" : "\e[32m>>>\e[0m #{@config.dest_dir}/#{module_name}.js created"
+        module_file.save_to "#{@project_path}#{@config.dest_dir}/#{module_name}.js"
         ninjs_lib_secretary.install_assets
 
       rescue Exception => error
@@ -145,7 +161,7 @@ module Ninjs
     end
     
     def update_application_file
-      application_file = "#{@project_path}application/#{@app_filename}.js"
+      application_file = "#{@project_path}#{@config.dest_dir}/#{@app_filename}.js"
       
       File.open(application_file, "w+") do |file|
         write_dependencies(file)
@@ -197,7 +213,7 @@ module Ninjs
     end
     
     def compress_application
-      application = @project_path + 'application'
+      application = @project_path + '#{@config.dest_dir}'
       modules = Dir.entries(application)
       modules.reject! { |file| file =~ /^\./ }
 

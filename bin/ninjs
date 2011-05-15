@@ -60,6 +60,9 @@ GEN
 
 compile = <<-COMP
   compile   Compiles the ninjs project in the current working directory.
+  
+            Options:
+            -c, --compress - Compress output with JsMin
           
             example:
             ninjs compile
@@ -97,19 +100,13 @@ options = {
   :alias => false,
   :elements => false,
   :model => false,
-  :help => false
+  :help => false,
+  :compress => nil
 }
 
 optparse = OptionParser.new do|opts|
   opts.on( '-h', '--help', 'Display this screen' ) do
     options[:help] = true
-
-    if command.nil? || command.match(/^-h/)
-      help.each do |section|
-        puts section
-      end
-      exit
-    end
   end
   
   opts.on( '-v', '--version', 'Display the version') do
@@ -120,8 +117,12 @@ optparse = OptionParser.new do|opts|
     exit
   end
   
-  opts.on( '-a', '--alias', 'Generate application alias') do
-    options[:alias] = true
+  opts.on( '-a', '--alias', 'Generate application alias') do |als|
+    options[:alias] = als || "app"
+  end
+  
+  opts.on( '-d', '--dest', 'Module destination directory') do |dest|
+    options[:dest] = dest
   end
   
   opts.on('-e', '--elements', 'Generate elements file') do
@@ -130,6 +131,10 @@ optparse = OptionParser.new do|opts|
   
   opts.on('-m', '--model', 'Generate model file') do
     options[:model] = true
+  end
+  
+  opts.on('-c', '--compress', 'Compress with JsMin') do
+    options[:compress] = true
   end
 end
 
@@ -160,7 +165,8 @@ case command
     errors = Hash.new
     type = ARGV[1]
     name = ARGV[2]
-    als = ARGV[3] || 'app'
+    als = options[:alias] || nil
+    dest = options[:dest] || nil
 
     errors[:type] = "Error! Scaffold type is required (ninjs generate module mymodule)" if type.nil?
     errors[:name] = "Error! Module name is required (ninjs generate module mymodule)" if name.nil?
@@ -177,18 +183,33 @@ case command
         :elements => options[:elements]
     }
 
-    if options[:alias]
-      Ninjs::Command.generate_with_alias(type, name, with, als)
-    else
-      Ninjs::Command.generate(type, name, with)
-    end
+    config = {
+      :type => type,
+      :name => name,
+      :alias => als,
+      :dest => dest,
+      :with => with
+    }
+    
+    Ninjs::Command.generate(config)
+    
+    #if options[:alias]
+    #  Ninjs::Command.generate_with_alias(type, name, with, als)
+    #else
+    #  Ninjs::Command.generate(type, name, with)
+    #end
 # compile
   when "compile"
     if options[:help]
       puts help[:compile]
       exit
     end
-    Ninjs::Command.compile
+    
+    unless options[:compress].nil?
+      Ninjs::Command.compile(options[:compress])
+    else
+      Ninjs::Command.compile()
+    end
 # watch
   when "watch"
     if options[:help]
@@ -203,9 +224,9 @@ case command
       exit
     end
     Ninjs::Command.update
-# help
   else
     help.each do |section|
-      puts section
+      puts section.last + "\n"
     end
+    exit
   end

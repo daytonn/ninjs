@@ -20,21 +20,17 @@ if (is_undefined(Function.prototype['method'])) {
       > "hello".custom_method();
    */
 	Function.prototype.method = function(name, func) {
-		try {
-			if (is_undefined(name)) {
-				throw new SyntaxError("Object.method(name, func): name is undefined");
-			}
-			if (is_undefined(func)) {
-				throw new SyntaxError("Object.method(name, func): func is undefined");
-			}
-
-			if (is_undefined(this.prototype[name])) {
-				this.prototype[name] = func;
-				return this;
-			}
+		if (is_undefined(name)) {
+			throw new SyntaxError("Object.method(name, func): name is undefined");
 		}
-		catch(error) {
-			alert(error.message);
+		
+		if (is_undefined(func)) {
+			throw new SyntaxError("Object.method(name, func): func is undefined");
+		}
+
+		if (is_undefined(this.prototype[name])) {
+			this.prototype[name] = func;
+			return this;
 		}
 	};
 }
@@ -62,25 +58,20 @@ if (is_undefined(unless)) {
       > );
    */
    var unless = function(expression, callback, fallback) {
-      try {
-         if (is_undefined(expression)) {
-            throw new SyntaxError("unless(expression, callback[, fallback]): expression is undefined");
-         }
-         
-         if (is_undefined(callback)) {
-            throw new SyntaxError("unless(expression, callback[, fallback]): callback is undefined");
-         }
-         
-         // This kind of expression is exactly why we NEED unless
-         if (!expression) {
-            callback.call(this);
-         }
-         else if (is_defined(fallback)) {
-            fallback.call(this);
-         }
-      }
-      catch(error) {
-         alert(error.message);
-      }
+		if (is_undefined(expression)) {
+			throw new SyntaxError("unless(expression, callback[, fallback]): expression is undefined");
+		}
+
+		if (is_undefined(callback)) {
+			throw new SyntaxError("unless(expression, callback[, fallback]): callback is undefined");
+		}
+
+		// This kind of expression is exactly why we NEED unless
+		if (!expression) {
+			callback.call(this);
+		}
+		else if (is_defined(fallback)) {
+			fallback.call(this);
+		}
    };
 }
