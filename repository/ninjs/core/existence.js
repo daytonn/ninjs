@@ -244,3 +244,34 @@ if (is_undefined(is_regex)) {
     return is_typeof(RegExp, suspect);
   };
 }
+
+
+if (is_undefined(is_empty)) {
+	/*
+		Function: is_empty
+			Determined if the suspect's length is less than one.
+			
+		Parameters:
+			suspect - suspect variable to test
+			
+		Returns: bool
+	*/
+	var is_empty = function(suspect) {
+		return suspect.length === 0;
+	};
+}
+
+if (is_undefined(is_not_empty)) {
+	/*
+		Function: is_not_empty
+			Determined if the suspect's length is greater than one.
+			
+		Parameters:
+			suspect - suspect variable to test
+			
+		Returns: bool
+	*/
+	var is_not_empty = function(suspect) {
+		return suspect.length >= 1;
+	};
+}
