@@ -8,11 +8,7 @@
       <NinjsModule>
 */
 
-var NinjsApplication = function(base_url, tests_path) {
-	if (is_undefined(window.app)) {
-		window.app = this;
-	}
-	
+var NinjsApplication = function(base_url, tests_path) {	
 	if(is_defined(tests_path)) {
 		this.tests_path = tests_path;
 	}

@@ -6,7 +6,7 @@ About
 
 ninjs is a new way of building JavaScript applications that allows you to write modular, testable, and reusable JavaScript. ninjs is not really a framework. It provides three essential JavaScript development tools in one coherent package.
 
-1. ninjs uses the "Sprockets" (http://getsprockets.org) JavaScript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly into your scripts.
+1. ninjs uses the "Sprockets" (http://getsprockets.org) JavaScript compiler to package and include scripts. This provides a way to manage all 3rd party and custom libraries and require them directly in your scripts.
 2. ninjs includes a small JavaScript framework, based on the module pattern (http://javascript.crockford.com/private.html) and "JavaScript: The Good Parts" (http://www.amazon.com/gp/product/B0026OR2ZY/ref=s9_bbs_gw_d6_ir01?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0HQ3A0RDW9269GPJRGW8&pf_rd_t=101&pf_rd_p=470938631&pf_rd_i=507846), which provides a solid foundation for any JavaScript application.
 3. The "ninjs" command line application eases the pain of repetitive tasks like compiling, scaffolding, and updating your application.
 
