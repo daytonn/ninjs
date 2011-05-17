@@ -1,24 +1,19 @@
 Array.method('is_empty', function() {
-	return (this.length < 1) ? true : false;
+	return is_empty(this);
 });
 
 Array.method('not_empty', function() {
-	return (this.length > 0) ? true : false;
+	return is_not_empty(this);
 });
 
 Array.method('each', function(callback) {
-	try {
-		if(is_undefined(callback)) {
-			throw new SyntaxError("Array.each(callback): callback is undefined");
-		}
-
-		for (var i = 0; i < this.length; i++) {
-			var args = [this[i], i];
-			callback.apply(this, args);
-		}
+	if(is_undefined(callback)) {
+		throw new SyntaxError("Array.each(callback): callback is undefined");
 	}
-	catch(error) {
-		alert(error.message);
+
+	for (var i = 0; i < this.length; i++) {
+		var args = [this[i], i];
+		callback.apply(this, args);
 	}
 });
 

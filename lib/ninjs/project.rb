@@ -22,7 +22,7 @@ module Ninjs
     end
     
     def create
-      Ninjs::Notification.notice "Creating the #{@config.name} project in #{@project_path}" 
+      puts Ninjs::Notification.notice "Creating the #{@config.name} project in #{@project_path}" 
       create_project_structure
       @config.create
       create_ninjs_lib_file
@@ -34,7 +34,7 @@ module Ninjs
     def create_project_structure
       Dir.mkdir "#{@project_path}" unless File.exists? "#{@project_path}"
       Ninjs::Manifest.directories.each do |folder|
-        Ninjs::Notification.added "#{folder}/ created" unless File.exists? "#{@project_path}#{folder}"
+        puts Ninjs::Notification.added "#{folder}/ created" unless File.exists? "#{@project_path}#{folder}"
         Dir.mkdir "#{@project_path}#{folder}" unless File.exists? "#{@project_path}#{folder}"
       end
     end
@@ -49,7 +49,7 @@ module Ninjs
 
       ninjs_lib_secretary.concatenation.save_to "#{@project_path}lib/nin.js"
 
-      Ninjs::Notification.added "lib/nin.js #{operation}"
+      puts Ninjs::Notification.added "lib/nin.js #{operation}"
     end
     
     def create_utility_lib_file
@@ -61,7 +61,7 @@ module Ninjs
       
       utility_lib_secretary.concatenation.save_to "#{@project_path}lib/utilities.js"
       
-      Ninjs::Notification.added "lib/utilities.js created"
+      puts Ninjs::Notification.added "lib/utilities.js created"
     end
     
     def create_ninjs_application_file
@@ -87,7 +87,7 @@ module Ninjs
       compile_modules
       update_application_file
       compress_application if @config.output == 'compressed'
-      Ninjs::Notification.log "application updated" unless @errors
+      puts Ninjs::Notification.log "application updated" unless @errors
       @errors = false
     end
     
@@ -156,7 +156,7 @@ module Ninjs
 
       rescue Exception => error
         @errors = true
-        Ninjs::Notification.error "Sprockets error: #{error.message}"
+        puts Ninjs::Notification.error "Sprockets error: #{error.message}"
       end
     end
     
@@ -208,7 +208,7 @@ module Ninjs
         application_file.save_to "#{file}"
       rescue Exception => error
         @errors = true
-        Ninjs::Notification.error "Sprockets error: #{error.message}"
+        puts Ninjs::Notification.error "Sprockets error: #{error.message}"
       end
     end
     

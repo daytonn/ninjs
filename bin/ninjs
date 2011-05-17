@@ -111,9 +111,9 @@ optparse = OptionParser.new do|opts|
   
   opts.on( '-v', '--version', 'Display the version') do
     time = Time.now
-    Ninjs::Notification.notice 'ninjs ' + Ninjs::VERSION
-    Ninjs::Notification.notice "Copyright (c) #{time.year} Dayton Nolan"
-    Ninjs::Notification.notice "Released under the MIT License"
+    puts Ninjs::Notification.notice 'ninjs ' + Ninjs::VERSION
+    puts Ninjs::Notification.notice "Copyright (c) #{time.year} Dayton Nolan"
+    puts Ninjs::Notification.notice "Released under the MIT License"
     exit
   end
   
