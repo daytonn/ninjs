@@ -10,7 +10,7 @@ module Ninjs
     }
     
     def self.notify(message, style)
-      puts @@indicators[style] + message
+      @@indicators[style] + message
     end
     
     def self.notice(message)

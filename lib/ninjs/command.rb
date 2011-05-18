@@ -66,38 +66,9 @@ module Ninjs
       begin
         conf_path = "#{Dir.getwd}/ninjs.conf"
         raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
-        generator = Ninjs::Generator.new(Ninjs::Project.new, name)
-        self.generate_object generator, config
+        generator = Ninjs::Generator.new(config)
+        generator.generate
       end
-    end
-    
-    def generate_with_alias(object, name, with, als = 'app')
-      begin
-        conf_path = "#{Dir.getwd}/ninjs.conf"
-        raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
-        generator = Ninjs::Generator.new(Ninjs::Project.new, name)
-        generator.alias = true
-        generator.app_name = als
-        self.generate_object generator, config
-      end
-    end
-    
-    def generate_object(generator, config)
-      case config[:type]
-        when 'module'
-          if config[:alias]
-            generator.alias = true
-            generator.app_name = config[:alias]
-          end
-          
-          generator.generate_module_file(config[:with])
-          generator.generate_elements_file if config[:with][:elements]
-          generator.generate_model_file if config[:with][:model]
-        when 'elements'
-          generator.generate_elements_file
-        when 'model'
-          generator.generate_model_file
-        end
     end
 
     def update
@@ -114,8 +85,6 @@ module Ninjs
                     :compile,
                     :import,
                     :generate,
-                    :generate_object,
-                    :generate_with_alias,
                     :update
   end
 end

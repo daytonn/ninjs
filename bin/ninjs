@@ -12,16 +12,7 @@ rescue LoadError
 end
 
 header = <<-HEADER
-ninjs #{Ninjs::VERSION}
-Copyright (c) #{Time.new.year} Dayton Nolan
-Released under the MIT License
 
-Description: 
-The ninjs command line application is a simple way to quickly develop and manage your application. With it you can create an application, generate scaffolding, compile, and upgrade your application.
-
-Usage: ninjs [command] [arguments] [options (-h, --help)]
-
-Commands:
 HEADER
 
 create = <<-CREATE
@@ -117,11 +108,11 @@ optparse = OptionParser.new do|opts|
     exit
   end
   
-  opts.on( '-a', '--alias', 'Generate application alias') do |als|
+  opts.on( '-a', '--alias [alias]', 'Generate application alias') do |als|
     options[:alias] = als || "app"
   end
   
-  opts.on( '-d', '--dest', 'Module destination directory') do |dest|
+  opts.on( '-d', '--dest [dest]', 'Module destination directory') do |dest|
     options[:dest] = dest
   end
   
@@ -162,6 +153,7 @@ case command
       puts help[:generate]
       exit
     end
+    
     errors = Hash.new
     type = ARGV[1]
     name = ARGV[2]
@@ -178,7 +170,7 @@ case command
       exit
     end
     
-    with = {
+    dependencies = {
         :model => options[:model],
         :elements => options[:elements]
     }
@@ -188,16 +180,10 @@ case command
       :name => name,
       :alias => als,
       :dest => dest,
-      :with => with
+      :dependencies => dependencies
     }
     
     Ninjs::Command.generate(config)
-    
-    #if options[:alias]
-    #  Ninjs::Command.generate_with_alias(type, name, with, als)
-    #else
-    #  Ninjs::Command.generate(type, name, with)
-    #end
 # compile
   when "compile"
     if options[:help]
