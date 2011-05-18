@@ -6,7 +6,7 @@ module Ninjs
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
       
-      Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."
+      puts Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."
       project = Ninjs::Project.new
       project.update
 	    
@@ -28,12 +28,12 @@ module Ninjs
            glob g
 
            update do |base, relative|
-             Ninjs::Notification.event "change detected in #{relative}"
+             puts Ninjs::Notification.event "change detected in #{relative}"
              project.update
            end
 
            create do |base, relative|
-             Ninjs::Notification.event "#{relative} created"
+             puts Ninjs::Notification.event "#{relative} created"
              project.update
            end
          end

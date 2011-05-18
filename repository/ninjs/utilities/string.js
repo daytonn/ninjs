@@ -24,18 +24,13 @@ String.method('rtrim', function() {
 });
 
 String.method('each', function(callback) {
-	try {
-		if(is_undefined(callback)) {
-			throw new SyntaxError("String.each(callback): callback is undefined");
-		}
-
-		for (var i = 0; i < this.length; i++) {
-			var args = [this.charAt(i), i];
-			callback.apply(this, args);
-		}
+	if(is_undefined(callback)) {
+		throw new SyntaxError("String.each(callback): callback is undefined");
 	}
-	catch(error) {
-		alert(error.message);
+
+	for (var i = 0; i < this.length; i++) {
+		var args = [this.charAt(i), i];
+		callback.apply(this, args);
 	}
 });
 
