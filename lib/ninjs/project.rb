@@ -13,6 +13,7 @@ module Ninjs
       @modules = Array.new
       @config = Ninjs::Configuration.new @project_path, name
       @app_filename = @config.name.downcase
+      
     end
     
     def add_slashes(dir)
@@ -213,7 +214,7 @@ module Ninjs
     end
     
     def compress_application
-      application = @project_path + '#{@config.dest_dir}'
+      application = @project_path + "#{@config.dest_dir}"
       modules = Dir.entries(application)
       modules.reject! { |file| file =~ /^\./ }
 
