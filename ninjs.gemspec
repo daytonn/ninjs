@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.13.4"
+  s.version = "0.13.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
-  s.date = %q{2011-05-06}
+  s.date = %q{2011-05-17}
   s.default_executable = %q{ninjs}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
@@ -186,7 +186,7 @@ Gem::Specification.new do |s|
     "repository/ninjs/docs/search/VariablesR.html",
     "repository/ninjs/docs/search/VariablesT.html",
     "repository/ninjs/docs/styles/main.css",
-    "repository/ninjs/extensions/ninjs.jquery.js",
+    "repository/ninjs/extensions/jquery.elements.js",
     "repository/ninjs/tests/index.html",
     "repository/ninjs/tests/ninjs.test.js",
     "repository/ninjs/tests/ninjs.utilities.test.js",
@@ -203,6 +203,7 @@ Gem::Specification.new do |s|
     "repository/qunit/qunit.js",
     "repository/selectivizr/1.0.js",
     "repository/selectivizr/latest.js",
+    "repository/syntaxhighlighter/all.js",
     "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCore.css",
     "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreDefault.css",
     "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreDjango.css",
@@ -238,7 +239,6 @@ Gem::Specification.new do |s|
     "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeMidnight.scss",
     "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeRDark.scss",
     "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_theme_template.scss",
-    "repository/syntaxhighlighter/default.js",
     "repository/syntaxhighlighter/shAutoloader.js",
     "repository/syntaxhighlighter/shBrushAS3.js",
     "repository/syntaxhighlighter/shBrushAppleScript.js",
@@ -278,7 +278,11 @@ Gem::Specification.new do |s|
     "spec/fixtures/test.module.js",
     "spec/fixtures/updated.myapplication.js",
     "spec/fixtures/utilities.js",
+    "spec/helpers_spec.rb",
+    "spec/integration_spec.rb",
+    "spec/manifest_spec.rb",
     "spec/ninjs_spec.rb",
+    "spec/notification_spec.rb",
     "spec/spec_helper.rb",
     "tmp/ff9e83aa019b712b90200b8d1b8fa0c7e14576af.json",
     "tmp/metric_fu/_data/20110305.yml",
@@ -295,14 +299,19 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
   s.test_files = [
+    "spec/helpers_spec.rb",
+    "spec/integration_spec.rb",
+    "spec/manifest_spec.rb",
     "spec/ninjs_spec.rb",
+    "spec/notification_spec.rb",
     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
