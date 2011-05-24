@@ -322,7 +322,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
-      s.add_runtime_dependency(%q<rubikon>, [">= 0"])
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
       s.add_runtime_dependency(%q<sprockets>, [">= 0"])
@@ -336,10 +335,8 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
-      s.add_dependency(%q<rubikon>, [">= 0"])
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
-      s.add_dependency(%q<sprockets>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
@@ -351,10 +348,8 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
-    s.add_dependency(%q<rubikon>, [">= 0"])
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
-    s.add_dependency(%q<sprockets>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
   end
 end
