@@ -14,7 +14,8 @@ Gem::Specification.new do |s|
   s.email = %q{daytonn@gmail.com}
   s.files = [
     "Rakefile",
-    "VERSION"
+    "VERSION",
+    "ninjs.gemspec"
   ]
   s.homepage = %q{http://github.com/textnotspeech/ninjs}
   s.licenses = ["MIT"]
