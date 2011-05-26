@@ -1,3 +1,4 @@
 *.gem
 tmp/*
 metric_fu
+*.gemspec
