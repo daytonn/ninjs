@@ -46,7 +46,7 @@ module Ninjs
 
     def create(name, directory = false)
       raise 'you must specify a project name: ninjs create ProjectName' if name.nil?
-      project = directory ? Ninjs::Project.new(directory, name) : Ninjs::Project.new('/', name)
+      project = directory ? Ninjs::Project.new(name, directory) : Ninjs::Project.new(name, '/')
       project.create
     end
     

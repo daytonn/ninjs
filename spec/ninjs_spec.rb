@@ -6,7 +6,7 @@ describe Ninjs do
   end
   
   it 'should have the correct BASE_DIR' do
-    Ninjs::BASE_DIR.should === '/Users/dnolan/Development/ninjs'
+    Ninjs::BASE_DIR.should === '/Volumes/Storage/Development/ninjs'
   end
   
   it 'should have a LIB_DIR constant' do
@@ -14,7 +14,7 @@ describe Ninjs do
   end
   
   it 'should have the correct LIB_DIR' do
-    Ninjs::LIB_DIR.should === '/Users/dnolan/Development/ninjs/lib'
+    Ninjs::LIB_DIR.should === '/Volumes/Storage/Development/ninjs/lib'
   end
   
   it 'should have a ROOT_DIR constant' do
@@ -22,7 +22,7 @@ describe Ninjs do
   end
   
   it 'should have the correct ROOT_DIR' do
-    Ninjs::ROOT_DIR.should === '/Users/dnolan/Development/ninjs/spec'
+    Ninjs::ROOT_DIR.should === '/Volumes/Storage/Development/ninjs'
   end
   
   it 'should have a VERSION constant' do

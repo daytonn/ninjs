@@ -10,8 +10,8 @@ module Ninjs
                   
       attr_accessor :output
                   
-      def initialize(project_path, name = '')
-        @project_path = project_path
+      def initialize(project, name = '')
+        @project_path = project.path
         
         @defaults = {
           :name => name,

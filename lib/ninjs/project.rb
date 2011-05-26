@@ -1,17 +1,17 @@
 module Ninjs
   class Project    
-    attr_reader :app_filename,
-                :project_path,
-                :config
-    attr_writer :config,
-                :project_path,
-                :app_filename
+    attr_reader :name
     
-    def initialize(sub_dir = '/', name = '')
+    attr_accessor :config,
+                  :path,
+                  :app_filename
+    
+    def initialize(name, sub_dir = '/')
       path = add_slashes sub_dir
-      @project_path = Dir.getwd + path
+      @name = name
+      @path = Dir.getwd + path
       @modules = Array.new
-      @config = Ninjs::Configuration.new @project_path, name
+      @config = Ninjs::Configuration.new self
       @app_filename = @config.name.downcase
     end
     
@@ -22,7 +22,7 @@ module Ninjs
     end
     
     def create
-      puts Ninjs::Notification.notice "Creating the #{@config.name} project in #{@project_path}" 
+      puts Ninjs::Notification.notice "Creating the #{@config.name} project in #{@path}" 
       create_project_structure
       @config.create
       create_ninjs_lib_file
@@ -32,22 +32,22 @@ module Ninjs
     end
     
     def create_project_structure
-      Dir.mkdir "#{@project_path}" unless File.exists? "#{@project_path}"
+      Dir.mkdir "#{@path}" unless File.exists? "#{@path}"
       Ninjs::Manifest.directories.each do |folder|
-        puts Ninjs::Notification.added "#{folder}/ created" unless File.exists? "#{@project_path}#{folder}"
-        Dir.mkdir "#{@project_path}#{folder}" unless File.exists? "#{@project_path}#{folder}"
+        puts Ninjs::Notification.added "#{folder}/ created" unless File.exists? "#{@path}#{folder}"
+        Dir.mkdir "#{@path}#{folder}" unless File.exists? "#{@path}#{folder}"
       end
     end
     
     def create_ninjs_lib_file
-      operation = File.exists?("#{@project_path}lib/nin.js") ? 'updated' : 'created'
+      operation = File.exists?("#{@path}lib/nin.js") ? 'updated' : 'created'
       ninjs_lib_secretary = Sprockets::Secretary.new(
         :root         => "#{Ninjs::BASE_DIR}",
         :load_path    => ["repository"],
         :source_files => ["repository/ninjs/core/nin.js"]
       )
 
-      ninjs_lib_secretary.concatenation.save_to "#{@project_path}lib/nin.js"
+      ninjs_lib_secretary.concatenation.save_to "#{@path}lib/nin.js"
 
       puts Ninjs::Notification.added "lib/nin.js #{operation}"
     end
@@ -59,27 +59,27 @@ module Ninjs
         :source_files => ["repository/ninjs/utilities/all.js"]
       )
       
-      utility_lib_secretary.concatenation.save_to "#{@project_path}lib/utilities.js"
+      utility_lib_secretary.concatenation.save_to "#{@path}lib/utilities.js"
       
       puts Ninjs::Notification.added "lib/utilities.js created"
     end
     
     def create_ninjs_application_file
-      filename = "#{@project_path}application/#{@app_filename}.js"
+      filename = "#{@path}application/#{@app_filename}.js"
       
       File.open(filename, "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
-        file << File.open("#{@project_path}lib/nin.js", 'r').readlines.join('')
+        file << File.open("#{@path}lib/nin.js", 'r').readlines.join('')
         file << "\nvar #{@config.name} = new NinjsApplication();"
       end
     end
     
     def import_test_files
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/index.html", "#{@project_path}tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.test.js", "#{@project_path}tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@project_path}tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.js", "#{@project_path}tests/qunit"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.css", "#{@project_path}tests/qunit"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/index.html", "#{@path}tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.test.js", "#{@path}tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@path}tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.js", "#{@path}tests/qunit"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.css", "#{@path}tests/qunit"
     end
     
     def update
@@ -93,7 +93,7 @@ module Ninjs
     
     def get_directory_script_files
       script_files = Array.new
-      Dir["#{@project_path}**/*.js"].each do |file|
+      Dir["#{@path}**/*.js"].each do |file|
         script_files << file unless file.match(/application\/|tests\//)
       end
     end
@@ -110,10 +110,10 @@ module Ninjs
       @modules = Array.new
       if @config.src_dir.is_a? Array
         @config.src_dir.each do |directory| 
-          get_directory_modules "#{@project_path}#{directory}/"
+          get_directory_modules "#{@path}#{directory}/"
         end 
       else
-        get_directory_modules "#{@project_path}#{@config.src_dir}/"
+        get_directory_modules "#{@path}#{@config.src_dir}/"
       end
     end
     
@@ -150,8 +150,8 @@ module Ninjs
         )
 
         module_file = ninjs_lib_secretary.concatenation
-        message = File.exists?("#{@project_path}#{@config.dest_dir}/#{module_name}.js") ? "\e[32m>>>\e[0m #{@config.dest_dir}/#{module_name}.js updated" : "\e[32m>>>\e[0m #{@config.dest_dir}/#{module_name}.js created"
-        module_file.save_to "#{@project_path}#{@config.dest_dir}/#{module_name}.js"
+        message = File.exists?("#{@path}#{@config.dest_dir}/#{module_name}.js") ? "\e[32m>>>\e[0m #{@config.dest_dir}/#{module_name}.js updated" : "\e[32m>>>\e[0m #{@config.dest_dir}/#{module_name}.js created"
+        module_file.save_to "#{@path}#{@config.dest_dir}/#{module_name}.js"
         ninjs_lib_secretary.install_assets
 
       rescue Exception => error
@@ -161,7 +161,7 @@ module Ninjs
     end
     
     def update_application_file
-      application_file = "#{@project_path}#{@config.dest_dir}/#{@app_filename}.js"
+      application_file = "#{@path}#{@config.dest_dir}/#{@app_filename}.js"
       
       File.open(application_file, "w+") do |file|
         write_dependencies(file)
@@ -213,7 +213,7 @@ module Ninjs
     end
     
     def compress_application
-      application = @project_path + '#{@config.dest_dir}'
+      application = @path + '#{@config.dest_dir}'
       modules = Dir.entries(application)
       modules.reject! { |file| file =~ /^\./ }
 

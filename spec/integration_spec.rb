@@ -1,3 +1,4 @@
+=begin
 require "spec_helper"
 
 describe Ninjs do
@@ -5,7 +6,7 @@ describe Ninjs do
     before :each do
       @spec_dir = File.expand_path(File.join(File.dirname(__FILE__))) + '/'
       @project_path = @spec_dir + 'js/'
-      @new_project = Ninjs::Project.new 'spec/js', 'MyApplication'
+      @new_project = Ninjs::Project.new 'MyApplication', 'spec/js'
     end
 
     it 'should have the correct app_filename' do
@@ -13,7 +14,7 @@ describe Ninjs do
     end
 
     it 'should have the correct project_path' do
-      @new_project.project_path.should === @project_path
+      @new_project.path.should === @project_path
     end
 
     it 'should have a @config property' do
@@ -143,7 +144,7 @@ describe Ninjs do
       
       before :each do
         @path = Dir.getwd
-        @project = Ninjs::Project.new 'spec/js/'
+        @project = Ninjs::Project.new 'MyApplication', 'spec/js/'
         
         FileUtils.cp("#{@path}/spec/fixtures/global.module.js", "#{@path}/spec/js/modules") unless File.exists?("#{@path}/spec/js/modules/global.module.js")
         FileUtils.cp("#{@path}/spec/fixtures/test.module.js", "#{@path}/spec/js/modules") unless File.exists?("#{@path}/spec/js/modules/test.module.js")
@@ -191,7 +192,7 @@ describe Ninjs do
     before :each do
       @spec_dir = File.expand_path(File.join(File.dirname(__FILE__))) + '/'
       @project_path = @spec_dir + 'js/'
-      @existing_project = Ninjs::Project.new 'spec/js'
+      @existing_project = Ninjs::Project.new 'MyApplication', 'spec/js'
     end
     
     it 'should have the correct app_filename' do
@@ -199,7 +200,7 @@ describe Ninjs do
     end
     
     it 'should have the correct project_path' do
-      @existing_project.project_path.should === @project_path
+      @existing_project.path.should === @project_path
     end
     
     it 'should have the correct @config.name' do
@@ -255,3 +256,4 @@ describe Ninjs do
   end
 
 end
+=end

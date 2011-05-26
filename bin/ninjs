@@ -11,10 +11,6 @@ rescue LoadError
   require 'optparse'
 end
 
-header = <<-HEADER
-
-HEADER
-
 create = <<-CREATE
   create    Creates a new ninjs application in the current working 
             directory or sub directory within.
@@ -76,7 +72,6 @@ footer = <<-FOOTER
 FOOTER
 
 help = {
-  :header => header,
   :create => create,
   :generate => generate,
   :compile => compile,
