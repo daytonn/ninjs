@@ -1,4 +1,4 @@
 *.gem
 tmp/*
 metric_fu
-*.gemspec
+ninjs.gemspec
