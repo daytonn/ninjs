@@ -117,7 +117,7 @@ module Ninjs
     
     def compile_modules
       @modules.each do |module_file|
-        module_filename = Ninjs::Helpers.create_module_filename module_file
+        module_filename = Ninjs::Helpers.get_filename module_file
         compile_module module_file, module_filename
       end
     end

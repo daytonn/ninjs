@@ -1,9 +1,9 @@
 module Ninjs
   module Helpers
     
-    def create_module_filename(module_name)
-      module_name = module_name.split(/[\\\/]/).last
-      split = module_name.split(/[\.\-\s]/)
+    def get_filename(module_path)
+      module_path = module_path.split(/[\\\/]/).last
+      split = module_path.split(/[\.\-\s]/)
       module_filename = String.new
       split.each do |piece|
         module_filename << piece unless piece.match(/^module$|^js$/i)
@@ -11,7 +11,7 @@ module Ninjs
       module_filename
     end
     
-    module_function :create_module_filename
+    module_function :get_filename
     
   end
 end
