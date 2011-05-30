@@ -21,12 +21,8 @@ describe Ninjs::Project do
     end
     
     it 'should raise an error if initialized without a name' do
-      File.delete 'ninjs.conf'
+      File.delete 'ninjs.conf' if File.exists? 'ninjs.conf'
       lambda{ project = Ninjs::Project.new }.should raise_error(ArgumentError)
-    end
-    
-    it 'should create a config file' do
-      'ninjs.conf'.should be_same_file_as 'fixtures/ninjs.conf'
     end
     
     it 'should have a root variable' do
@@ -157,6 +153,10 @@ describe Ninjs::Project do
       FileUtils.rm_rf 'ninjs.conf'
     end
     
+    it 'should create a config file' do
+      'ninjs.conf'.should be_same_file_as 'fixtures/ninjs.conf'
+    end
+    
     it 'should get modules' do
       @project.get_modules
       @project.modules.should == [
@@ -171,15 +171,17 @@ describe Ninjs::Project do
       'application/hello.js'.should be_same_file_as 'fixtures/hello.js'
     end
     
-    it 'should get visible modules in a directory' do
-      @project.get_visible_modules_in_directory(File.expand_path('modules')).should == [
+    it 'should add modules from a directory' do
+      @project.add_scripts_to_models(File.expand_path('modules'))
+      
+      @project.modules.should == [
         '/Volumes/Storage/Development/ninjs/spec/modules/foo.module.js',
         '/Volumes/Storage/Development/ninjs/spec/modules/hello.module.js'
       ]
     end
     
     it 'should compile the modules' do
-      @project.get_visible_modules_in_directory(File.expand_path('modules'))
+      @project.add_scripts_to_models(File.expand_path('modules'))
       @project.compile_modules
 
       'application/hello.js'.should be_same_file_as 'fixtures/hello.js'
