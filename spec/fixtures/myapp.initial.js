@@ -4,7 +4,7 @@
 if (is_defined === undefined) {
    /*
       Function: is_defined
-         Checks if a variable is undefined.
+         Checks if a variable is undefined. This is a convenience method to enhance clarity in your conditions.
 
       Parameters:
          suspect - suspect variable to test
@@ -17,14 +17,14 @@ if (is_defined === undefined) {
          <is_undefined>
    */
 	var is_defined = function(suspect) {
-		return (suspect === undefined) ? false : true;
+		return ((suspect === undefined) || (suspect === null)) ? false : true;
 	};
 }
 
 if (!is_defined(is_undefined)) {
    /*
       Function: is_undefined
-         Checks if a variable is defined.
+         Checks if a variable is defined. This is a convenience method to enhance clarity in your conditions.
 
       Parameters:
          suspect - suspect variable to test
@@ -44,11 +44,11 @@ if (!is_defined(is_undefined)) {
 if (is_undefined(is_typeof)) {
    /*
       Function: is_typeof
-         Determine an object's type strictly by comparing constructors.
-
+         Strict type checking by comparing constructors.
+         (Pro Javascript Techniques, John Resig, Apress p.24 Listing 2-8: Example of using the constructor property to determine the type of an object http://amzn.to/fTsDRg)
       Parameters:
-         type - The type you expect (ie. String, Number, Array without quotes: is_typeof(String, 'hello'): // true)
-         suspect - The variable to check against type
+         type - The type you expect (ie. String, Number, Array (note: without quotes): is_typeof(String, 'hello'): // true)
+         suspect - The suspect variable to check against type
 
       Returns:
          bool
@@ -63,19 +63,14 @@ if (is_undefined(is_typeof)) {
          <is_regex>
    */
 	var is_typeof = function(type, suspect) {
-		try {
-			if (is_undefined(type)) {
-				throw new SyntaxError("is_typeof(Type, suspect): type is undefined");
-			}
-			if (is_undefined(suspect)) {
-				throw new SyntaxError("is_typeof(Type, suspect): suspect is undefined");
-			}
+		if (is_undefined(type)) {
+			throw new SyntaxError("is_typeof(Type, suspect): type is undefined");
+		}
+		if (is_undefined(suspect)) {
+			throw new SyntaxError("is_typeof(Type, suspect): suspect is undefined");
+		}
 
-			return (suspect.constructor == type) ? true : false;
-		}
-		catch(error) {
-			alert(error.message);
-		}
+		return (suspect.constructor == type) ? true : false;
 	};
 }
 
@@ -83,7 +78,7 @@ if (is_undefined(is_numeric)) {
    /*
       Function: is_numeric
          Determine if the suspect string represents a numeric value.
-
+         (JavaScript: The Good Parts, Douglas Crockford, O'Reilly p.69 Chapter 7: Regular Expressions An Example)
       Parameters:
          suspect - variable to check for numeric value
 
@@ -252,17 +247,48 @@ if (is_undefined(is_regex)) {
   };
 }
 
+
+if (is_undefined(is_empty)) {
+	/*
+		Function: is_empty
+			Determined if the suspect's length is less than one.
+
+		Parameters:
+			suspect - suspect variable to test
+
+		Returns: bool
+	*/
+	var is_empty = function(suspect) {
+		return suspect.length === 0;
+	};
+}
+
+if (is_undefined(is_not_empty)) {
+	/*
+		Function: is_not_empty
+			Determined if the suspect's length is greater than one.
+
+		Parameters:
+			suspect - suspect variable to test
+
+		Returns: bool
+	*/
+	var is_not_empty = function(suspect) {
+		return suspect.length >= 1;
+	};
+}
+
 if (is_undefined(Function.prototype['method'])) {
    /*
       Function: method
-         Method to add a method to an object (ie. String.method('my_method', my_func); //-> 'hello'.my_func())
+         Method to add a method to an object (ie. String.method('my_method', my_func); // 'hello'.my_method())
 
       Parameters:
          name - name of the method
          func - function definition
 
       Returns:
-         this === Function
+         this (chainable)
 
       > String.method('custom_method', function() {
       >    // define custom_method
@@ -271,91 +297,74 @@ if (is_undefined(Function.prototype['method'])) {
       > "hello".custom_method();
    */
 	Function.prototype.method = function(name, func) {
-		try {
-			if (is_undefined(name)) {
-				throw new SyntaxError("Object.method(name, func): name is undefined");
-			}
-			if (is_undefined(func)) {
-				throw new SyntaxError("Object.method(name, func): func is undefined");
-			}
-
-			if (is_undefined(this.prototype[name])) {
-				this.prototype[name] = func;
-				return this;
-			}
+		if (is_undefined(name)) {
+			throw new SyntaxError("Object.method(name, func): name is undefined");
 		}
-		catch(error) {
-			alert(error.message);
+
+		if (is_undefined(func)) {
+			throw new SyntaxError("Object.method(name, func): func is undefined");
+		}
+
+		if (is_undefined(this.prototype[name])) {
+			this.prototype[name] = func;
+			return this;
 		}
 	};
 }
-/*
-   File: module.js
 
-   Class: NinjsModule
-      A NinjsModule is an object which encapsulates a certain behavior or functionality.
-
-   Parameters:
-      name - the name of the module
-
-   See Also:
-      <NinjsApplication>
-*/
-var NinjsModule = function(name) {
+if (is_undefined(unless)) {
    /*
-      Variable: data
-         The module's data object
+      Function: unless
+         Function to better express negative conditions (ie. if (!something))
+
+      Parameters:
+         expression - expression to be tested
+         callback - function to be executed unless expression is true (see how that works)
+         fallback - function to be executed if the expression is false (optional)
+
+      Returns:
+         undefined
+
+      > unless(test_expression === 'some condition',
+      >   function() {
+      >         alert('we do something');
+      >    },
+      >    function() {
+      >        alert('we can do something if it meets the condition too');
+      >    }
+      > );
    */
+   var unless = function(expression, callback, fallback) {
+		if (is_undefined(expression)) {
+			throw new SyntaxError("unless(expression, callback[, fallback]): expression is undefined");
+		}
+
+		if (is_undefined(callback)) {
+			throw new SyntaxError("unless(expression, callback[, fallback]): callback is undefined");
+		}
+
+		if (!expression) {
+			callback.call(this);
+		}
+		else if (is_defined(fallback)) {
+			fallback.call(this);
+		}
+   };
+}
+var NinjsModule = function(name) {
+	this.dom = {};
 	this.data = {};
-	/*
-      Variable: name
-         The module's name (string)
-   */
 	this.name = name;
-	/*
-      Variable: run_tests (beta)
-         Boolean to turn tests on/off
-   */
 	this.run_tests = false;
-	/*
-      Variable: tests (beta)
-         Array of test files to run
-   */
 	this.tests = [];
 };
 
-/*
-   Method: actions
-      The actions method contains code to be executed when run is called. This method is a placeholder to be overwritten.
-
-   > MyModule.actions = function() {
-   >  // define actions here
-   >};
-*/
 NinjsModule.method('actions', function() {});
 
-
-/*
-   Method: run
-      Waits for the DOM to load then calls execute.
-
-   > MyModule.run();
-*/
 NinjsModule.method('run', function() {
 	this.call_on_ready(this.execute);
 });
 
-/*
-   Method: call_on_ready
-      Waits for the DOM to be ready and then executes a callback.
-
-   Parameters:
-      callback - function to be called when the DOM is ready
-
-   > MyModule.call_on_ready(function() {
-   >    // some code to execute when the DOM is ready
-   > });
-*/
 NinjsModule.method('call_on_ready', function(callback) {
 	var timer;
 	var module = this;
@@ -375,111 +384,65 @@ NinjsModule.method('call_on_ready', function(callback) {
 	check_ready();
 });
 
-/*
-   Method: execute
-      Wrapper method that set's up the environment and then calls actions.
-
-   > MyModule.execute();
-*/
 NinjsModule.method('execute', function() {
-	this.old__ = is_defined(window.__) ? window.__ : undefined;
-	window.__ = this;
-
 	if (this.run_tests) {
 		this._run_tests();
 	}
+
 	this.actions();
-
-	if(is_defined(this.old__)) {
-		window.__ = this.old__;
-	}
 });
 
-/*
-   Method: elements
-      Method to define module elements.
-
-   Parameters:
-      callback - function to define a module's elements
-
-   > MyModule.elements(function() {
-   >    // element definitions go here
-   > });
-*/
-NinjsModule.method('elements', function(callback) {
-	this.old__ = is_defined(window.__) ? window.__ : undefined;
-	window.__ = this;
-
-	this.call_on_ready(callback);
-
-	if(is_defined(this.old__)) {
-		window.__ = this.old__;
+NinjsModule.method('elements', function(elements) {
+	if (is_undefined(elements)) {
+	   if (is_typeof(Object, elements)) {
+	      throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
+	   }
+	   else if (is_string(elements)) {
+	      throw new SyntaxError("NinjsModule.elements(name): name is undefined");
+	   }
 	}
-});
 
-
-/*
-   Method: set_data
-      Adds properties to the module's data object.
-
-   Parameters:
-      key - string or object (if string = key, if object sets multiple properties)
-      value - value of key if key is string
-
-   > MyModule.set_data('some_key', 'some_value');
-   > MyModule.data.some_key === 'some_value'
-
-   > MyModule.set_data({
-   >    'property_one': 'value_one',
-   >    'property_two': 'value_two'
-   > });
-   > MyModule.data.property_one === 'value_one'
-   > MyModule.data.property_two === 'value_two'
-*/
-NinjsModule.method('set_data', function(key, value) {
-	try {
-		if (is_undefined(key)) {
-			throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
-		}
-
-		if (is_typeof(String, key) && is_undefined(value)) {
-			throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
-		}
-
-		if (is_typeof(String, key)) {
-			this.data[key] = value;
-		}
-		else if (is_typeof(Object, key)) {
-			var data = key;
-			for(var property in data) {
-				this.data[property] = data[property];
+	if (is_string(elements)) {
+		var name = elements;
+		return is_defined(this.dom[name]) ? this.dom[name] : undefined;
+	}
+	else {
+		this.call_on_ready(function() {
+			for(var key in elements) {
+				if (elements.hasOwnProperty(key)) {
+					this.dom[key] = elements[key];
+				}
 			}
-		}
-
-		return this;
-	}
-	catch(error) {
-		alert(error.message);
+		});
 	}
 });
 
-/*
-   Method: add_test
-      Adds a test file to the tests array (beta).
+NinjsModule.method('set_data', function(key, value) {
+	if (is_undefined(key)) {
+		throw new SyntaxError('NinjsModule.set_data(key, value): key is undefined');
+	}
 
-   Parameters:
-      test_file - File to add to the tests array
+	if (is_typeof(String, key) && is_undefined(value)) {
+		throw new SyntaxError('NinjsModule.set_data(key, value): value is undefined');
+	}
 
-   > MyModule.add_test('mytest.test.js');
-*/
+	if (is_typeof(String, key)) {
+		this.data[key] = value;
+	}
+	else if (is_typeof(Object, key)) {
+		var data = key;
+		for(var property in data) {
+			this.data[property] = data[property];
+		}
+	}
+
+	return this;
+});
+
 NinjsModule.method('add_test', function(test_file) {
 	this.tests.push(test_file);
 });
 
-/*
-   Method: _run_tests
-      Runs the test files in the test array. This method is automatically called by the execute method if run_tests === true
-*/
 NinjsModule.method('_run_tests', function() {
 	var test_template = [];
 	test_template.push('<div class="test-results" title="Test Results">');
@@ -530,11 +493,8 @@ NinjsModule.method('_run_tests', function() {
    See Also:
       <NinjsModule>
 */
-var NinjsApplication = function(base_url, tests_path) {
-	if (is_undefined(window._)) {
-		window._ = this;
-	}
 
+var NinjsApplication = function(base_url, tests_path) {
 	if(is_defined(tests_path)) {
 		this.tests_path = tests_path;
 	}
@@ -543,7 +503,7 @@ var NinjsApplication = function(base_url, tests_path) {
 		this.site_url = function(path) {
 			var path = path || '';
 			return base_url + path;
-		}
+		};
 	}
 };
 
@@ -557,17 +517,19 @@ var NinjsApplication = function(base_url, tests_path) {
    > myapp.add_module('my_module');
 */
 NinjsApplication.method('add_module', function(name) {
-	try {
-		if (is_undefined(name)) {
-			throw new SyntaxError("NinjsApplication.add_module(name): name is undefined");
-		}
+	if (is_undefined(name)) {
+		throw new SyntaxError("NinjsApplication.add_module(name): name is undefined");
+	}
 
-		if (is_defined(this[name])) {
-			throw new SyntaxError("NinjsApplication.add_module(name): '" + name + "' already declared");
-		}
-		this[name] = new NinjsModule(name);
+	if (is_defined(this[name])) {
+		throw new SyntaxError("NinjsApplication.add_module(name): '" + name + "' already declared");
 	}
-	catch(error) {
-		alert(error.message);
+
+	if (this.name === name) {
+		throw new SyntaxError("NinjsApplication.add_module(name): a module cannot have the same name as the application");
 	}
+
+	return this[name] = new NinjsModule(name);
 });
+
+var myapp = new NinjsApplication();

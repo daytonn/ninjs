@@ -1,7 +1,10 @@
 module Ninjs
     class Configuration
       
-      attr_reader :name,
+      attr_reader :root,
+                  :path,
+                  :settings,
+                  :name,
                   :dependencies,
                   :autoload,
                   :asset_root,
@@ -10,45 +13,49 @@ module Ninjs
                   
       attr_accessor :output
                   
-      def initialize(project, name = '')
-        @project_path = project.path
+      def initialize(project_path)
+        @root =  File.expand_path project_path
+        @path = "#{@root}/ninjs.conf"
+        @settings = Hash.new
+        @asset_root = @root
         
-        @defaults = {
-          :name => name,
-          :output => 'expanded',
-          :dependencies => ['"<jquery/latest>"'],
-          :autoload => ['"../lib/utilities"'],
-          :src_dir => 'modules',
-          :dest_dir => 'application'
-        }
+        setting(:name, 'application')
+        setting(:src_dir, 'modules')
+        setting(:dest_dir, 'application')
+        setting(:output, 'expanded')
+        setting(:dependencies, ['<jquery/latest>'])
+        setting(:autoload, ['../lib/utilities'])
+                
+        optional_settings.each do |label, setting|
+          setting(label, setting)
+        end
         
-        @asset_root = @project_path
+        read if File.exists? "#{@path}"
+      end
+      
+      def optional_settings
+        @settings.reject do |key, value|
+          key.to_s.match /name|src_dir|dest_dir|output|dependencies|autoload/
+        end
+      end
+      
+      def setting(name, value)
+        instance_variable_set("@#{name}", value)
+        @settings[name] = value
+      end
 
-        @defaults.each do |label, setting|
-          instance_variable_set("@#{label}", setting)
-        end
-        
-        if File.exists? "#{@project_path}ninjs.conf"
-          read
-        end
-      end
       
-      def create
-        create_conf_file conf_content(@defaults)
-      end
-      
-      def conf_content(options)
-        content = String.new
-        options.each do |option, value|
-          content << "#{option}: #{value}\n" if value.kind_of? String
-          content << "#{option}: [#{value.join(', ')}]\n" if value.kind_of? Array
-        end
-        content
-      end
-      
-      def create_conf_file(content)
-        File.open("#{@project_path}ninjs.conf", "w+") do |conf_file|
-          conf_file << conf_content(@defaults)
+      def write
+        File.open("#{@path}", "w+") do |conf_file|
+          conf_file << "name: #{@name}\n"
+          conf_file << "src_dir: #{@src_dir}\n"
+          conf_file << "dest_dir: #{@dest_dir}\n"
+          conf_file << "output: #{@output}\n"
+          conf_file << "dependencies: #{array_to_yml @dependencies}\n"
+          conf_file << "autoload: #{array_to_yml @autoload}\n"
+          optional_settings.each do |setting, value|
+            conf_file << "setting: #{value}\n"
+          end
         end
         
         puts Ninjs::Notification.notify "ninjs.conf created", :added
@@ -66,6 +73,10 @@ module Ninjs
         @autoload = config['autoload'] || Array.new
         
         @asset_root = config['asset_root'] unless config['ass'].nil?
+      end
+      
+      def array_to_yml(array)
+        yml = array.empty? ? '[]' : %Q{['#{array.join("', '")}']}
       end
       
     end

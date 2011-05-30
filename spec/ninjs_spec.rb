@@ -1,32 +1,16 @@
 require "spec_helper"
 
-describe Ninjs do
-  it 'should have a BASE_DIR constant' do
-    Ninjs::BASE_DIR.should_not be_nil
-  end
-  
+describe Ninjs do  
   it 'should have the correct BASE_DIR' do
-    Ninjs::BASE_DIR.should === '/Volumes/Storage/Development/ninjs'
-  end
-  
-  it 'should have a LIB_DIR constant' do
-    Ninjs::LIB_DIR.should_not be_nil
+    Ninjs::BASE_DIR.should == File.expand_path('../')
   end
   
   it 'should have the correct LIB_DIR' do
-    Ninjs::LIB_DIR.should === '/Volumes/Storage/Development/ninjs/lib'
-  end
-  
-  it 'should have a ROOT_DIR constant' do
-    Ninjs::ROOT_DIR.should_not be_nil
+    Ninjs::LIB_DIR.should === File.expand_path('../lib')
   end
   
   it 'should have the correct ROOT_DIR' do
-    Ninjs::ROOT_DIR.should === '/Volumes/Storage/Development/ninjs'
-  end
-  
-  it 'should have a VERSION constant' do
-    Ninjs::VERSION.should_not be_nil
+    Ninjs::ROOT_DIR.should === File.expand_path(Dir.getwd)
   end
   
   it 'should have the correct VERSION' do

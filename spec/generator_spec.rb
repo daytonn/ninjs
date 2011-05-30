@@ -20,15 +20,15 @@ describe Ninjs::Generator do
   end
   
   after :each do
-    #FileUtils.rm('modules/mymod.module.js')
-    #@test_dirs.each do |dir|
-    #  FileUtils.rmdir(dir)
-    #end
+    FileUtils.rm('modules/mymod.module.js')
+    @test_dirs.each do |dir|
+      FileUtils.rmdir(dir)
+    end
   end
   
-  it 'should should generate a module file' do
-    generator = Ninjs::Generator.new(@config)
-    #generator.project.proj
-    generator.generate
-  end
+  #it 'should should generate a module file' do
+  #  generator = Ninjs::Generator.new(@config)
+  #  generator.project.proj
+  #  generator.generate
+  #end
 end

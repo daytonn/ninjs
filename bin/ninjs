@@ -169,16 +169,14 @@ case command
         :model => options[:model],
         :elements => options[:elements]
     }
-
-    config = {
+    
+    Ninjs::Command.generate({
       :type => type,
       :name => name,
       :alias => als,
       :dest => dest,
       :dependencies => dependencies
-    }
-    
-    Ninjs::Command.generate(config)
+    })
 # compile
   when "compile"
     if options[:help]

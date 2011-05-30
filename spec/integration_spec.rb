@@ -4,8 +4,8 @@ require "spec_helper"
 describe Ninjs do
   context 'When instantiating a new project' do
     before :each do
-      @spec_dir = File.expand_path(File.join(File.dirname(__FILE__))) + '/'
-      @project_path = @spec_dir + 'js/'
+      @spec_dir = File.expand_path(Dir.getwd) + '/'
+      @project_path = spec_dir('js/')
       @new_project = Ninjs::Project.new 'MyApplication', 'spec/js'
     end
 
@@ -14,7 +14,7 @@ describe Ninjs do
     end
 
     it 'should have the correct project_path' do
-      @new_project.path.should === @project_path
+      @new_project.root.should === @project_path
     end
 
     it 'should have a @config property' do
@@ -190,7 +190,7 @@ describe Ninjs do
   
   context 'When instantiating a project from a config file' do
     before :each do
-      @spec_dir = File.expand_path(File.join(File.dirname(__FILE__))) + '/'
+      @spec_dir = spec_dir + '/'
       @project_path = @spec_dir + 'js/'
       @existing_project = Ninjs::Project.new 'MyApplication', 'spec/js'
     end
@@ -200,7 +200,7 @@ describe Ninjs do
     end
     
     it 'should have the correct project_path' do
-      @existing_project.path.should === @project_path
+      @existing_project.root.should === @project_path
     end
     
     it 'should have the correct @config.name' do
