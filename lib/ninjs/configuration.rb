@@ -1,8 +1,7 @@
 module Ninjs
     class Configuration
       
-      attr_reader :root,
-                  :path,
+      attr_reader :path,
                   :settings,
                   :name,
                   :dependencies,
@@ -11,11 +10,11 @@ module Ninjs
                   :src_dir,
                   :dest_dir
                   
-      attr_accessor :output
+      attr_accessor :output,
+                    :root
                   
       def initialize(project_path)
         @root =  File.expand_path project_path
-        @path = "#{@root}/ninjs.conf"
         @settings = Hash.new
         @asset_root = @root
         
@@ -30,7 +29,7 @@ module Ninjs
           setting(label, setting)
         end
         
-        read if File.exists? "#{@path}"
+        #read if File.exists? "#{@root}/ninjs.conf"
       end
       
       def optional_settings
@@ -43,16 +42,16 @@ module Ninjs
         instance_variable_set("@#{name}", value)
         @settings[name] = value
       end
-
       
       def write
-        File.open("#{@path}", "w+") do |conf_file|
+        File.open("#{@root}/ninjs.conf", "w+") do |conf_file|
           conf_file << "name: #{@name}\n"
           conf_file << "src_dir: #{@src_dir}\n"
           conf_file << "dest_dir: #{@dest_dir}\n"
           conf_file << "output: #{@output}\n"
           conf_file << "dependencies: #{array_to_yml @dependencies}\n"
           conf_file << "autoload: #{array_to_yml @autoload}\n"
+          
           optional_settings.each do |setting, value|
             conf_file << "setting: #{value}\n"
           end

@@ -21,7 +21,7 @@ module Ninjs
     end
     
     def generate_module_file
-      File.open "#{@project.project_path}#{@dest}/#{@name}.module.js", "w" do |file|
+      File.open "#{@project.root}/#{@dest}/#{@name}.module.js", "w" do |file|
         file << "(function(#{@app_name if @alias}) {\n"
         file << "\tvar self = #{@app_name}.add_module('#{@name}');\n\n"
         file << %Q(\t//= require "../elements/#{@name.downcase}.elements"\n\n) if @dependencies[:elements] || @type === 'elements'
@@ -30,25 +30,25 @@ module Ninjs
         file << "\t#{@app_name}.#{@module_name}.run();\n"
         file << "})(#{@project.config.name});" if @alias
         puts Ninjs::Notification.added "created #{@name.downcase}.module.js"
-      end unless File.exists? "#{@project.project_path}#{@dest}/#{@name}.module.js"
+      end unless File.exists? "#{@project.root}/#{@dest}/#{@name}.module.js"
       
       self
     end
     
     def generate_elements_file
-      File.open("#{@project.project_path}elements/#{@module_name}" + ".elements.js", "w") do |file|
+      File.open("#{@project.root}/elements/#{@module_name}" + ".elements.js", "w") do |file|
         file << "#{@app_name}.#{@module_name}.elements({\n\n});"
         puts Ninjs::Notification.added "created #{@module_name}.elements.js"
-      end unless File.exists? "#{@project.project_path}elements/#{@module_name}.elements.js"
+      end unless File.exists? "#{@project.root}/elements/#{@module_name}.elements.js"
       
       self
     end
     
     def generate_model_file
-      File.open "#{@project.project_path}models/#{@module_name}.model.js", "w" do |file|
+      File.open "#{@project.root}/models/#{@module_name}.model.js", "w" do |file|
         file << "#{@app_name}.#{@module_name}.set_data({\n\t\n});"
         puts Ninjs::Notification.added "created #{@module_name}.model.js"
-      end unless File.exists? "#{@project.project_path}models/#{@module_name}.model.js"
+      end unless File.exists? "#{@project.root}/models/#{@module_name}.model.js"
       
       self
     end

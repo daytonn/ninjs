@@ -18,12 +18,13 @@ module Ninjs
     
     def root=(path)
       @root = File.expand_path path
+      @config.root = @root
     end
     
     def create
       puts Ninjs::Notification.notice "Creating the #{@config.name} project in #{@root}" 
-      @config.write
       create_project_scaffold
+      @config.write
       create_ninjs_lib_file
       create_utility_lib_file
       create_ninjs_application_file
@@ -82,7 +83,7 @@ module Ninjs
     end
     
     def update
-      get_updated_modules
+      get_modules
       compile_modules
       update_application_file
       compress_application if @config.output == 'compressed'

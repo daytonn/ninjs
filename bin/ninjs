@@ -137,7 +137,7 @@ case command
     sub_dir = ARGV[2] || nil
     
     if app_name.nil?
-      puts "Error! Application name is required (ninjs create app_name)" 
+      puts "Error! Application name is required (ninjs create app_name)"
       exit
     end
     

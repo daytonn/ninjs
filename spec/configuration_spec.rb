@@ -14,10 +14,6 @@ describe Ninjs::Configuration do
       @config.root.should == File.expand_path(Dir.getwd)
     end
 
-    it 'should have a path variable' do
-      @config.path.should == "#{File.expand_path(Dir.getwd)}/ninjs.conf"
-    end
-
     it 'should have a setting setter method' do
       @config.setting(:name, 'someapp')
       @config.name.should == 'someapp'
