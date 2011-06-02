@@ -6,12 +6,12 @@ module Ninjs
                   :name,
                   :dependencies,
                   :autoload,
-                  :asset_root,
                   :src_dir,
                   :dest_dir
                   
       attr_accessor :output,
-                    :root
+                    :root,
+                    :asset_root
                   
       def initialize(project_path)
         @root =  File.expand_path project_path
@@ -29,7 +29,7 @@ module Ninjs
           setting(label, setting)
         end
         
-        #read if File.exists? "#{@root}/ninjs.conf"
+        read if File.exists? "#{@root}/ninjs.conf"
       end
       
       def optional_settings

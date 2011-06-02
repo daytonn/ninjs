@@ -44,10 +44,13 @@ module Ninjs
 	           
     end
 
-    def create(name, directory = nil)
-      raise 'you must specify a project name: ninjs create ProjectName' if name.nil?
-      project = Ninjs::Project.new name
-      project.root(directory) unless directory.nil?
+    def create(config)
+      raise 'you must specify a project name: ninjs create ProjectName' if config[:name].nil?
+      
+      project = Ninjs::Project.new config[:name]
+      project.root = config[:directory] unless config[:directory].nil?
+      puts project.root
+      project.create
     end
     
     def compile(force_compress = false)

@@ -19,6 +19,7 @@ module Ninjs
     def root=(path)
       @root = File.expand_path path
       @config.root = @root
+      @config.asset_root = @root
     end
     
     def create
@@ -65,9 +66,7 @@ module Ninjs
     end
     
     def create_ninjs_application_file
-      filename = "#{@root}/application/#{@config.name.downcase}.js"
-      
-      File.open(filename, "w+") do |file|
+      File.open("#{@root}/application/#{@config.name.downcase}.js", "w+") do |file|
         file << "//-- Ninjs #{Time.now.to_s}  --//\n"
         file << File.open("#{@root}/lib/nin.js", 'r').readlines.join('')
         file << "\nvar #{@config.name} = new NinjsApplication();"

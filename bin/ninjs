@@ -141,7 +141,7 @@ case command
       exit
     end
     
-    Ninjs::Command.create(app_name, sub_dir)
+    Ninjs::Command.create({ :name => app_name, :directory => sub_dir })
 # generate
   when "generate"
     if options[:help]

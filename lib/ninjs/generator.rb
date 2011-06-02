@@ -25,7 +25,7 @@ module Ninjs
         file << "(function(#{@app_name if @alias}) {\n"
         file << "\tvar self = #{@app_name}.add_module('#{@name}');\n\n"
         file << %Q(\t//= require "../elements/#{@name.downcase}.elements"\n\n) if @dependencies[:elements] || @type === 'elements'
-        file << %Q(\t//= require "../models/#{@name.downcase}.model\n\n) if @dependencies[:model] || @type === 'model'
+        file << %Q(\t//= require "../models/#{@name.downcase}.model"\n\n) if @dependencies[:model] || @type === 'model'
         file << "\t#{@app_name}.#{@module_name}.actions = function() {\n\n\t};\n\n"
         file << "\t#{@app_name}.#{@module_name}.run();\n"
         file << "})(#{@project.config.name});" if @alias
