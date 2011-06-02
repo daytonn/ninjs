@@ -1,7 +1,6 @@
 module Ninjs
   class Project
-    attr_reader :root,
-                :config,
+    attr_reader :config,
                 :modules
                 
     
@@ -13,11 +12,17 @@ module Ninjs
       @root = File.expand_path Dir.getwd
       @modules = Array.new
       @config = Ninjs::Configuration.new @root
-      @config.setting :name, name unless name.nil?
+      @config.setting(:name, name) unless name.nil?
+    end
+    
+    def root
+      @root
     end
     
     def root=(path)
-      @root = File.expand_path path
+      puts '!!!!!!!!!!'
+      puts path
+      @root = File.expand_path(path)
     end
     
     def create

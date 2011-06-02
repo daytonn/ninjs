@@ -3,8 +3,8 @@ module Ninjs
     def watch
       require "fssm"
       
-      project_path = Dir.getwd << '/'
-      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
+      project_path = File.expand_path(Dir.getwd)
+      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
       
       puts Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."
       project = Ninjs::Project.new
@@ -14,7 +14,7 @@ module Ninjs
 	    watch_hash = Hash.new
 	    
 	    watch_dirs.each do |dir|
-	     watch_hash["#{project_path}#{dir}"] = "**/*.js"
+	     watch_hash["#{project_path}/#{dir}"] = "**/*.js"
 	    end
 	    
 	    watch_hash[project_path] = "**/*.conf"
@@ -44,22 +44,18 @@ module Ninjs
 	           
     end
 
-    def create(name, directory = false)
+    def create(name, directory = nil)
       raise 'you must specify a project name: ninjs create ProjectName' if name.nil?
-      project = directory ? Ninjs::Project.new(directory, name) : Ninjs::Project.new('/', name)
-      project.create
+      project = Ninjs::Project.new name
+      project.root(directory) unless directory.nil?
     end
     
-    def compile(compress_output = 'use_config')
+    def compile(force_compress = false)
       project_path = Dir.getwd << '/'
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
       project = Ninjs::Project.new
-      project.config.output = compress_output ? 'compressed' : 'expanded' unless compress_output === 'use_config'
+      project.config.output = 'compressed' if force_compress
       project.update
-    end
-    
-    def import(package)
-      Ninjs::PackageManager.import(package)
     end
     
     def generate(config)
@@ -83,7 +79,6 @@ module Ninjs
     module_function :create,
                     :watch,
                     :compile,
-                    :import,
                     :generate,
                     :update
   end

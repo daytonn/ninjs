@@ -90,7 +90,7 @@ options = {
   :compress => nil
 }
 
-optparse = OptionParser.new do|opts|
+optparse = OptionParser.new do |opts|
   opts.on( '-h', '--help', 'Display this screen' ) do
     options[:help] = true
   end
@@ -141,7 +141,7 @@ case command
       exit
     end
     
-    sub_dir.nil? ? Ninjs::Command.create(app_name) : Ninjs::Command.create(app_name, sub_dir)
+    Ninjs::Command.create(app_name, sub_dir)
 # generate
   when "generate"
     if options[:help]
