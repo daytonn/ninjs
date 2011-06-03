@@ -135,7 +135,6 @@ test("module defaults", function() {
 	ok(is_defined(testapp.testmodule.tests), 'testapp.testmodule.tests is defined');
 	ok(is_array(testapp.testmodule.tests), 'testapp.testmodule.tests is_array');
 	ok(testapp.testmodule.tests.is_empty(), 'testapp.testmodule.tests is empty');
-	ok(is_defined(app), 'app is defined');
 	
 	// methods
 	ok(is_defined(testapp.testmodule.actions), 'testapp.testmodule.actions is defined');

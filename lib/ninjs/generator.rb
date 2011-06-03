@@ -28,7 +28,7 @@ module Ninjs
         file << %Q(\t//= require "../models/#{@name.downcase}.model"\n\n) if @dependencies[:model] || @type === 'model'
         file << "\t#{@app_name}.#{@module_name}.actions = function() {\n\n\t};\n\n"
         file << "\t#{@app_name}.#{@module_name}.run();\n"
-        file << "})(#{@project.config.name});" if @alias
+        file << "})(#{@project.config.name if @alias});"
         puts Ninjs::Notification.added "created #{@name.downcase}.module.js"
       end unless File.exists? "#{@project.root}/#{@dest}/#{@name}.module.js"
       
