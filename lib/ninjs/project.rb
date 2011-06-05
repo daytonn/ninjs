@@ -75,10 +75,13 @@ module Ninjs
     
     def import_test_files
       FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/index.html", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/ninjs.utilities.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.js", "#{@root}/tests/qunit"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qunit/qunit.css", "#{@root}/tests/qunit"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/application.test.js", "#{@root}/tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/array.utilities.test.js", "#{@root}/tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/existence.test.js", "#{@root}/tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/extension.test.js", "#{@root}/tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/module.test.js", "#{@root}/tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qspec.js", "#{@root}/tests"
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/string.utilities.test.js", "#{@root}/tests"
     end
     
     def update

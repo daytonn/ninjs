@@ -1,67 +1,13 @@
-module("array utility tests"); 
+var spec = new QSpec("string utility tests");
 
-test("can test for emptiness", function() {
-	expect(4);
-	
-	ok([].is_empty(), "[].is_empty() is true");
-	equals(['one', 'two', 'three'].is_empty(), false, "['one', 'two', 'three'].is_empty()");
-	ok(['one', 'two', 'three'].not_empty(), "['one', 'two', 'three'].not_empty() is false");
-	equals([].not_empty(), false, "[].not_empty() is false");
-});
-
-test("can iterate over each element", function() {
-	expect(7);
-	
-	var iteration_count = 0;
-	var test_array_values = [];
-	var test_array_indices = [];
-	
-	['one', 'two', 'three'].each(function(value, index) {
-		iteration_count++;
-		test_array_values.push(value);
-		test_array_indices.push(index);
-	});
-	
-	equals(test_array_values[0], 'one', 'value at index 0 is correct');
-	equals(test_array_values[1], 'two', 'value at index 1 is correct');
-	equals(test_array_values[2], 'three', 'value at index 2 is correct');
-
-	equals(test_array_indices[0], 0, 'first index is correct');
-	equals(test_array_indices[1], 1, 'second index is correct');
-	equals(test_array_indices[2], 2, 'third index is correct');
-	
-	equals(iteration_count, 3, 'made only three iterations');
-});
-
-test("can test if an array contains an element", function() {
-	var array = ['one', 'two', 'three'];
-	var string = 'hello';
-	var object = {
-		name: 'some object'
-	};
-	var number = 45;
-	var date = new Date();
-	
-	var test_array = [array, string, object, number, date];
-	
-	ok(test_array.contains(array), 'array.contains(array)');
-	ok(test_array.contains(string), 'array.contains(string)');
-	ok(test_array.contains(object), 'array.contains(object)');
-	ok(test_array.contains(number), 'array.contains(number)');
-	ok(test_array.contains(date), 'array.contains(date)');
-	equals(test_array.contains('not in there'), false, 'non-existent value is false');
-});
-
-module("string utility tests");
-
-test("can test for emptiness", function() {
+spec.should("test for emptiness with is_empty and not_empty", function() {
 	ok(''.is_empty(), "''.is_empty() is true");
 	equals('hey there'.is_empty(), false, "'hey there'.is_empty() is false");
 	ok('hey there'.not_empty(), "'hey there'.not_empty() is false");
 	equals(''.not_empty(), false, "''.not_empty() is false");
 });
 
-test('can test for number', function() {
+spec.should('test for numeric value', function() {
 	equals('34'.is_numeric(), true, "34 is numeric");
 	equals('0.5'.is_numeric(), true, ".5 is numeric");
 	equals('-34'.is_numeric(), true, '-34 is numeric');
@@ -69,13 +15,13 @@ test('can test for number', function() {
 	equals('hello'.is_numeric(), false, 'hello is numeric');
 });
 
-test('can trim a string', function() {
+spec.should('trim a string with trim, ltrim, and rtrim', function() {
 	equals(' hello '.trim(), 'hello', "' hello '.trim()");
 	equals(' hello '.ltrim(), 'hello ', "' hello '.ltrim()");
 	equals(' hello '.rtrim(), ' hello', "' hello '.rtrim()");
 });
 
-test("can iterate over each character", function() {
+spec.should("iterate over each character with each", function() {
 	var iteration_count = 0;
 	var test_chars = [];
 	var test_indices = [];
@@ -96,16 +42,16 @@ test("can iterate over each character", function() {
 	equals(iteration_count, 3, 'made only three iterations');
 });
 
-test('can capitalize a string', function() {
+spec.should('capitalize a string with capitalize', function() {
 	equals('hello world'.capitalize(), 'Hello world', 'capitalized string correctly');
 });
 
-test('can reverse a string', function() {
+spec.should('reverse a string with reverse', function() {
 	equals('hello world'.reverse(), 'dlrow olleh', 'reversed string correctly');
 	equals('satan oscillate my metallic sonatas'.reverse(), 'satanos cillatem ym etallicso natas', 'fucking palindromes, how do they work?');
 });
 
-test("can convert to number", function() {
+spec.should("convert to number", function() {
 	var whole_number = '32';
 	var decimal = '0.08';
 	var negative_number = '-32';
@@ -117,11 +63,11 @@ test("can convert to number", function() {
 	same(negative_float.to_n(), -0.08, "negative_float.to_n() -0.08");
 }); 
 
-test("can pluck a string", function() {
+spec.should("pluck all instances of a sub-string within a string ", function() {
 	equals('one, two, three'.pluck(','), 'one two three', "'one, two, three'.pluck(',')");
 });
 
-test("can single space a string", function() {
+spec.should("compress a string to single spaces", function() {
 	var hard_space = 'one&nbsp;two&nbsp;&nbsp;three&nbsp;&nbsp;&nbsp;four&nbsp;&nbsp;&nbsp;&nbsp;five&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;six';
 	var soft_space = 'one two  three   four    five     six';
 	var mixed_space = 'one two &nbsp; three &nbsp;&nbsp;four &nbsp;&nbsp;&nbsp;five &nbsp;&nbsp;&nbsp;&nbsp;six';
@@ -131,7 +77,9 @@ test("can single space a string", function() {
 	equals(mixed_space.single_space(), 'one two three four five six', "correctly spaced mixed spaces");
 });
 
-test("can compress a string", function() {
+spec.should("compress a string, removing all whitespace", function() {
 	var string = "satan\n\t oscillate\n\t my\n\t metallic\n sonatas";
 	same(string.compress(), 'satanoscillatemymetallicsonatas', "string is compressed correctly");
 });
+
+spec.run_all();

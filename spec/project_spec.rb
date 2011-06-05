@@ -117,13 +117,16 @@ describe Ninjs::Project do
     
     it 'should import test files' do
       suppress_output { @project.import_test_files }
+
       File.exists?(File.expand_path("tests")).should be_true
-      File.exists?(File.expand_path("tests/qunit")).should be_true
       File.exists?(File.expand_path("tests/index.html")).should be_true
-      File.exists?(File.expand_path("tests/ninjs.test.js")).should be_true
-      File.exists?(File.expand_path("tests/ninjs.utilities.test.js")).should be_true
-      File.exists?(File.expand_path("tests/qunit/qunit.js")).should be_true
-      File.exists?(File.expand_path("tests/qunit/qunit.css")).should be_true
+      File.exists?(File.expand_path("tests/application.test.js")).should be_true
+      File.exists?(File.expand_path("tests/array.utilities.test.js")).should be_true
+      File.exists?(File.expand_path("tests/existence.test.js")).should be_true
+      File.exists?(File.expand_path("tests/extension.test.js")).should be_true
+      File.exists?(File.expand_path("tests/module.test.js")).should be_true
+      File.exists?(File.expand_path("tests/qspec.js")).should be_true
+      File.exists?(File.expand_path("tests/string.utilities.test.js")).should be_true
     end
   end
   
