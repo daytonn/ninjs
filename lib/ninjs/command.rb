@@ -29,6 +29,7 @@ module Ninjs
 
            update do |base, relative|
              puts Ninjs::Notification.event "change detected in #{relative}"
+             project.config.read if relative.match(/conf$/)
              project.update
            end
 
