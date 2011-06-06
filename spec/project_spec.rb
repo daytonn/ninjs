@@ -96,6 +96,7 @@ describe Ninjs::Project do
     it 'should create a ninjs lib file' do
       suppress_output { @project.create_ninjs_lib_file }
       File.exists?(File.expand_path("lib/nin.js")).should be_true
+      'lib/nin.js'.should be_same_file_as 'fixtures/nin.js'
     end
     
     it 'should create a utilities file' do

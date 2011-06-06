@@ -3,7 +3,7 @@ module Ninjs
     def watch
       require "fssm"
       
-      project_path = File.expand_path(Dir.getwd)
+      project_path = File.expand_path Dir.getwd
       raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
       
       puts Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."

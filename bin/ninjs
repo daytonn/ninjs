@@ -83,7 +83,7 @@ help = {
 command = ARGV[0]
 
 options = {
-  :alias => false,
+  :alias => nil,
   :elements => false,
   :model => false,
   :help => false,
@@ -171,6 +171,7 @@ case command
     }
     
     Ninjs::Command.generate({
+      :project => Ninjs::Project.new,
       :type => type,
       :name => name,
       :alias => als,
