@@ -64,7 +64,7 @@ describe Ninjs::Project do
       @project.config.dest_dir.should == 'compiled'
     end
   end
-  
+
   context "Project Creation" do
     before :each do
       suppress_output do
@@ -129,7 +129,7 @@ describe Ninjs::Project do
       File.exists?(File.expand_path("tests/string.utilities.test.js")).should be_true
     end
   end
-  
+
   context 'Project management' do
     before :each do
       suppress_output do

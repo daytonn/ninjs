@@ -5,7 +5,7 @@ module Ninjs
     
     def initialize(config)
       @type = config[:type]
-      @project = Ninjs::Project.new
+      @project = config[:project]
       @name = config[:name]
       @module_name = config[:name].gsub(/^_/, '')
       @alias = config[:alias].nil? ? false : true
@@ -21,14 +21,18 @@ module Ninjs
     end
     
     def generate_module_file
+      module_content = Array.new
+      module_content << "(function(#{@app_name if @alias}) {\n"
+      module_content << "\tvar mod = #{@app_name}.add_module('#{@name}');\n\n"
+      module_content << %Q{\t//= require "../elements/#{@name.downcase}.elements"\n} if @dependencies[:elements] || @type === 'elements'
+      module_content << %Q{\t//= require "../models/#{@name.downcase}.model"\n\n} if @dependencies[:model] || @type === 'model'
+      module_content << "\t#{@app_name}.#{@module_name}.actions = function() {\n\t\t\n\t};\n\n"
+      module_content << "\t#{@app_name}.#{@module_name}.run();\n"
+      module_content << "\n})(#{@project.config.name if @alias});"
+      
+      
       File.open "#{@project.root}/#{@dest}/#{@name}.module.js", "w" do |file|
-        file << "(function(#{@app_name if @alias}) {\n"
-        file << "\tvar self = #{@app_name}.add_module('#{@name}');\n\n"
-        file << %Q(\t//= require "../elements/#{@name.downcase}.elements"\n\n) if @dependencies[:elements] || @type === 'elements'
-        file << %Q(\t//= require "../models/#{@name.downcase}.model"\n\n) if @dependencies[:model] || @type === 'model'
-        file << "\t#{@app_name}.#{@module_name}.actions = function() {\n\n\t};\n\n"
-        file << "\t#{@app_name}.#{@module_name}.run();\n"
-        file << "})(#{@project.config.name if @alias});"
+        file << module_content.join('')
         puts Ninjs::Notification.added "created #{@name.downcase}.module.js"
       end unless File.exists? "#{@project.root}/#{@dest}/#{@name}.module.js"
       
@@ -37,7 +41,7 @@ module Ninjs
     
     def generate_elements_file
       File.open("#{@project.root}/elements/#{@module_name}" + ".elements.js", "w") do |file|
-        file << "#{@app_name}.#{@module_name}.elements({\n\n});"
+        file << %Q{\tmod.dom.ready(function() {\n\t\t#{@app_name}.#{@module_name}.elements({\n\t\t\t\n\t\t});\n\t});\n}
         puts Ninjs::Notification.added "created #{@module_name}.elements.js"
       end unless File.exists? "#{@project.root}/elements/#{@module_name}.elements.js"
       
@@ -46,7 +50,7 @@ module Ninjs
     
     def generate_model_file
       File.open "#{@project.root}/models/#{@module_name}.model.js", "w" do |file|
-        file << "#{@app_name}.#{@module_name}.set_data({\n\t\n});"
+        file << %Q{\t#{@app_name}.#{@module_name}.set_data({\n\t\t\n\t});\n}
         puts Ninjs::Notification.added "created #{@module_name}.model.js"
       end unless File.exists? "#{@project.root}/models/#{@module_name}.model.js"
       

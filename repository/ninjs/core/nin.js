@@ -1,4 +1,7 @@
-/* File: nin.js */
-//= require "extend"
-//= require "module"
-//= require "application"
+(function() {
+	//= require "existence"
+	//= require "extend"
+	//= require "dom"
+	//= require "module"
+	//= require "application"
+})();
