@@ -71,7 +71,7 @@ The basic functionality of a module is to encapsulate specific pieces of logic i
    
 ```js
 (function() {
-    var self = myapplication.add_module('hello');
+    var mod = myapplication.add_module('hello');
     
     //= require "../models/hello.model"
     //= require "../elements/hello.elements"
@@ -84,7 +84,7 @@ The basic functionality of a module is to encapsulate specific pieces of logic i
 })();
 ```
 
-Notice the module is wrapped in a closure. This allows us to make a private reference to the current module named "self" due to the fact that the add_module method returns the module it creates. This gives us a consistent way to reference the module without having to use the entire namespace. We may also decide to put private variables and functions available to the module but not exposed to the rest of the application.  
+Notice the module is wrapped in a closure. This allows us to make a private reference to the current module named "mod" due to the fact that the add_module method returns the module it creates. This gives us a consistent way to reference the module without having to use the entire namespace. We may also decide to put private variables and functions available to the module but not exposed to the rest of the application.  
 
 The actions method is the main method of your module. Also known as the composed method pattern, the actions method should simply be a list of other module methods. This makes it easy to scan the actions method to get a sense of what a given module does. It also encourages the "single responsibility principle" (http://en.wikipedia.org/wiki/Single_responsibility_principle).
 
@@ -94,12 +94,12 @@ The run method will execute the actions method when the DOM is ready to be manip
 myapplication.hello.execute();
 ```
 
-This pattern allows you to write in a literate style, making your intentions clear and methods succinct. It's idiomatic to use the module namespace (instead of using self) when defining your module methods to enhance clarity. Another advantage of wrapping your modules in a closure is that you may choose to define an alias for your application object which makes it easier to type while avoiding creation of another global variable. To do this, simply pass in the application object as an argument to the outer function and then name the alias in the argument to the closure like so:
+This pattern allows you to write in a literate style, making your intentions clear and methods succinct. It's idiomatic to use the module namespace (instead of using mod) when defining your module methods to enhance clarity. Another advantage of wrapping your modules in a closure is that you may choose to define an alias for your application object which makes it easier to type while avoiding creation of another global variable. To do this, simply pass in the application object as an argument to the outer function and then name the alias in the argument to the closure like so:
 
 ```js
 (function(app) {
 	
-    var self = app.add_module('hello');
+    var mod = app.add_module('hello');
 
     app.hello.actions = function() {
 
@@ -128,24 +128,26 @@ Let's take a closer look at the "actions" composed method pattern. Let's define 
    
 ```js
 (function() {
-    var self = myapplication.add_module('hello');
+    var mod = myapplication.add_module('hello');
 
     myapplication.hello.actions = function() {
-        self.set_defaults();
-        self.say_hello();
+        mod.set_defaults();
+        mod.say_hello();
     };
     
     myapplication.hello.set_defaults = function() {
-        self.greeting = 'Hello';
-        self.guest = 'World';
+       mod.set_data({
+          greeting: 'Hello',
+          guest: 'World'
+       });
     };
     
     myapplication.hello.say_hello = function() {
-        alert(self.get_greeting());
+        alert(mod.get_greeting());
     };
     
     myapplication.get_greeting = function() {
-        return self.greeting + ' ' + self.guest + '!';
+        return mod.data.greeting + ' ' + mod.data.guest + '!';
     };
 
     myapplication.hello.run();
@@ -184,16 +186,20 @@ ninjs generate elements hello
 This will create a hello.elements.js file inside the elements directory. The elements scaffold looks like this:
 
 ```js
-myapplication.hello.elements({
+mod.dom.ready(function() {
+   myapplication.hello.elements({
 
+   });
 });
 ```
 
-The elements method facilitates both setting and getting cached elements (violating the single responsibility principle for convenience). When passed an object, the elements method maps the key/value pairs of name/selector to the modules dom object. When passed a string, the elements method pulls the selector via it's name. To set a module's elements, pass an object of key value pairs like so:
+The elements method facilitates both setting and getting cached elements. Notice that the elements method is wrapped in the module's dom.ready method to be sure the DOM is loaded. When passed an object, the elements method maps the key/value pairs of name/selector to the modules dom object. When passed a string, the elements method pulls the selector via it's name. To set a module's elements, pass an object of key value pairs like so::
 
 ```js
-myapplication.hello.elements({
-	message_box: $('#message-box')
+mod.dom.ready(function() {
+   myapplication.hello.elements({
+      message_box: $('#message-box')
+   });
 });
 ```
 
@@ -201,7 +207,7 @@ Now these cached jQuery selectors will be available via the elements command by 
 
 ```js
 myapplication.hello.some_method = function() {
-	self.elements('message_box');
+	mod.elements('message_box');
 };
 ```
 
@@ -209,7 +215,7 @@ This pattern provides a consistent way to access and create elements and also cr
    
 ```js
 (function() {
-	var self = myapplication.add_module('hello');
+	var mod = myapplication.add_module('hello');
 
 	//= require "../elements/hello.elements"
 
@@ -223,7 +229,7 @@ Be sure to require the elements file after the "add_module" method is called. No
 ...
 
 myapplication.hello.say_hello = function() {
-    self.elements('message_box').html(self.get_greeting());
+    mod.elements('message_box').html(mod.get_greeting());
 };
 
 ...
@@ -277,7 +283,7 @@ Next we include the model in the module file:
 
 ```js
 (function() {
-	var self = myapplication.add_module('hello');
+	var mod = myapplication.add_module('hello');
 
 	//= require "../elements/hello.model.js"
 	//= require "../elements/hello.elements"
@@ -292,8 +298,8 @@ Now whenever I use the plugin in my module, I can mix in the config object like 
 ...
 
 myapplication.hello.setup_plugin = function() {
-	self.some_element.some_plugin(self.data.plugin_config);
-	self.another_element.some_plugin(self.data.plugin_config);
+	mod.some_element.some_plugin(mod.data.plugin_config);
+	mod.another_element.some_plugin(mod.data.plugin_config);
 };
 
 ...
@@ -305,8 +311,8 @@ This way, we don't have to keep redefining the same properties each time we use 
 ...
 
 myapplication.hello.setup_plugin = function() {
-	self.some_element.some_plugin(self.data.plugin_config);
-	self.another_element.some_plugin($.extend(self.data.plugin_config, {
+	mod.some_element.some_plugin(mod.data.plugin_config);
+	mod.another_element.some_plugin($.extend(mod.data.plugin_config, {
 		height: 300,
 		color: #FF0000
 	}));
