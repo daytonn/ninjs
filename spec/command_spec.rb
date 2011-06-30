@@ -119,12 +119,12 @@ describe Ninjs::Command do
       suppress_output do
         Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new({ root: SPEC_DIR }),
-          :type => 'module',
-          :name => 'mymodule',
-          :alias => nil,
-          :dest => nil,
-          :dependencies => nil
+          project: Ninjs::Project.new({ root: SPEC_DIR }),
+          type: 'module',
+          name: 'mymodule',
+          alias: nil,
+          dest: nil,
+          dependencies: nil
         })
       end
       
@@ -135,12 +135,12 @@ describe Ninjs::Command do
       suppress_output do
         Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new({ root: SPEC_DIR }),
-          :type => 'module',
-          :name => 'mymodule',
-          :alias => 'app',
-          :dest => nil,
-          :dependencies => nil
+          project: Ninjs::Project.new({ root: SPEC_DIR }),
+          type: 'module',
+          name: 'mymodule',
+          alias: 'app',
+          dest: nil,
+          dependencies: nil
         })
       end
       
@@ -151,12 +151,12 @@ describe Ninjs::Command do
       suppress_output do
         Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new({ root: SPEC_DIR }),
-          :type => 'elements',
-          :name => 'mymodule',
-          :alias => nil,
-          :dest => nil,
-          :dependencies => nil
+          project: Ninjs::Project.new({ root: SPEC_DIR }),
+          type: 'elements',
+          name: 'mymodule',
+          alias: nil,
+          dest: nil,
+          dependencies: nil
         })
       end
       
@@ -167,12 +167,12 @@ describe Ninjs::Command do
       suppress_output do
         Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new({ root: SPEC_DIR }),
-          :type => 'model',
-          :name => 'mymodule',
-          :alias => nil,
-          :dest => nil,
-          :dependencies => nil
+          project: Ninjs::Project.new({ root: SPEC_DIR }),
+          type: 'model',
+          name: 'mymodule',
+          alias: nil,
+          dest: nil,
+          dependencies: nil
         })
       end
       
@@ -183,12 +183,12 @@ describe Ninjs::Command do
       suppress_output do
         Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new({ root: SPEC_DIR }),
-          :type => 'module',
-          :name => 'mymodule',
-          :alias => nil,
-          :dest => nil,
-          :dependencies => { :elements => true, :model => true }
+          project: Ninjs::Project.new({ root: SPEC_DIR }),
+          type: 'module',
+          name: 'mymodule',
+          alias: nil,
+          dest: nil,
+          dependencies: { elements: true, model: true }
         })
       end
       

@@ -72,22 +72,22 @@ footer = <<-FOOTER
 FOOTER
 
 help = {
-  :create => create,
-  :generate => generate,
-  :compile => compile,
-  :watch => watch,
-  :update => upd,
-  :footer => footer
+  create: create,
+  generate: generate,
+  compile: compile,
+  watch: watch,
+  update: upd,
+  footer: footer
 }
 
 command = ARGV[0]
 
 options = {
-  :alias => nil,
-  :elements => false,
-  :model => false,
-  :help => false,
-  :compress => nil
+  alias: nil,
+  elements: false,
+  model: false,
+  help: false,
+  compress: nil
 }
 
 optparse = OptionParser.new do |opts|
@@ -168,17 +168,17 @@ case command
     end
     
     dependencies = {
-        :model => options[:model],
-        :elements => options[:elements]
+        model: options[:model],
+        elements: options[:elements]
     }
     
     Ninjs::Command.generate({
-      :project => Ninjs::Project.new,
-      :type => type,
-      :name => name,
-      :alias => als,
-      :dest => dest,
-      :dependencies => dependencies
+      project: Ninjs::Project.new,
+      type: type,
+      name: name,
+      alias: als,
+      dest: dest,
+      dependencies: dependencies
     })
 # compile
   when "compile"

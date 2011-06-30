@@ -11,7 +11,7 @@ module Ninjs
       @alias = config[:alias].nil? ? false : true
       @app_name = config[:alias] || @project.config.name
       @dest = config[:dest] || @project.config.src_dir.is_a?(String) ? @project.config.src_dir : @project.config.src_dir.first
-      @dependencies = config[:dependencies] || { :elements => false, :model => false }
+      @dependencies = config[:dependencies] || { elements: false, model: false }
     end
     
     def generate

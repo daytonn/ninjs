@@ -3,13 +3,13 @@ require "spec_helper"
 describe Ninjs::Generator do
   before :each do
     @config = {
-      :project => Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR }),
-      :type => 'module',
-      :name => 'mymodule',
-      :alias => nil,
-      :dest => 'application',
-      :src => 'elements',
-      :dependencies => { :elements => false, :model => false }
+      project: Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR }),
+      type: 'module',
+      name: 'mymodule',
+      alias: nil,
+      dest: 'application',
+      src: 'elements',
+      dependencies: { elements: false, model: false }
     }
     
     @test_dirs = %w(modules elements models)
@@ -64,13 +64,13 @@ describe Ninjs::Generator do
 
   it 'should generate a module file with dependencies' do
     generator = Ninjs::Generator.new({
-      :project => Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR}),
-      :type => 'module',
-      :name => 'mymodule',
-      :alias => nil,
-      :dest => 'application',
-      :src => 'modules',
-      :dependencies => { :elements => true, :model => true }
+      project: Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR}),
+      type: 'module',
+      name: 'mymodule',
+      alias: nil,
+      dest: 'application',
+      src: 'modules',
+      dependencies: { elements: true, model: true }
     })
     suppress_output { generator.generate }
 
