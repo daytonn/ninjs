@@ -1,5 +1,11 @@
 require 'rubygems'
 require 'bundler'
+require 'rake'
+require 'jeweler'
+require 'rspec/core'
+require 'rspec/core/rake_task'
+require 'rdoc/task'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -7,9 +13,7 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-require 'rake'
 
-require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = "ninjs"
   gem.homepage = "http://github.com/textnotspeech/ninjs"
@@ -25,10 +29,9 @@ Jeweler::Tasks.new do |gem|
   gem.add_runtime_dependency 'sprockets'
   gem.add_development_dependency 'rspec', '>= 0'
 end
+
 Jeweler::RubygemsDotOrgTasks.new
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
 end
@@ -40,8 +43,7 @@ end
 
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
+RDoc::Task.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'

@@ -3,7 +3,7 @@ require "spec_helper"
 describe Ninjs::Generator do
   before :each do
     @config = {
-      :project => Ninjs::Project.new('myapp'),
+      :project => Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR }),
       :type => 'module',
       :name => 'mymodule',
       :alias => nil,
@@ -14,18 +14,18 @@ describe Ninjs::Generator do
     
     @test_dirs = %w(modules elements models)
     @test_dirs.each do |dir|
-      FileUtils.mkdir(dir)
+      FileUtils.mkdir("#{SPEC_DIR}/#{dir}")
     end
     
-    File.open('ninjs.conf', 'w+') do |file|
-      file << File.open('fixtures/ninjs.conf').readlines.join('')
+    File.open("#{SPEC_DIR}/ninjs.conf", 'w+') do |file|
+      file << File.open("#{SPEC_DIR}/fixtures/ninjs.conf").readlines.join('')
     end
   end
   
   after :each do
-    FileUtils.rm_rf 'ninjs.conf'
+    FileUtils.rm_rf "#{SPEC_DIR}/ninjs.conf"
     @test_dirs.each do |dir|
-      FileUtils.rm_rf dir
+      FileUtils.rm_rf "#{SPEC_DIR}/#{dir}"
     end
   end
   
@@ -33,7 +33,7 @@ describe Ninjs::Generator do
     generator = Ninjs::Generator.new(@config)
     suppress_output { generator.generate }
 
-    'modules/mymodule.module.js'.should be_same_file_as 'fixtures/mymodule.module.js'
+    "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.module.js"
   end
   
   it 'should generate a module with an alias' do
@@ -43,7 +43,7 @@ describe Ninjs::Generator do
     generator = Ninjs::Generator.new(@config)
     suppress_output { generator.generate }
 
-    'modules/mymodule.module.js'.should be_same_file_as 'fixtures/mymodule.alias.module.js'
+    "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.alias.module.js"
   end
 
   it 'should should generate an elements file' do
@@ -51,7 +51,7 @@ describe Ninjs::Generator do
     generator = Ninjs::Generator.new(@config)
     suppress_output { generator.generate }
 
-    'elements/mymodule.elements.js'.should be_same_file_as 'fixtures/mymodule.elements.js'
+    "#{SPEC_DIR}/elements/mymodule.elements.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.elements.js"
   end
 
   it 'should should generate a model file' do
@@ -59,12 +59,12 @@ describe Ninjs::Generator do
     generator = Ninjs::Generator.new(@config)
     suppress_output { generator.generate }
 
-    'models/mymodule.model.js'.should be_same_file_as 'fixtures/mymodule.model.js'
+    "#{SPEC_DIR}/models/mymodule.model.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.model.js"
   end
 
   it 'should generate a module file with dependencies' do
     generator = Ninjs::Generator.new({
-      :project => Ninjs::Project.new('myapp'),
+      :project => Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR}),
       :type => 'module',
       :name => 'mymodule',
       :alias => nil,
@@ -74,9 +74,9 @@ describe Ninjs::Generator do
     })
     suppress_output { generator.generate }
 
-    'modules/mymodule.module.js'.should be_same_file_as 'fixtures/mymodule.dependencies.module.js'
-    'elements/mymodule.elements.js'.should be_same_file_as 'fixtures/mymodule.elements.js'
-    'models/mymodule.model.js'.should be_same_file_as 'fixtures/mymodule.model.js'
+    "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.dependencies.module.js"
+    "#{SPEC_DIR}/elements/mymodule.elements.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.elements.js"
+    "#{SPEC_DIR}/models/mymodule.model.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.model.js"
   end
 
 end

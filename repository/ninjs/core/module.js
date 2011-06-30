@@ -26,12 +26,12 @@
 
 	NinjsModule.method('elements', function(elements) {
 		if (is_undefined(elements)) {
-		   if (is_typeof(Object, elements)) {
-		      throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
-		   }
-		   else if (is_string(elements)) {
-		      throw new SyntaxError("NinjsModule.elements(name): name is undefined");
-		   }
+			if (is_typeof(Object, elements)) {
+				throw new SyntaxError("NinjsModule.elements(elements): elements is undefined");
+			}
+			else if (is_string(elements)) {
+				throw new SyntaxError("NinjsModule.elements(name): name is undefined");
+			}
 		}
 
 		if (is_string(elements)) {
@@ -117,4 +117,3 @@
 			});
 		});
 	});
-	

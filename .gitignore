@@ -2,3 +2,13 @@
 tmp/*
 metric_fu
 ninjs.gemspec
+rdoc/
+spec/js
+spec/application
+spec/elements
+spec/models
+spec/modules
+spec/pugins
+spec/lib
+spec/tests
+spec/ninjs.conf

@@ -1,3 +1,4 @@
+//-- Ninjs 2011-06-30 00:09:33 -0500  --//
 (function() {
 	if (window.is_defined === undefined) {
 		window.is_defined = function(suspect) {

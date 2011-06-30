@@ -27,3 +27,5 @@ def suppress_output(&block)
   
   fake.string
 end
+
+SPEC_DIR = "#{Ninjs::BASE_DIR}/spec"

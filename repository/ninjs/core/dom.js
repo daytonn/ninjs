@@ -10,7 +10,7 @@
 		msie: (/msie/.test(userAgent.toLowerCase())) && (!/opera/.test( userAgent.toLowerCase() ))
 	};    
 
-	var readyBound = false;	
+	var readyBound = false; 
 	var isReady = false;
 	var readyList = [];
 
@@ -28,24 +28,24 @@
 
 	// From Simon Willison. A safe way to fire onload w/o screwing up everyone else.
 	function addLoadEvent(func) {
-	  var oldonload = window.onload;
-	  if (typeof window.onload != 'function') {
-	    window.onload = func;
-	  } else {
-	    window.onload = function() {
-	      if (oldonload) {
-	        oldonload();
-	      }
-	      func();
-	    }
-	  }
+		var oldonload = window.onload;
+		if (typeof window.onload != 'function') {
+			window.onload = func;
+		} else {
+			window.onload = function() {
+				if (oldonload) {
+					oldonload();
+				}
+				func();
+			}
+		}
 	};
 
 	// does the heavy work of working through the browsers idiosyncracies (let's call them that) to hook onload.
 	function bindReady() {
 		if (readyBound) {
-		    return;
-	    }
+			return;
+		}
 
 		readyBound = true;
 
@@ -68,7 +68,7 @@
 				return;
 			}
 			// and execute any waiting functions
-		    domReady();
+			domReady();
 		})();
 
 		if (browser.opera) {
@@ -80,40 +80,40 @@
 						return;
 					}
 				// and execute any waiting functions
-	            domReady();
+				domReady();
 			}, false);
 		}
 
 		if (browser.safari) {
-		    var numStyles;
-			(function(){
+			var numStyles;
+			(function() {
 				if (isReady) return;
 				if (document.readyState != "loaded" && document.readyState != "complete") {
 					setTimeout( arguments.callee, 0 );
 					return;
 				}
 				if (numStyles === undefined) {
-	                var links = document.getElementsByTagName("link");
-	                for (var i=0; i < links.length; i++) {
-	                	if (links[i].getAttribute('rel') == 'stylesheet') {
-	                	    numStyles++;
-	                	}
-	                }
-	                var styles = document.getElementsByTagName("style");
-	                numStyles += styles.length;
+					var links = document.getElementsByTagName("link");
+					for (var i=0; i < links.length; i++) {
+						if (links[i].getAttribute('rel') == 'stylesheet') {
+							numStyles++;
+						}
+					}
+					var styles = document.getElementsByTagName("style");
+					numStyles += styles.length;
 				}
 				if (document.styleSheets.length != numStyles) {
 					setTimeout( arguments.callee, 0 );
 					return;
 				}
-		
+
 				// and execute any waiting functions
 				domReady();
 			})();
 		}
 
 		// A fallback to window.onload, that will always work
-	    addLoadEvent(domReady);
+		addLoadEvent(domReady);
 	};
 
 	window.NinjsDOM = function() {
@@ -124,7 +124,7 @@
 	NinjsDOM.method('ready', function(fn, args) {
 		// Attach the listeners
 		bindReady();
-  
+
 		// If the DOM is already ready
 		if (isReady) {
 			// Execute the function immediately
@@ -135,5 +135,5 @@
 			readyList.push( function() { return fn.call(window, []); } );
 		}
 	});
-  
+
 	bindReady();

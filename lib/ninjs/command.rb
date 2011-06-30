@@ -1,10 +1,10 @@
 module Ninjs
   module Command
-    def watch
+    def watch(path = nil)
       require "fssm"
       
-      project_path = File.expand_path Dir.getwd
-      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
+      path ||= File.expand_path(Dir.getwd)
+      raise "ninjs.conf was not located in #{path}" unless File.exists? "#{path}/ninjs.conf"
       
       puts Ninjs::Notification.log "Ninjs are watching for changes. Press Ctrl-C to stop."
       project = Ninjs::Project.new
@@ -14,10 +14,10 @@ module Ninjs
 	    watch_hash = Hash.new
 	    
 	    watch_dirs.each do |dir|
-	     watch_hash["#{project_path}/#{dir}"] = "**/*.js"
+	     watch_hash["#{path}/#{dir}"] = "**/*.js"
 	    end
 	    
-	    watch_hash[project_path] = "**/*.conf"
+	    watch_hash[path] = "**/*.conf"
 	    watch_hash["#{Ninjs::BASE_DIR}/repository"] = "**/*.js"
 	    
 	    FSSM.monitor do
@@ -45,20 +45,31 @@ module Ninjs
 	           
     end
 
-    def create(config)
-      raise 'you must specify a project name: ninjs create ProjectName' if config[:name].nil?
+    def create(config = nil)
+      settings = {
+        name: nil,
+        root: File.expand_path(Dir.getwd)
+      }
       
-      project = Ninjs::Project.new config[:name]
-      project.root = config[:directory] unless config[:directory].nil?
-      puts project.root
+      settings.merge!(config) unless config.nil?
+      
+      raise 'you must specify a project name: ninjs create ProjectName' if settings[:name].nil?
+      
+      project = Ninjs::Project.new({ name: settings[:name], root: settings[:root] })
       project.create
     end
     
-    def compile(force_compress = false)
-      project_path = Dir.getwd << '/'
-      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}/ninjs.conf"
-      project = Ninjs::Project.new
-      project.config.output = 'compressed' if force_compress
+    def compile(options = nil)
+      settings = {
+        force_compress: false,
+        path: File.expand_path(Dir.getwd)
+      }
+      
+      settings.merge!(options) unless options.nil?
+      
+      raise "ninjs.conf was not located in #{settings[:path]}" unless File.exists? "#{settings[:path]}/ninjs.conf"
+      project = Ninjs::Project.new(root: settings[:path])
+      project.config.output = 'compressed' if settings[:force_compress]
       project.update
     end
     
@@ -71,11 +82,11 @@ module Ninjs
       end
     end
 
-    def update
-      project_path = Dir.getwd << '/'
-      raise "ninjs.conf was not located in #{project_path}" unless File.exists? "#{project_path}ninjs.conf"
+    def update(path = nil)
+      path = File.expand_path Dir.getwd if path.nil?
+      raise "ninjs.conf was not located in #{path}" unless File.exists? "#{path}/ninjs.conf"
       
-      project = Ninjs::Project.new
+      project = Ninjs::Project.new({ root: path })
       project.create_ninjs_lib_file
       project.create_utility_lib_file
     end

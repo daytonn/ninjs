@@ -5,20 +5,20 @@ describe Ninjs::Command do
   context 'API' do
     before :each do
       suppress_output do
-        @project = Ninjs::Project.new 'myapp'
+        @project = Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR })
         @project.create
       end
     end
 
     after :each do
-      FileUtils.rm_rf 'application'
-      FileUtils.rm_rf 'modules'
-      FileUtils.rm_rf 'elements'
-      FileUtils.rm_rf 'models'
-      FileUtils.rm_rf 'lib'
-      FileUtils.rm_rf 'plugins'
-      FileUtils.rm_rf 'tests'
-      FileUtils.rm_rf 'ninjs.conf'
+      FileUtils.rm_rf "#{SPEC_DIR}/application"
+      FileUtils.rm_rf "#{SPEC_DIR}/modules"
+      FileUtils.rm_rf "#{SPEC_DIR}/elements"
+      FileUtils.rm_rf "#{SPEC_DIR}/models"
+      FileUtils.rm_rf "#{SPEC_DIR}/lib"
+      FileUtils.rm_rf "#{SPEC_DIR}/plugins"
+      FileUtils.rm_rf "#{SPEC_DIR}/tests"
+      FileUtils.rm_rf "#{SPEC_DIR}/ninjs.conf"
     end
 
     it 'should have a watch command' do
@@ -44,114 +44,82 @@ describe Ninjs::Command do
   
   context 'Usage' do
     after :each do
-      FileUtils.rm_rf 'application'
-      FileUtils.rm_rf 'modules'
-      FileUtils.rm_rf 'elements'
-      FileUtils.rm_rf 'models'
-      FileUtils.rm_rf 'lib'
-      FileUtils.rm_rf 'plugins'
-      FileUtils.rm_rf 'tests'
-      FileUtils.rm_rf 'ninjs.conf'
-      FileUtils.rm_rf 'js' if File.exists? 'js'
+      FileUtils.rm_rf "#{SPEC_DIR}/application"
+      FileUtils.rm_rf "#{SPEC_DIR}/modules"
+      FileUtils.rm_rf "#{SPEC_DIR}/elements"
+      FileUtils.rm_rf "#{SPEC_DIR}/models"
+      FileUtils.rm_rf "#{SPEC_DIR}/lib"
+      FileUtils.rm_rf "#{SPEC_DIR}/plugins"
+      FileUtils.rm_rf "#{SPEC_DIR}/tests"
+      FileUtils.rm_rf "#{SPEC_DIR}/ninjs.conf"
+      FileUtils.rm_rf "#{SPEC_DIR}/js" if File.exists? "#{SPEC_DIR}/js"
     end
 
     it 'should create a new application' do
-      suppress_output { Ninjs::Command.create({ :name => 'myapp' }) }
+      suppress_output { Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR }) }
 
-      'ninjs.conf'.should be_same_file_as 'fixtures/ninjs.conf'
+      "#{SPEC_DIR}/ninjs.conf".should be_same_file_as "#{SPEC_DIR}/fixtures/ninjs.conf"
 
-      File.directory?("application").should be_true
-      File.directory?("elements").should be_true
-      File.directory?("lib").should be_true
-      File.directory?("models").should be_true
-      File.directory?("modules").should be_true
-      File.directory?("plugins").should be_true
-      File.directory?("tests").should be_true
+      File.directory?("#{SPEC_DIR}/application").should be_true
+      File.directory?("#{SPEC_DIR}/elements").should be_true
+      File.directory?("#{SPEC_DIR}/lib").should be_true
+      File.directory?("#{SPEC_DIR}/models").should be_true
+      File.directory?("#{SPEC_DIR}/modules").should be_true
+      File.directory?("#{SPEC_DIR}/plugins").should be_true
+      File.directory?("#{SPEC_DIR}/tests").should be_true
 
-      File.exists?(File.expand_path("lib/nin.js")).should be_true
-      File.exists?(File.expand_path("lib/utilities.js")).should be_true
+      File.exists?("#{SPEC_DIR}/lib/nin.js").should be_true
+      File.exists?("#{SPEC_DIR}/lib/utilities.js").should be_true
 
-      File.exists?(File.expand_path("application/myapp.js")).should be_true
-      application_file_content = File.open("application/myapp.js").readlines
+      File.exists?("#{SPEC_DIR}/application/myapp.js").should be_true
+      application_file_content = File.open("#{SPEC_DIR}/application/myapp.js").readlines
       application_file_content.shift
-      application_file_content.join('').should == File.open('fixtures/myapp.initial.js').readlines.join('')
+      application_file_content.join('').should == File.open("#{SPEC_DIR}/fixtures/myapp.initial.js").readlines.join('')
 
-      File.exists?(File.expand_path("tests")).should be_true
-      File.exists?(File.expand_path("tests/index.html")).should be_true
-      File.exists?(File.expand_path("tests/application.test.js")).should be_true
-      File.exists?(File.expand_path("tests/array.utilities.test.js")).should be_true
-      File.exists?(File.expand_path("tests/existence.test.js")).should be_true
-      File.exists?(File.expand_path("tests/extension.test.js")).should be_true
-      File.exists?(File.expand_path("tests/module.test.js")).should be_true
-      File.exists?(File.expand_path("tests/qspec.js")).should be_true
-      File.exists?(File.expand_path("tests/string.utilities.test.js")).should be_true
+      File.exists?("#{SPEC_DIR}/tests").should be_true
+      File.exists?("#{SPEC_DIR}/tests/index.html").should be_true
+      File.exists?("#{SPEC_DIR}/tests/application.test.js").should be_true
+      File.exists?("#{SPEC_DIR}/tests/array.utilities.test.js").should be_true
+      File.exists?("#{SPEC_DIR}/tests/existence.test.js").should be_true
+      File.exists?("#{SPEC_DIR}/tests/extension.test.js").should be_true
+      File.exists?("#{SPEC_DIR}/tests/module.test.js").should be_true
+      File.exists?("#{SPEC_DIR}/tests/qspec.js").should be_true
+      File.exists?("#{SPEC_DIR}/tests/string.utilities.test.js").should be_true
     end
 
-    it 'should create a new application in a subdirectory' do
-      suppress_output { Ninjs::Command.create({ :name => 'myapp', :directory => 'js' }) }
-
-      'js/ninjs.conf'.should be_same_file_as 'fixtures/ninjs.conf'
-
-      File.directory?("js/application").should be_true
-      File.directory?("js/elements").should be_true
-      File.directory?("js/lib").should be_true
-      File.directory?("js/models").should be_true
-      File.directory?("js/modules").should be_true
-      File.directory?("js/plugins").should be_true
-      File.directory?("js/tests").should be_true
-
-      File.exists?(File.expand_path("js/lib/nin.js")).should be_true
-      File.exists?(File.expand_path("js/lib/utilities.js")).should be_true
-
-      File.exists?(File.expand_path("js/application/myapp.js")).should be_true
-      application_file_content = File.open("js/application/myapp.js").readlines
-      application_file_content.shift
-      application_file_content.join('').should == File.open('fixtures/myapp.initial.js').readlines.join('')
-
-      File.exists?(File.expand_path("js/tests")).should be_true
-      File.exists?(File.expand_path("js/tests/index.html")).should be_true
-      File.exists?(File.expand_path("js/tests/application.test.js")).should be_true
-      File.exists?(File.expand_path("js/tests/array.utilities.test.js")).should be_true
-      File.exists?(File.expand_path("js/tests/existence.test.js")).should be_true
-      File.exists?(File.expand_path("js/tests/extension.test.js")).should be_true
-      File.exists?(File.expand_path("js/tests/module.test.js")).should be_true
-      File.exists?(File.expand_path("js/tests/qspec.js")).should be_true
-      File.exists?(File.expand_path("js/tests/string.utilities.test.js")).should be_true
-    end
-    
     it 'should compile the application' do
-      suppress_output { Ninjs::Command.create({ :name => 'myapp' }) }
+      suppress_output { Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR }) }
       
-      FileUtils.cp 'fixtures/hello.module.js', File.expand_path('modules')
-      FileUtils.cp 'fixtures/hello.elements.js', File.expand_path('elements')
-      FileUtils.cp 'fixtures/hello.model.js', File.expand_path('models')
-      FileUtils.cp 'fixtures/foo.module.js', File.expand_path('modules')
-      FileUtils.cp 'fixtures/foo.elements.js', File.expand_path('elements')
-      FileUtils.cp 'fixtures/foo.model.js', File.expand_path('models')
-      
-      suppress_output { Ninjs::Command.compile }
-      
-      File.exists?('application/hello.js').should be_true
-      File.exists?('application/foo.js').should be_true
+      FileUtils.cp "#{SPEC_DIR}/fixtures/hello.module.js", "#{SPEC_DIR}/modules"
+      FileUtils.cp "#{SPEC_DIR}/fixtures/hello.elements.js", "#{SPEC_DIR}/elements"
+      FileUtils.cp "#{SPEC_DIR}/fixtures/hello.model.js", "#{SPEC_DIR}/models"
+      FileUtils.cp "#{SPEC_DIR}/fixtures/foo.module.js", "#{SPEC_DIR}/modules"
+      FileUtils.cp "#{SPEC_DIR}/fixtures/foo.elements.js", "#{SPEC_DIR}/elements"
+      FileUtils.cp "#{SPEC_DIR}/fixtures/foo.model.js", "#{SPEC_DIR}/models"
+
+      suppress_output { Ninjs::Command.compile({ path: SPEC_DIR }) }
+
+      File.exists?("#{SPEC_DIR}/application/hello.js").should be_true
+      File.exists?("#{SPEC_DIR}/application/foo.js").should be_true
     end
-    
+
     it 'should update the application' do
-      suppress_output { Ninjs::Command.create({ :name => 'myapp' }) }
-      
-      File.open('lib/nin.js', 'w+') do |file|
+      suppress_output { Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR }) }
+
+      File.open("#{SPEC_DIR}/lib/nin.js", 'w+') do |file|
         file << 'changed'
       end
-      
-      suppress_output { Ninjs::Command.update }
-      
-      'lib/nin.js'.should be_same_file_as 'fixtures/nin.js'
+
+      suppress_output { Ninjs::Command.update(SPEC_DIR) }
+
+      "#{SPEC_DIR}/lib/nin.js".should be_same_file_as "#{SPEC_DIR}/fixtures/nin.js"
     end
     
     it 'should generate a module file' do
       suppress_output do
-        Ninjs::Command.create({ :name => 'myapp' })
+        Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new,
+          :project => Ninjs::Project.new({ root: SPEC_DIR }),
           :type => 'module',
           :name => 'mymodule',
           :alias => nil,
@@ -160,14 +128,14 @@ describe Ninjs::Command do
         })
       end
       
-      'modules/mymodule.module.js'.should be_same_file_as 'fixtures/mymodule.module.js'
+      "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.module.js"
     end
     
     it 'should generate a module file with an alias' do
       suppress_output do
-        Ninjs::Command.create({ :name => 'myapp' })
+        Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new,
+          :project => Ninjs::Project.new({ root: SPEC_DIR }),
           :type => 'module',
           :name => 'mymodule',
           :alias => 'app',
@@ -176,14 +144,14 @@ describe Ninjs::Command do
         })
       end
       
-      'modules/mymodule.module.js'.should be_same_file_as 'fixtures/mymodule.alias.module.js'
+      "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.alias.module.js"
     end
     
     it 'should generate an elements file' do
       suppress_output do
-        Ninjs::Command.create({ :name => 'myapp' })
+        Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new,
+          :project => Ninjs::Project.new({ root: SPEC_DIR }),
           :type => 'elements',
           :name => 'mymodule',
           :alias => nil,
@@ -192,14 +160,14 @@ describe Ninjs::Command do
         })
       end
       
-      'elements/mymodule.elements.js'.should be_same_file_as 'fixtures/mymodule.elements.js'
+      "#{SPEC_DIR}/elements/mymodule.elements.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.elements.js"
     end
     
     it 'should generate a model file' do
       suppress_output do
-        Ninjs::Command.create({ :name => 'myapp' })
+        Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new,
+          :project => Ninjs::Project.new({ root: SPEC_DIR }),
           :type => 'model',
           :name => 'mymodule',
           :alias => nil,
@@ -208,14 +176,14 @@ describe Ninjs::Command do
         })
       end
       
-      'models/mymodule.model.js'.should be_same_file_as 'fixtures/mymodule.model.js'
+      "#{SPEC_DIR}/models/mymodule.model.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.model.js"
     end
     
     it 'should generate a module file with dependencies' do
       suppress_output do
-        Ninjs::Command.create({ :name => 'myapp' })
+        Ninjs::Command.create({ name: 'myapp', root: SPEC_DIR })
         Ninjs::Command.generate({
-          :project => Ninjs::Project.new,
+          :project => Ninjs::Project.new({ root: SPEC_DIR }),
           :type => 'module',
           :name => 'mymodule',
           :alias => nil,
@@ -224,10 +192,9 @@ describe Ninjs::Command do
         })
       end
       
-      'modules/mymodule.module.js'.should be_same_file_as 'fixtures/mymodule.dependencies.module.js'
-      'elements/mymodule.elements.js'.should be_same_file_as 'fixtures/mymodule.elements.js'
-      'models/mymodule.model.js'.should be_same_file_as 'fixtures/mymodule.model.js'
+      "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.dependencies.module.js"
+      "#{SPEC_DIR}/elements/mymodule.elements.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.elements.js"
+      "#{SPEC_DIR}/models/mymodule.model.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.model.js"
     end
-  end
-  # Usage
+  end # Usage
 end

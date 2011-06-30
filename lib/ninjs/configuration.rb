@@ -61,7 +61,7 @@ module Ninjs
       end
  
       def read
-        config = YAML.load_file("#{@project_path}ninjs.conf")
+        config = YAML.load_file("#{@root}/ninjs.conf")
         
         @name = config['name']
         @output = config['output']

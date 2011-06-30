@@ -36,41 +36,40 @@
 	}
 
 	if (is_undefined(window.is_string)) {
-	  window.is_string = function(suspect) {
-	    return is_typeof(String, suspect);
-	  };
+		window.is_string = function(suspect) {
+			return is_typeof(String, suspect);
+		};
 	}
 
 	if (is_undefined(window.is_array)) {
-	  window.is_array = function(suspect) {
-	    return is_typeof(Array, suspect);
-	  };
+		window.is_array = function(suspect) {
+			return is_typeof(Array, suspect);
+		};
 	}
 
 	if (is_undefined(window.is_number)) {
-	  window.is_number = function(suspect) {
-	    return is_typeof(Number, suspect);
-	  };
+		window.is_number = function(suspect) {
+			return is_typeof(Number, suspect);
+		};
 	}
 
 	if (is_undefined(window.is_date)) {
-	  window.is_date = function(suspect) {
-	    return is_typeof(Date, suspect);
-	  };
+		window.is_date = function(suspect) {
+			return is_typeof(Date, suspect);
+		};
 	}
 
 	if (is_undefined(window.is_bool)) {
-	  window.is_bool = function(suspect) {
-	    return is_typeof(Boolean, suspect);
-	  };
+		window.is_bool = function(suspect) {
+			return is_typeof(Boolean, suspect);
+		};
 	}
 
 	if (is_undefined(window.is_regex)) {
-	  window.is_regex = function(suspect) {
-	    return is_typeof(RegExp, suspect);
-	  };
+		window.is_regex = function(suspect) {
+			return is_typeof(RegExp, suspect);
+		};
 	}
-
 
 	if (is_undefined(window.is_empty)) {
 		window.is_empty = function(suspect) {
@@ -102,7 +101,7 @@
 	}
 
 	if (is_undefined(window.unless)) {
-	   window.unless = function(expression, callback, fallback) {
+		window.unless = function(expression, callback, fallback) {
 			if (is_undefined(expression)) {
 				throw new SyntaxError("unless(expression, callback[, fallback]): expression is undefined");
 			}
@@ -117,5 +116,5 @@
 			else if (is_defined(fallback)) {
 				fallback.call(this);
 			}
-	   };
+		};
 	}

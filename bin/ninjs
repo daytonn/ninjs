@@ -141,7 +141,9 @@ case command
       exit
     end
     
-    Ninjs::Command.create({ :name => app_name, :directory => sub_dir })
+    config = { name: app_name }
+    config[:root] = sub_dir unless sub_dir.nil?
+    Ninjs::Command.create(config)
 # generate
   when "generate"
     if options[:help]
@@ -186,9 +188,9 @@ case command
     end
     
     unless options[:compress].nil?
-      Ninjs::Command.compile(options[:compress])
+      Ninjs::Command.compile({ force_compress: options[:compress] })
     else
-      Ninjs::Command.compile()
+      Ninjs::Command.compile
     end
 # watch
   when "watch"

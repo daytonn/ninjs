@@ -3,7 +3,7 @@ require "spec_helper"
 describe Ninjs::Configuration do
   context 'Instantiation' do
     before :each do
-      suppress_output { @config = Ninjs::Configuration.new File.expand_path(Dir.getwd) }
+      suppress_output { @config = Ninjs::Configuration.new SPEC_DIR }
     end
 
     it 'should exist' do
@@ -11,7 +11,7 @@ describe Ninjs::Configuration do
     end
 
     it 'should have a root variable' do
-      @config.root.should == File.expand_path(Dir.getwd)
+      @config.root.should == SPEC_DIR
     end
 
     it 'should have a setting setter method' do
@@ -40,7 +40,7 @@ describe Ninjs::Configuration do
     end
     
     it 'should have the correct default instance variables' do
-      @config.root.should == File.expand_path(Dir.getwd)
+      @config.root.should == SPEC_DIR
       @config.name.should == 'application'
       @config.output.should == "expanded"
       @config.asset_root.should == @config.root
@@ -54,17 +54,17 @@ describe Ninjs::Configuration do
   context "New config" do
     before :each do
       suppress_output do
-        @config = Ninjs::Configuration.new File.expand_path(Dir.getwd)
+        @config = Ninjs::Configuration.new SPEC_DIR
         @config.write
       end
     end
     
     after :each do
-      File.delete 'ninjs.conf'
+      File.delete "#{SPEC_DIR}/ninjs.conf"
     end
     
     it 'should create a configuration file from defaults' do
-      'ninjs.conf'.should be_same_file_as 'fixtures/new.ninjs.conf'
+      "#{SPEC_DIR}/ninjs.conf".should be_same_file_as "#{SPEC_DIR}/fixtures/new.ninjs.conf"
     end
   end
 end

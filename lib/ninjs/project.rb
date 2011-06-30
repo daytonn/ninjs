@@ -3,25 +3,33 @@ module Ninjs
     attr_reader :root,
                 :config,
                 :modules
-                
-    
-    def initialize(name = nil)
-      if name.nil?
-        raise ArgumentError, "Ninjs::Project.new(name): name is required without a configuration file" unless File.exists? 'ninjs.conf'
-      end
+
+    def initialize(options = nil)
+      settings = {
+        name: nil,
+        root: Dir.getwd
+      }
       
-      @root = File.expand_path Dir.getwd
+      settings.merge!(options) unless options.nil?
+
+      @name = settings[:name]
+      @root = File.expand_path(settings[:root])
+
+      if @name.nil?
+        raise ArgumentError, "Ninjs::Project.new({ name: 'Name' }): name is required without a configuration file" unless File.exists? "#{@root}/ninjs.conf"
+      end
+
       @modules = Array.new
       @config = Ninjs::Configuration.new @root
-      @config.setting :name, name unless name.nil?
+      @config.setting :name, @name unless @name.nil?
     end
-    
+
     def root=(path)
       @root = File.expand_path path
       @config.root = @root
       @config.asset_root = @root
     end
-    
+
     def create
       puts Ninjs::Notification.notice "Creating the #{@config.name} project in #{@root}" 
       create_project_scaffold
@@ -31,7 +39,7 @@ module Ninjs
       create_ninjs_application_file
       import_test_files
     end
-    
+
     def create_project_scaffold
       Dir.mkdir "#{@root}" unless File.exists? "#{@root}"
       Ninjs::Manifest.directories.each do |folder|
@@ -55,9 +63,9 @@ module Ninjs
     
     def create_utility_lib_file
       utility_lib_secretary = Sprockets::Secretary.new(
-        :root         => "#{Ninjs::BASE_DIR}",
-        :load_path    => ["repository"],
-        :source_files => ["repository/ninjs/utilities/all.js"]
+        root: "#{Ninjs::BASE_DIR}",
+        load_path: ["repository"],
+        source_files: ["repository/ninjs/utilities/all.js"]
       )
       
       utility_lib_secretary.concatenation.save_to "#{@root}/lib/utilities.js"
@@ -104,10 +112,10 @@ module Ninjs
       @modules = Array.new
       if @config.src_dir.is_a? Array
         @config.src_dir.each do |directory| 
-          add_scripts_to_models File.expand_path "#{directory}"
+          add_scripts_to_models File.expand_path(directory, @root)
         end 
       else
-        add_scripts_to_models File.expand_path "#{@config.src_dir}"
+        add_scripts_to_models File.expand_path(@config.src_dir, @root)
       end
     end
     
@@ -211,7 +219,5 @@ module Ninjs
       end
     end
   
-  end
-  # class Project
-end
-#module Ninjs
+  end # class Project
+end # module Ninjs
