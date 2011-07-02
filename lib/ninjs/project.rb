@@ -21,7 +21,7 @@ module Ninjs
 
       @modules = Array.new
       @config = Ninjs::Configuration.new @root
-      @config.setting :name, @name unless @name.nil?
+      @config.name = @name unless @name.nil?
     end
 
     def root=(path)

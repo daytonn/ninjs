@@ -1,46 +1,28 @@
 module Ninjs
     class Configuration
-      
-      attr_reader :path,
-                  :settings,
-                  :name,
-                  :dependencies,
-                  :autoload,
-                  :src_dir,
-                  :dest_dir
-                  
-      attr_accessor :output,
-                    :root,
-                    :asset_root
+
+      attr_accessor :root,
+                    :name,
+                    :src_dir,
+                    :dest_dir,
+                    :asset_root,
+                    :asset_root_relative,
+                    :output,
+                    :dependencies,
+                    :autoload
                   
       def initialize(project_path)
         @root =  File.expand_path project_path
-        @settings = Hash.new
-        @asset_root = @root
-        
-        setting(:name, 'application')
-        setting(:src_dir, 'modules')
-        setting(:dest_dir, 'application')
-        setting(:output, 'expanded')
-        setting(:dependencies, ['<jquery/latest>'])
-        setting(:autoload, ['../lib/utilities'])
-                
-        optional_settings.each do |label, setting|
-          setting(label, setting)
-        end
-        
+        @name = 'application'
+        @src_dir = 'modules'
+        @dest_dir = 'application'
+        @asset_root_relative = '../'
+        @asset_root = File.expand_path('../', @root)
+        @output = 'expanded'
+        @dependencies = ['<jquery/latest>']
+        @autoload = ['../lib/utilities']
+
         read if File.exists? "#{@root}/ninjs.conf"
-      end
-      
-      def optional_settings
-        @settings.reject do |key, value|
-          key.to_s.match /name|src_dir|dest_dir|output|dependencies|autoload/
-        end
-      end
-      
-      def setting(name, value)
-        instance_variable_set("@#{name}", value)
-        @settings[name] = value
       end
       
       def write
@@ -48,30 +30,26 @@ module Ninjs
           conf_file << "name: #{@name}\n"
           conf_file << "src_dir: #{@src_dir}\n"
           conf_file << "dest_dir: #{@dest_dir}\n"
+          conf_file << "asset_root: #{@asset_root_relative} # relative to project root\n"
           conf_file << "output: #{@output}\n"
           conf_file << "dependencies: #{array_to_yml @dependencies}\n"
           conf_file << "autoload: #{array_to_yml @autoload}\n"
-          
-          optional_settings.each do |setting, value|
-            conf_file << "setting: #{value}\n"
-          end
         end
         
         puts Ninjs::Notification.notify "ninjs.conf created", :added
       end
- 
+
       def read
         config = YAML.load_file("#{@root}/ninjs.conf")
         
         @name = config['name']
-        @output = config['output']
         @src_dir = config['src_dir']
         @dest_dir = config['dest_dir']
-        
+        @asset_root_relative = config['asset_root'] || @asset_root_relative
+        @asset_root = File.expand_path(@asset_root_relative, @root)
+        @output = config['output']
         @dependencies = config['dependencies'] || Array.new
         @autoload = config['autoload'] || Array.new
-        
-        @asset_root = config['asset_root'] unless config['ass'].nil?
       end
       
       def array_to_yml(array)
