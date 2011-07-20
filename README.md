@@ -24,7 +24,7 @@ gem install ninjs
 For development, clone the project and add bin/ninjs to your path (or my favorite trick which is to put it in my development folder and make symbolic link in /usr/local/bin or wherever you put your scripts):
 
 ```sh
-git clone git://github.com/textnotspeech/ninjs.git
+git clone git://github.com/daytonn/ninjs.git
 ln -s ninjs/bin/ninjs /usr/local/bin/ninjs
 ```
 
