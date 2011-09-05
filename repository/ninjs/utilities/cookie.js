@@ -30,11 +30,11 @@ var Cookie = function(name, data, exp) {
   this.save();
 };
 
-Cookie.method('save', function() {
+Cookie.prototype.save = function() {
   document.cookie = this.name + "=" + this.data + this.exp + "; path=/";
-});
+};
 
-Cookie.method('read', function() {
+Cookie.prototype.read = function() {
   var nameEQ = this.name + "=";
   var ca = document.cookie.split(';');
   var length = ca.length;
@@ -50,13 +50,13 @@ Cookie.method('read', function() {
   }
   
   return null;
-});
+};
 
-Cookie.method('remove', function() {
+Cookie.prototype.remove = function() {
   this.data = '';
   this.exp = -1;
   this.save();
-});
+};
 
 function eraseCookie(name) {
 	createCookie(name,"",-1);

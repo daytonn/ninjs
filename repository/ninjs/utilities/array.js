@@ -1,12 +1,12 @@
-Array.method('is_empty', function() {
+Array.prototype.is_empty = function() {
 	return is_empty(this);
-});
+};
 
-Array.method('not_empty', function() {
+Array.prototype.not_empty = function() {
 	return is_not_empty(this);
-});
+};
 
-Array.method('each', function(callback) {
+Array.prototype.each = function(callback) {
 	if(is_undefined(callback)) {
 		throw new SyntaxError("Array.each(callback): callback is undefined");
 	}
@@ -15,9 +15,9 @@ Array.method('each', function(callback) {
 		var args = [this[i], i];
 		callback.apply(this, args);
 	}
-});
+};
 
-Array.method('contains', function(suspect) {
+Array.prototype.contains = function(suspect) {
 	var matches = [];
 	this.each(function(value, index) {
 		if(value === suspect) {
@@ -26,4 +26,4 @@ Array.method('contains', function(suspect) {
 	});
 
 	return matches.not_empty() ? matches : false;
-});
+};

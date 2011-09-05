@@ -1,15 +1,5 @@
 var spec = new QSpec("Extensions");
 
-spec.should("add 'method' to the Function prototype", function() {
-	ok(is_defined(Function.prototype.method), "Object.prototype.method is defined");
-	
-	String.method('test_method', function() {
-		return 'This is a test';
-	});
-	
-	equals('Hello'.test_method(), 'This is a test', 'can create a prototype method with method');
-});
-
 spec.should("test a condition with unless", function() {
    var is_true = false;
    
