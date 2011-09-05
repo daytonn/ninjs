@@ -3,6 +3,7 @@ var spec = new QSpec('NinjsModule');
 spec.should('return the module when adding a module', function() {
   var test_app = new NinjsApplication('myapp');
   var module = test_app.add_module('mymod');
+  console.log(module);
   equals(module, test_app.mymod, 'returns the module when adding a module');
 });
 
