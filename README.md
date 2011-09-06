@@ -1,6 +1,8 @@
 Readme
 ======
 
+[![Build Status](https://secure.travis-ci.org/daytonn/ninjs.png)](http://travis-ci.org/daytonn/ninjs)
+
 About
 -----
 
@@ -15,7 +17,7 @@ ninjs is written in Ruby (http://ruby-lang.org) and packaged as a Ruby gem (http
 Installation
 ------------
 
-You will need Ruby (1.8.x or 1.9.x) and RubyGems installed on your system to install ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
+You will need Ruby 1.9.2 + and RubyGems installed on your system to install ninjs using RubyGems. This is the easiest way of installing and recommended for most users.
 
 ```sh
 gem install ninjs
