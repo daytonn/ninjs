@@ -168,10 +168,8 @@ describe Ninjs::Project do
 
    it 'should get modules' do
      @project.get_modules
-     @project.modules.should == [
-       "#{SPEC_DIR}/modules/foo.module.js",
-       "#{SPEC_DIR}/modules/hello.module.js"
-     ]
+     @project.modules.include?("#{SPEC_DIR}/modules/foo.module.js").should be_true
+     @project.modules.include?("#{SPEC_DIR}/modules/hello.module.js").should be_true
    end
 
    it 'should compile a module' do
@@ -182,11 +180,8 @@ describe Ninjs::Project do
 
    it 'should add modules from a directory' do
      @project.add_scripts_to_models("#{SPEC_DIR}/modules")
-
-     @project.modules.should == [
-       "#{SPEC_DIR}/modules/foo.module.js",
-       "#{SPEC_DIR}/modules/hello.module.js"
-     ]
+     @project.modules.include?("#{SPEC_DIR}/modules/foo.module.js").should be_true
+     @project.modules.include?("#{SPEC_DIR}/modules/hello.module.js").should be_true
    end
 
    it 'should compile the modules' do
