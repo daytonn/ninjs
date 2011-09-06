@@ -1,3 +1,3 @@
-app.foo.set_data({
+mod.set_data({
 	
 });

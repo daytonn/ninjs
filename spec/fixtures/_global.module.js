@@ -1,9 +1,9 @@
 (function(app) {
-	var self = app.add_module('global');
+	var mod = app.add_module('global');
 
-	app.global.actions = function() {
+	mod.actions = function() {
 
 	};
 
-	app.global.run();
+	mod.run();
 })(myapp);

@@ -1,13 +1,13 @@
 (function(app) {
-	var self = app.add_module('foo');
+	var mod = app.add_module('foo');
 
 	//= require "../elements/foo.elements"
 
 	//= require "../models/foo.model"
 
-	app.foo.actions = function() {
+	mod.actions = function() {
 
 	};
 
-	app.foo.run();
+	mod.run();
 })(myapp);

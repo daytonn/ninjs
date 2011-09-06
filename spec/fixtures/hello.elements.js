@@ -1,3 +1,3 @@
-app.hello.elements({
+mod.elements({
 
 });

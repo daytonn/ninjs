@@ -1,3 +1,3 @@
-app.foo.elements({
+mod.elements({
 
 });

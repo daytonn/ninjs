@@ -1,17 +1,17 @@
 (function(app) {
-	var self = app.add_module('foo');
+	var mod = app.add_module('foo');
 
-app.foo.elements({
-
-});
-
-app.foo.set_data({
+mod.elements({
 
 });
 
-	app.foo.actions = function() {
+mod.set_data({
+
+});
+
+	mod.actions = function() {
 
 	};
 
-	app.foo.run();
+	mod.run();
 })(myapp);

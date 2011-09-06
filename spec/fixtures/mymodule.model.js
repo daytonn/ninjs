@@ -1,3 +1,3 @@
-	myapp.mymodule.set_data({
+	mod.set_data({
 		
 	});

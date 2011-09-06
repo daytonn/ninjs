@@ -23,6 +23,7 @@ describe Ninjs::Configuration do
       @config.autoload.should == ["../lib/utilities"]
       @config.src_dir.should == "modules"
       @config.dest_dir.should == "application"
+      @config.module_alias.should == "mod"
     end
   end # Instantiation
 

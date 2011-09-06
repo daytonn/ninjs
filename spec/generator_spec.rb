@@ -79,4 +79,15 @@ describe Ninjs::Generator do
     "#{SPEC_DIR}/models/mymodule.model.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.model.js"
   end
 
+  it 'should generate a module file with a dynamic alias' do
+    new_conf = File.open("#{SPEC_DIR}/fixtures/updated.ninjs.conf", "r").readlines.join("")
+    File.open("#{SPEC_DIR}/ninjs.conf", "w+") do |file|
+      file << new_conf
+    end
+    @config[:project].config.read
+    generator = Ninjs::Generator.new(@config)
+    suppress_output { generator.generate }
+    
+    "#{SPEC_DIR}/modules/mymodule.module.js".should be_same_file_as "#{SPEC_DIR}/fixtures/mymodule.module_alias.module.js"
+  end
 end

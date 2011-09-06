@@ -1,10 +1,10 @@
 (function() {
 	var mod = myapp.add_module('mymodule');
 
-	myapp.mymodule.actions = function() {
+	mod.actions = function() {
 		
 	};
 
-	myapp.mymodule.run();
+	mod.run();
 
 })();

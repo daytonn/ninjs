@@ -1,3 +1,3 @@
-app.hello.set_data({
+mod.set_data({
 	
 });

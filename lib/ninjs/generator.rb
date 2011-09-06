@@ -23,11 +23,11 @@ module Ninjs
     def generate_module_file
       module_content = Array.new
       module_content << "(function(#{@app_name if @alias}) {\n"
-      module_content << "\tvar mod = #{@app_name}.add_module('#{@name}');\n\n"
+      module_content << "\tvar #{@project.config.module_alias} = #{@app_name}.add_module('#{@name}');\n\n"
       module_content << %Q{\t//= require "../elements/#{@name.downcase}.elements"\n} if @dependencies[:elements] || @type === 'elements'
       module_content << %Q{\t//= require "../models/#{@name.downcase}.model"\n\n} if @dependencies[:model] || @type === 'model'
-      module_content << "\t#{@app_name}.#{@module_name}.actions = function() {\n\t\t\n\t};\n\n"
-      module_content << "\t#{@app_name}.#{@module_name}.run();\n"
+      module_content << "\t#{@project.config.module_alias}.actions = function() {\n\t\t\n\t};\n\n"
+      module_content << "\t#{@project.config.module_alias}.run();\n"
       module_content << "\n})(#{@project.config.name if @alias});"
       
       
@@ -41,7 +41,7 @@ module Ninjs
     
     def generate_elements_file
       File.open("#{@project.root}/elements/#{@module_name}" + ".elements.js", "w") do |file|
-        file << %Q{\tmod.dom.ready(function() {\n\t\t#{@app_name}.#{@module_name}.elements({\n\t\t\t\n\t\t});\n\t});\n}
+        file << %Q{\t#{@project.config.module_alias}.dom.ready(function() {\n\t\tmod.elements({\n\t\t\t\n\t\t});\n\t});\n}
         puts Ninjs::Notification.added "created #{@module_name}.elements.js"
       end unless File.exists? "#{@project.root}/elements/#{@module_name}.elements.js"
       
@@ -50,7 +50,7 @@ module Ninjs
     
     def generate_model_file
       File.open "#{@project.root}/models/#{@module_name}.model.js", "w" do |file|
-        file << %Q{\t#{@app_name}.#{@module_name}.set_data({\n\t\t\n\t});\n}
+        file << %Q{\t#{@project.config.module_alias}.set_data({\n\t\t\n\t});\n}
         puts Ninjs::Notification.added "created #{@module_name}.model.js"
       end unless File.exists? "#{@project.root}/models/#{@module_name}.model.js"
       

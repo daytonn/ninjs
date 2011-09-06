@@ -4,10 +4,10 @@
 	//= require "../elements/mymodule.elements"
 	//= require "../models/mymodule.model"
 
-	myapp.mymodule.actions = function() {
+	mod.actions = function() {
 		
 	};
 
-	myapp.mymodule.run();
+	mod.run();
 
 })();
