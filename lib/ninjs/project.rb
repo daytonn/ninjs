@@ -122,7 +122,7 @@ module Ninjs
     def add_scripts_to_models(directory)
       Dir["#{directory}/*.js"].each do |file|
         module_filename = file.gsub(directory, '')
-        @modules << "#{directory}#{module_filename}" unless module_filename.match(/^_/)
+        @modules << "#{directory}#{module_filename}" unless module_filename.match(/^\/_/)
       end
     end
     

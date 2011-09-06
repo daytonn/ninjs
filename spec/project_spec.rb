@@ -148,6 +148,7 @@ describe Ninjs::Project do
      FileUtils.cp "#{SPEC_DIR}/fixtures/foo.module.js", "#{SPEC_DIR}/modules"
      FileUtils.cp "#{SPEC_DIR}/fixtures/foo.elements.js", "#{SPEC_DIR}/elements"
      FileUtils.cp "#{SPEC_DIR}/fixtures/foo.model.js", "#{SPEC_DIR}/models"
+     FileUtils.cp "#{SPEC_DIR}/fixtures/_global.module.js", "#{SPEC_DIR}/modules"
    end
 
    after :each do
@@ -194,6 +195,13 @@ describe Ninjs::Project do
 
      "#{SPEC_DIR}/application/hello.js".should be_same_file_as "#{SPEC_DIR}/fixtures/hello.js"
      "#{SPEC_DIR}/application/foo.js".should be_same_file_as "#{SPEC_DIR}/fixtures/foo.js"
+   end
+
+   it 'should not compile prefixed modules' do
+     @project.add_scripts_to_models("#{SPEC_DIR}/modules")
+     @project.compile_modules
+
+     File.exists?("#{SPEC_DIR}/application/_global.js").should_not be_true
    end
 
    it 'should write the dependencies to a file' do
