@@ -75,8 +75,8 @@ module Ninjs
     
     def generate(config)
       begin
-        conf_path = "#{Dir.getwd}/ninjs.conf"
-        raise "ninjs.conf was not located in #{conf_path}" unless File.exists? "#{conf_path}"
+        conf_path = "#{config[:project].root}/ninjs.conf"
+        raise "ninjs.conf was not located in #{conf_path}" unless File.exists? conf_path
         generator = Ninjs::Generator.new(config)
         generator.generate
       end

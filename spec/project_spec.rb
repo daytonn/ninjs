@@ -1,7 +1,7 @@
 require "spec_helper.rb"
 
 describe Ninjs::Project do
-  
+
   it "should exist" do
     Ninjs::Project.should_not be_nil
   end
@@ -68,7 +68,7 @@ describe Ninjs::Project do
      @project.config.dest_dir.should == 'compiled'
    end
   end # Instantiation with an existing config file
-  
+
   context "Project Creation" do
    before :each do
      suppress_output do
@@ -134,7 +134,7 @@ describe Ninjs::Project do
      File.exists?("#{SPEC_DIR}/tests/string.utilities.test.js").should be_true
    end
   end # Project Creation
-  
+
   context 'Project management' do
    before :each do
      suppress_output do
@@ -232,15 +232,16 @@ describe Ninjs::Project do
      File.delete "#{SPEC_DIR}/autoload.js"
    end
 
-   #it 'should update the application file' do
-   #  suppress_output { @project.update_application_file }
-   #  "#{SPEC_DIR}/application/myapp.js".should be_same_file_as "#{SPEC_DIR}/fixtures/myapp.js"
-   #end
+   it 'should update the application file' do
+     suppress_output { @project.update_application_file }
+     "#{SPEC_DIR}/application/myapp.js".should be_same_file_as "#{SPEC_DIR}/fixtures/myapp.js"
+   end
 
-   #it 'should compress an application' do
-   #  @project.compress_application
-   #  "#{SPEC_DIR}/application/myapp.js".should be_same_file_as "#{SPEC_DIR}/fixtures/compressed.myapp.js"
-   #end
+   it 'should compress an application' do
+     @project.config.dest_dir = 'spec/application'
+     @project.compress_application
+     "#{SPEC_DIR}/application/myapp.js".should be_same_file_as "#{SPEC_DIR}/fixtures/compressed.myapp.js"
+   end
 
   end # Project management
 

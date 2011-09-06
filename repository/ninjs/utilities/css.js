@@ -10,7 +10,7 @@ CSS.rgb2hex = function(r,g,b) {
 	else {
 		rgb = false;
 	}
-	
+
 	if (rgb) {
 		r = parseInt(rgb[0], 10);
 		g = parseInt(rgb[1], 10);
@@ -26,26 +26,26 @@ CSS.rgb2hex = function(r,g,b) {
 
 CSS.hex2rgb = function(hex) {
 	hex = hex.replace('#', '');
-	
+
 	var rgb = [];
-	
+
 	rgb[0] = parseInt(hex.substring(0,2), 16);
 	rgb[1] = parseInt(hex.substring(2,4), 16);
 	rgb[2] = parseInt(hex.substring(4,6), 16);
-	
+
 	rgb.red = rgb[0];
 	rgb.green = rgb[1];
 	rgb.blue = rgb[2];
-	
+
 	rgb.to_s = function() {
 		return 'rgb(' + rgb.red +', ' + rgb.green + ', ' + rgb.blue + ')';
 	};
-	
+
 	rgb.each = function(callback) {
 		for (var i = 0; i < 3; i++) {
 			callback.call(this, rgb[i]);
 		}
 	};
-	
+
 	return rgb;
 };
