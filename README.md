@@ -71,7 +71,7 @@ The basic functionality of a module is to encapsulate specific behavior in a nam
    
 ```js
 (function() {
-    var mod = myapplication.add_module('hello');
+    var mod = app.add_module('hello');
     
     //= require "../models/hello.model"
     //= require "../elements/hello.elements"
@@ -91,7 +91,7 @@ The actions method is the main method of your module. The actions method is simp
 The "run" method will execute the actions method when the DOM is ready to be manipulated. This is the same thing as jQuery's $(document).ready() method. If you wish to execute your modules actions as soon as the script is parsed you may call the "execute" method instead of "run":
 
 ```js
-myapplication.hello.execute(); // executes immediately
+mod.execute(); // executes immediately
 ```
 
 This pattern allows you to write in a literate style, making your intentions clear and methods succinct. Another advantage of wrapping your modules in a closure is that you may choose to define an alias for your application object which makes it easier to access, while avoiding creation of a global variable. To do this, simply pass in the application object as an argument to the outer function and then name the alias in the argument to the closure like so:
@@ -208,7 +208,7 @@ mod.dom.ready(function() {
 Now these cached querys will be available via the elements command by passing it's name into the method like so:
 
 ```js
-myapplication.hello.some_method = function() {
+mod.some_method = function() {
   mod.elements('message_box');
 };
 ```
@@ -274,7 +274,7 @@ mod.set_data('plugin_config', {
 If we wish to set several properties at once we can use just an object as the first argument:
 
 ```js
-myapplication.hello.set_data({
+mod.set_data({
   plugin_config: {
     width: 300,
     height: 250
