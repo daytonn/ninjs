@@ -5,21 +5,21 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.14.1"
+  s.version = "0.16.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Dayton Nolan"]
-  s.date = %q{2011-06-06}
-  s.default_executable = %q{ninjs}
+  s.authors = [%q{Dayton Nolan}]
+  s.date = %q{2011-09-07}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
-  s.executables = ["ninjs"]
+  s.executables = [%q{ninjs}]
   s.extra_rdoc_files = [
     "LICENSE",
     "README.md"
   ]
   s.files = [
     ".bundle/config",
+    ".travis.yml",
     "CNAME",
     "Gemfile",
     "Gemfile.lock",
@@ -114,9 +114,6 @@ Gem::Specification.new do |s|
     "repository/jquery/ui/assets/1.8.7/images/jqueryui/ui-icons_888888_256x240.png",
     "repository/jquery/ui/assets/1.8.7/images/jqueryui/ui-icons_cd0a0a_256x240.png",
     "repository/jquery/ui/latest.js",
-    "repository/json2.js",
-    "repository/modernizr/1.5.js",
-    "repository/modernizr/latest.js",
     "repository/ninjs/core/.core.pdoc.yaml",
     "repository/ninjs/core/.existence.pdoc.yaml",
     "repository/ninjs/core/.extend.pdoc.yaml",
@@ -127,66 +124,6 @@ Gem::Specification.new do |s|
     "repository/ninjs/core/extend.js",
     "repository/ninjs/core/module.js",
     "repository/ninjs/core/nin.js",
-    "repository/ninjs/docs/Data/ClassHierarchy.nd",
-    "repository/ninjs/docs/Data/ConfigFileInfo.nd",
-    "repository/ninjs/docs/Data/FileInfo.nd",
-    "repository/ninjs/docs/Data/ImageFileInfo.nd",
-    "repository/ninjs/docs/Data/ImageReferenceTable.nd",
-    "repository/ninjs/docs/Data/IndexInfo.nd",
-    "repository/ninjs/docs/Data/PreviousMenuState.nd",
-    "repository/ninjs/docs/Data/PreviousSettings.nd",
-    "repository/ninjs/docs/Data/SymbolTable.nd",
-    "repository/ninjs/docs/Languages.txt",
-    "repository/ninjs/docs/Menu.txt",
-    "repository/ninjs/docs/Topics.txt",
-    "repository/ninjs/docs/files/core/application-js.html",
-    "repository/ninjs/docs/files/core/existence-js.html",
-    "repository/ninjs/docs/files/core/extend-js.html",
-    "repository/ninjs/docs/files/core/module-js.html",
-    "repository/ninjs/docs/files/core/nin-js.html",
-    "repository/ninjs/docs/index.html",
-    "repository/ninjs/docs/index/Classes.html",
-    "repository/ninjs/docs/index/Files.html",
-    "repository/ninjs/docs/index/Functions.html",
-    "repository/ninjs/docs/index/General.html",
-    "repository/ninjs/docs/index/Variables.html",
-    "repository/ninjs/docs/javascript/main.js",
-    "repository/ninjs/docs/javascript/prettify.js",
-    "repository/ninjs/docs/javascript/searchdata.js",
-    "repository/ninjs/docs/search/ClassesN.html",
-    "repository/ninjs/docs/search/FilesA.html",
-    "repository/ninjs/docs/search/FilesE.html",
-    "repository/ninjs/docs/search/FilesM.html",
-    "repository/ninjs/docs/search/FilesN.html",
-    "repository/ninjs/docs/search/FunctionsA.html",
-    "repository/ninjs/docs/search/FunctionsC.html",
-    "repository/ninjs/docs/search/FunctionsE.html",
-    "repository/ninjs/docs/search/FunctionsI.html",
-    "repository/ninjs/docs/search/FunctionsM.html",
-    "repository/ninjs/docs/search/FunctionsR.html",
-    "repository/ninjs/docs/search/FunctionsS.html",
-    "repository/ninjs/docs/search/FunctionsSymbols.html",
-    "repository/ninjs/docs/search/FunctionsU.html",
-    "repository/ninjs/docs/search/GeneralA.html",
-    "repository/ninjs/docs/search/GeneralC.html",
-    "repository/ninjs/docs/search/GeneralD.html",
-    "repository/ninjs/docs/search/GeneralE.html",
-    "repository/ninjs/docs/search/GeneralF.html",
-    "repository/ninjs/docs/search/GeneralI.html",
-    "repository/ninjs/docs/search/GeneralM.html",
-    "repository/ninjs/docs/search/GeneralN.html",
-    "repository/ninjs/docs/search/GeneralR.html",
-    "repository/ninjs/docs/search/GeneralS.html",
-    "repository/ninjs/docs/search/GeneralSymbols.html",
-    "repository/ninjs/docs/search/GeneralT.html",
-    "repository/ninjs/docs/search/GeneralU.html",
-    "repository/ninjs/docs/search/GeneralV.html",
-    "repository/ninjs/docs/search/NoResults.html",
-    "repository/ninjs/docs/search/VariablesD.html",
-    "repository/ninjs/docs/search/VariablesN.html",
-    "repository/ninjs/docs/search/VariablesR.html",
-    "repository/ninjs/docs/search/VariablesT.html",
-    "repository/ninjs/docs/styles/main.css",
     "repository/ninjs/extensions/jquery.elements.js",
     "repository/ninjs/tests/application.test.js",
     "repository/ninjs/tests/array.utilities.test.js",
@@ -202,79 +139,11 @@ Gem::Specification.new do |s|
     "repository/ninjs/utilities/css.js",
     "repository/ninjs/utilities/number.js",
     "repository/ninjs/utilities/string.js",
-    "repository/nullconsole.js",
-    "repository/qunit/assets/css/qunit.css",
-    "repository/qunit/qunit.js",
-    "repository/selectivizr/1.0.js",
-    "repository/selectivizr/latest.js",
-    "repository/syntaxhighlighter/all.js",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCore.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreDefault.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreDjango.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreEclipse.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreEmacs.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreFadeToGrey.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreMDUltra.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreMidnight.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shCoreRDark.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeDefault.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeDjango.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeEclipse.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeEmacs.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeFadeToGrey.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeMDUltra.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeMidnight.css",
-    "repository/syntaxhighlighter/assets/css/syntaxhighlighter/shThemeRDark.css",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCore.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreDefault.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreDjango.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreEclipse.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreEmacs.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreFadeToGrey.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreMDUltra.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreMidnight.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shCoreRDark.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeDefault.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeDjango.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeEclipse.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeEmacs.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeFadeToGrey.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeMDUltra.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeMidnight.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_shThemeRDark.scss",
-    "repository/syntaxhighlighter/assets/scss/syntaxhighlighter/_theme_template.scss",
-    "repository/syntaxhighlighter/shAutoloader.js",
-    "repository/syntaxhighlighter/shBrushAS3.js",
-    "repository/syntaxhighlighter/shBrushAppleScript.js",
-    "repository/syntaxhighlighter/shBrushBash.js",
-    "repository/syntaxhighlighter/shBrushCSharp.js",
-    "repository/syntaxhighlighter/shBrushColdFusion.js",
-    "repository/syntaxhighlighter/shBrushCpp.js",
-    "repository/syntaxhighlighter/shBrushCss.js",
-    "repository/syntaxhighlighter/shBrushDelphi.js",
-    "repository/syntaxhighlighter/shBrushDiff.js",
-    "repository/syntaxhighlighter/shBrushErlang.js",
-    "repository/syntaxhighlighter/shBrushGroovy.js",
-    "repository/syntaxhighlighter/shBrushJScript.js",
-    "repository/syntaxhighlighter/shBrushJava.js",
-    "repository/syntaxhighlighter/shBrushJavaFX.js",
-    "repository/syntaxhighlighter/shBrushPerl.js",
-    "repository/syntaxhighlighter/shBrushPhp.js",
-    "repository/syntaxhighlighter/shBrushPlain.js",
-    "repository/syntaxhighlighter/shBrushPowerShell.js",
-    "repository/syntaxhighlighter/shBrushPython.js",
-    "repository/syntaxhighlighter/shBrushRuby.js",
-    "repository/syntaxhighlighter/shBrushSass.js",
-    "repository/syntaxhighlighter/shBrushScala.js",
-    "repository/syntaxhighlighter/shBrushSql.js",
-    "repository/syntaxhighlighter/shBrushVb.js",
-    "repository/syntaxhighlighter/shBrushXml.js",
-    "repository/syntaxhighlighter/shCore.js",
-    "repository/syntaxhighlighter/shLegacy.js",
     "spec/cli_spec.rb",
     "spec/command_spec.rb",
     "spec/configuration_spec.rb",
     "spec/dependencies_spec.rb",
+    "spec/fixtures/_global.module.js",
     "spec/fixtures/autoload.js",
     "spec/fixtures/changed.ninjs.conf",
     "spec/fixtures/compressed.myapp.js",
@@ -295,22 +164,25 @@ Gem::Specification.new do |s|
     "spec/fixtures/mymodule.elements.js",
     "spec/fixtures/mymodule.model.js",
     "spec/fixtures/mymodule.module.js",
+    "spec/fixtures/mymodule.module_alias.module.js",
     "spec/fixtures/new.ninjs.conf",
     "spec/fixtures/nin.js",
     "spec/fixtures/ninjs.conf",
+    "spec/fixtures/updated.ninjs.conf",
     "spec/generator_spec.rb",
     "spec/helpers_spec.rb",
     "spec/manifest_spec.rb",
     "spec/ninjs_spec.rb",
     "spec/notification_spec.rb",
     "spec/project_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "spec/testspec_spec.rb"
   ]
   s.homepage = %q{http://github.com/textnotspeech/ninjs}
-  s.licenses = ["MIT"]
-  s.require_paths = ["lib"]
+  s.licenses = [%q{MIT}]
+  s.require_paths = [%q{lib}]
   s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.8.8}
   s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
   s.test_files = [
     "spec/cli_spec.rb",
@@ -323,7 +195,8 @@ Gem::Specification.new do |s|
     "spec/ninjs_spec.rb",
     "spec/notification_spec.rb",
     "spec/project_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "spec/testspec_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -338,6 +211,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
+      s.add_development_dependency(%q<rdoc>, [">= 0"])
       s.add_runtime_dependency(%q<rubikon>, [">= 0"])
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
@@ -352,6 +226,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
+      s.add_dependency(%q<rdoc>, [">= 0"])
       s.add_dependency(%q<rubikon>, [">= 0"])
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
@@ -367,6 +242,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
+    s.add_dependency(%q<rdoc>, [">= 0"])
     s.add_dependency(%q<rubikon>, [">= 0"])
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
