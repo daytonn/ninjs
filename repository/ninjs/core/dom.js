@@ -1,3 +1,4 @@
+// Slightly modified version of domready: http://code.google.com/p/domready/
 var dom = (function() {
 	var userAgent = navigator.userAgent;
 	var browser = {
