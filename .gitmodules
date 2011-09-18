@@ -1,0 +1,3 @@
+[submodule "repository/ninjs"]
+	path = repository/ninjs
+	url = git@github.com:daytonn/ninjs-framework.git
