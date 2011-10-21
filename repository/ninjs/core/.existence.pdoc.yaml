@@ -1,0 +1,12 @@
+---
+id: "is_defined"
+type: class method
+line_number: 5
+description: |
+
+
+signatures:
+ -
+  signature: ".is_defined(suspect)"
+  return_value: "Any"
+file: /Volumes/Storage/Development/ninjs/repository/ninjs/core/existence.js
