@@ -4,21 +4,22 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{ninjs}
-  s.version = "0.16.0"
+  s.name = "ninjs"
+  s.version = "0.16.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Dayton Nolan}]
-  s.date = %q{2011-09-07}
-  s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
-  s.email = %q{daytonn@gmail.com}
-  s.executables = [%q{ninjs}]
+  s.authors = ["Dayton Nolan"]
+  s.date = "2011-10-21"
+  s.description = "Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages \"Good Parts\" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/)."
+  s.email = "daytonn@gmail.com"
+  s.executables = ["ninjs"]
   s.extra_rdoc_files = [
     "LICENSE",
     "README.md"
   ]
   s.files = [
     ".bundle/config",
+    ".gitmodules",
     ".travis.yml",
     "CNAME",
     "Gemfile",
@@ -114,6 +115,10 @@ Gem::Specification.new do |s|
     "repository/jquery/ui/assets/1.8.7/images/jqueryui/ui-icons_888888_256x240.png",
     "repository/jquery/ui/assets/1.8.7/images/jqueryui/ui-icons_cd0a0a_256x240.png",
     "repository/jquery/ui/latest.js",
+    "repository/ninjs/.travis.yml",
+    "repository/ninjs/Gemfile",
+    "repository/ninjs/README.md",
+    "repository/ninjs/Rakefile",
     "repository/ninjs/core/.core.pdoc.yaml",
     "repository/ninjs/core/.existence.pdoc.yaml",
     "repository/ninjs/core/.extend.pdoc.yaml",
@@ -125,14 +130,16 @@ Gem::Specification.new do |s|
     "repository/ninjs/core/module.js",
     "repository/ninjs/core/nin.js",
     "repository/ninjs/extensions/jquery.elements.js",
-    "repository/ninjs/tests/application.test.js",
-    "repository/ninjs/tests/array.utilities.test.js",
-    "repository/ninjs/tests/existence.test.js",
-    "repository/ninjs/tests/extension.test.js",
-    "repository/ninjs/tests/index.html",
-    "repository/ninjs/tests/module.test.js",
-    "repository/ninjs/tests/qspec.js",
-    "repository/ninjs/tests/string.utilities.test.js",
+    "repository/ninjs/spec/index.html",
+    "repository/ninjs/spec/javascripts/application_spec.js",
+    "repository/ninjs/spec/javascripts/array_utility_spec.js",
+    "repository/ninjs/spec/javascripts/existence_spec.js",
+    "repository/ninjs/spec/javascripts/extension_spec.js",
+    "repository/ninjs/spec/javascripts/module_spec.js",
+    "repository/ninjs/spec/javascripts/string_utility_spec.js",
+    "repository/ninjs/spec/javascripts/support/jasmine.yml",
+    "repository/ninjs/spec/javascripts/support/jasmine_config.rb",
+    "repository/ninjs/spec/javascripts/support/jasmine_runner.rb",
     "repository/ninjs/utilities/all.js",
     "repository/ninjs/utilities/array.js",
     "repository/ninjs/utilities/cookie.js",
@@ -176,14 +183,15 @@ Gem::Specification.new do |s|
     "spec/notification_spec.rb",
     "spec/project_spec.rb",
     "spec/spec_helper.rb",
-    "spec/testspec_spec.rb"
+    "templates/jasmine.yml",
+    "templates/test-index.html"
   ]
-  s.homepage = %q{http://github.com/textnotspeech/ninjs}
-  s.licenses = [%q{MIT}]
-  s.require_paths = [%q{lib}]
-  s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.8.8}
-  s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
+  s.homepage = "http://github.com/textnotspeech/ninjs"
+  s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
+  s.rubyforge_project = "nowarning"
+  s.rubygems_version = "1.8.10"
+  s.summary = "ninjs is a command line application to help you write clean, modular javascript applications."
   s.test_files = [
     "spec/cli_spec.rb",
     "spec/command_spec.rb",
@@ -195,8 +203,7 @@ Gem::Specification.new do |s|
     "spec/ninjs_spec.rb",
     "spec/notification_spec.rb",
     "spec/project_spec.rb",
-    "spec/spec_helper.rb",
-    "spec/testspec_spec.rb"
+    "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
