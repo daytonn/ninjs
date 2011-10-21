@@ -30,7 +30,18 @@ describe 'CLI' do
     File.directory?("#{SPEC_DIR}/models").should be_true
     File.directory?("#{SPEC_DIR}/modules").should be_true
     File.directory?("#{SPEC_DIR}/plugins").should be_true
-    File.directory?("#{SPEC_DIR}/tests").should be_true
+    File.directory?("#{SPEC_DIR}/spec").should be_true
+    File.directory?("#{SPEC_DIR}/spec/javascripts").should be_true
+    File.directory?("#{SPEC_DIR}/spec/javascripts/support").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/application_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/array_utility_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/existence_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/extension_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/module_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/string_utility_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine.yml").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine_config.rb").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine_runner.rb").should be_true
 
     File.exists?("#{SPEC_DIR}/lib/nin.js").should be_true
     File.exists?("#{SPEC_DIR}/lib/utilities.js").should be_true
@@ -39,16 +50,6 @@ describe 'CLI' do
     application_file_content = File.open("#{SPEC_DIR}/application/myapp.js").readlines
     application_file_content.shift
     application_file_content.join('').should == File.open("#{SPEC_DIR}/fixtures/myapp.initial.js").readlines.join('')
-
-    File.exists?("#{SPEC_DIR}/tests").should be_true
-    File.exists?("#{SPEC_DIR}/tests/index.html").should be_true
-    File.exists?("#{SPEC_DIR}/tests/application.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/tests/array.utilities.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/tests/existence.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/tests/extension.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/tests/module.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/tests/qspec.js").should be_true
-    File.exists?("#{SPEC_DIR}/tests/string.utilities.test.js").should be_true
   end
 
   it 'should create a new application in a subdirectory' do
@@ -62,25 +63,24 @@ describe 'CLI' do
     File.directory?("#{SPEC_DIR}/js/models").should be_true
     File.directory?("#{SPEC_DIR}/js/modules").should be_true
     File.directory?("#{SPEC_DIR}/js/plugins").should be_true
-    File.directory?("#{SPEC_DIR}/js/tests").should be_true
-
+    File.directory?("#{SPEC_DIR}/spec").should be_true
+    File.directory?("#{SPEC_DIR}/spec/javascripts").should be_true
+    File.directory?("#{SPEC_DIR}/spec/javascripts/support").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/application_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/array_utility_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/existence_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/extension_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/module_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/string_utility_spec.js").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine.yml").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine_config.rb").should be_true
+    File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine_runner.rb").should be_true
     File.exists?("#{SPEC_DIR}/js/lib/nin.js").should be_true
     File.exists?("#{SPEC_DIR}/js/lib/utilities.js").should be_true
-
     File.exists?("#{SPEC_DIR}/js/application/myapp.js").should be_true
     application_file_content = File.open("#{SPEC_DIR}/js/application/myapp.js").readlines
     application_file_content.shift
     application_file_content.join('').should == File.open("#{SPEC_DIR}/fixtures/myapp.initial.js").readlines.join('')
-
-    File.exists?("#{SPEC_DIR}/js/tests").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/index.html").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/application.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/array.utilities.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/existence.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/extension.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/module.test.js").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/qspec.js").should be_true
-    File.exists?("#{SPEC_DIR}/js/tests/string.utilities.test.js").should be_true
   end
   
   it 'should compile the application' do

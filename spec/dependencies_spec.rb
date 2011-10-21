@@ -24,4 +24,8 @@ describe Ninjs do
   it 'should require time' do
     Time.should_not be_nil
   end
+
+  it 'should require ERB' do
+    ERB.should_not be_nil
+  end
 end

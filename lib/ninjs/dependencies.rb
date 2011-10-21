@@ -5,6 +5,7 @@ begin
   require 'sprockets'
   require 'fileutils'
   require 'time'
+  require 'erb'
 rescue LoadError
   require 'rubygems'
   require 'yaml'
@@ -13,4 +14,5 @@ rescue LoadError
   require 'sprockets'
   require 'fileutils'
   require 'time'
+  require 'erb'
 end

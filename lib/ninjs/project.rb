@@ -37,7 +37,8 @@ module Ninjs
       create_ninjs_lib_file
       create_utility_lib_file
       create_ninjs_application_file
-      import_test_files
+      import_rakefile
+      import_spec_files
     end
 
     def create_project_scaffold
@@ -80,18 +81,30 @@ module Ninjs
         file << "\nvar #{@config.name} = new NinjsApplication();"
       end
     end
-    
-    def import_test_files
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/index.html", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/application.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/array.utilities.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/existence.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/extension.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/module.test.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/qspec.js", "#{@root}/tests"
-      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/tests/string.utilities.test.js", "#{@root}/tests"
+
+    def import_rakefile
+      FileUtils.cp "#{Ninjs::BASE_DIR}/repository/ninjs/Rakefile", "#{@root}/Rakefile"
     end
-    
+
+    def import_spec_files
+      {
+        'repository/ninjs/spec/javascripts/application_spec.js' => 'spec/javascripts/',
+        'repository/ninjs/spec/javascripts/array_utility_spec.js' => 'spec/javascripts/',
+        'repository/ninjs/spec/javascripts/existence_spec.js' => 'spec/javascripts/',
+        'repository/ninjs/spec/javascripts/extension_spec.js' => 'spec/javascripts/',
+        'repository/ninjs/spec/javascripts/module_spec.js' => 'spec/javascripts/',
+        'repository/ninjs/spec/javascripts/string_utility_spec.js' => 'spec/javascripts/',
+        'repository/ninjs/spec/javascripts/support/jasmine_config.rb' => 'spec/javascripts/support',
+        'repository/ninjs/spec/javascripts/support/jasmine_runner.rb' => 'spec/javascripts/support',
+        'templates/test-index.html' => 'spec/index.html',
+        'templates/jasmine.yml' => 'spec/javascripts/support/'
+      }.each { |src, dest| import_spec_file src, dest }
+    end
+
+    def import_spec_file(src, dest)
+      FileUtils.cp "#{Ninjs::BASE_DIR}/#{src}", "#{@root}/#{dest}"
+    end
+
     def update
       get_modules
       compile_modules
