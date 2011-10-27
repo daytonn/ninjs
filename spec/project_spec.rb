@@ -84,7 +84,8 @@ describe Ninjs::Project do
      FileUtils.rm_rf "#{SPEC_DIR}/models"
      FileUtils.rm_rf "#{SPEC_DIR}/modules"
      FileUtils.rm_rf "#{SPEC_DIR}/plugins"
-     FileUtils.rm_rf "#{SPEC_DIR}/tests"
+     FileUtils.rm_rf "#{SPEC_DIR}/spec"
+     FileUtils.rm_rf "#{SPEC_DIR}/Rakefile"
    end
 
    it 'should create a project directory structure' do
@@ -94,7 +95,7 @@ describe Ninjs::Project do
      File.directory?("#{SPEC_DIR}/models").should be_true
      File.directory?("#{SPEC_DIR}/modules").should be_true
      File.directory?("#{SPEC_DIR}/plugins").should be_true
-     File.directory?("#{SPEC_DIR}/tests").should be_true
+     File.directory?("#{SPEC_DIR}/spec").should be_true
    end
 
    it 'should create a ninjs lib file' do
@@ -120,19 +121,28 @@ describe Ninjs::Project do
      application_file_content.join('').should == File.open("#{SPEC_DIR}/fixtures/myapp.initial.js").readlines.join('')
    end
 
-   it 'should import test files' do
-     suppress_output { @project.import_test_files }
+    it 'should import spec files' do
+      suppress_output { @project.import_spec_files }
 
-     File.exists?("#{SPEC_DIR}/tests").should be_true
-     File.exists?("#{SPEC_DIR}/tests/index.html").should be_true
-     File.exists?("#{SPEC_DIR}/tests/application.test.js").should be_true
-     File.exists?("#{SPEC_DIR}/tests/array.utilities.test.js").should be_true
-     File.exists?("#{SPEC_DIR}/tests/existence.test.js").should be_true
-     File.exists?("#{SPEC_DIR}/tests/extension.test.js").should be_true
-     File.exists?("#{SPEC_DIR}/tests/module.test.js").should be_true
-     File.exists?("#{SPEC_DIR}/tests/qspec.js").should be_true
-     File.exists?("#{SPEC_DIR}/tests/string.utilities.test.js").should be_true
-   end
+      File.directory?("#{SPEC_DIR}/spec").should be_true
+      File.directory?("#{SPEC_DIR}/spec/javascripts").should be_true
+      File.directory?("#{SPEC_DIR}/spec/javascripts/support").should be_true
+      File.exists?("#{SPEC_DIR}/spec/index.html").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/application_spec.js").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/array_utility_spec.js").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/existence_spec.js").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/extension_spec.js").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/module_spec.js").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/string_utility_spec.js").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine.yml").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine_config.rb").should be_true
+      File.exists?("#{SPEC_DIR}/spec/javascripts/support/jasmine_runner.rb").should be_true
+    end
+    
+    it 'should import the Rakefile' do
+      suppress_output { @project.import_rakefile }
+      File.exists?("#{SPEC_DIR}/Rakefile").should be_true
+    end
   end # Project Creation
 
   context 'Project management' do
@@ -158,8 +168,9 @@ describe Ninjs::Project do
      FileUtils.rm_rf "#{SPEC_DIR}/models"
      FileUtils.rm_rf "#{SPEC_DIR}/lib"
      FileUtils.rm_rf "#{SPEC_DIR}/plugins"
-     FileUtils.rm_rf "#{SPEC_DIR}/tests"
+     FileUtils.rm_rf "#{SPEC_DIR}/spec"
      FileUtils.rm_rf "#{SPEC_DIR}/ninjs.conf"
+     FileUtils.rm_rf "#{SPEC_DIR}/Rakefile"
    end
 
    it 'should create a config file' do
@@ -247,5 +258,4 @@ describe Ninjs::Project do
    end
 
   end # Project management
-
 end

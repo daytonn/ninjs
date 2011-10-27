@@ -12,3 +12,7 @@ spec/pugins
 spec/lib
 spec/tests
 spec/ninjs.conf
+.sass-cache
+*.tmproj
+server
+
