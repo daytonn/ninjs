@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninjs}
-  s.version = "0.16.2"
+  s.version = "0.16.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Dayton Nolan}]
-  s.date = %q{2011-10-27}
+  s.date = %q{2011-10-28}
   s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   s.email = %q{daytonn@gmail.com}
   s.executables = [%q{ninjs}]
