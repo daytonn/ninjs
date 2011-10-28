@@ -144,7 +144,7 @@ describe Ninjs::Project do
       File.exists?("#{SPEC_DIR}/Rakefile").should be_true
     end
   end # Project Creation
-
+=begin
   context 'Project management' do
    before :each do
      suppress_output do
@@ -258,4 +258,5 @@ describe Ninjs::Project do
    end
 
   end # Project management
+=end
 end
