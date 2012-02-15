@@ -5,6 +5,8 @@ module Ninjs
   VERSION = File.open("#{BASE_DIR}/VERSION").readlines.join("")
 end
 
+require "#{Ninjs::LIB_DIR}/sprockets/lib/sprockets"
+
 %w(dependencies configuration helpers manifest project notification generator command).each do |lib|
   require "#{Ninjs::LIB_DIR}/ninjs/#{lib}"
 end

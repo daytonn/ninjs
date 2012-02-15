@@ -284,7 +284,7 @@ describe Ninjs::Project do
 
      it 'should compile a module with the bad pattern' do
        lambda {
-         @project.update
+         suppress_output { @project.update }
        }.should_not raise_error
      end
   end

@@ -16,17 +16,16 @@ end
 
 Jeweler::Tasks.new do |gem|
   gem.name = "ninjs"
-  gem.homepage = "http://github.com/textnotspeech/ninjs"
+  gem.homepage = "http://github.com/daytonn/ninjs"
   gem.rubyforge_project = "nowarning"
   gem.license = "MIT"
   gem.summary = %Q{ninjs is a command line application to help you write clean, modular javascript applications.}
   gem.description = %Q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
   gem.email = "daytonn@gmail.com"
   gem.authors = ["Dayton Nolan"]
-  gem.add_runtime_dependency 'rubikon'
+
   gem.add_runtime_dependency 'fssm'
   gem.add_runtime_dependency 'jsmin'
-  gem.add_runtime_dependency 'sprockets'
   gem.add_development_dependency 'rspec', '>= 0'
 end
 
@@ -52,15 +51,6 @@ RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-namespace :ndoc do
-  desc "Generate documentation with NaturalDocs"
-  
-  task :generate do
-    output = `ndocs -i /Volumes/Storage/Development/ninjs/repository/ninjs/ -o HTML /Volumes/Storage/Development/ninjs-ghpages/docs -p /Volumes/Storage/Development/ninjs-ghpages/docs` #  -s Slick
-    puts output
-  end
-  
-end
 begin
   require 'jasmine'
   load 'jasmine/tasks/jasmine.rake'
