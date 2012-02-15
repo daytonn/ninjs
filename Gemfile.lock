@@ -21,7 +21,6 @@ GEM
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)
     shoulda (2.11.3)
-    sprockets (1.0.2)
 
 PLATFORMS
   ruby
@@ -35,4 +34,3 @@ DEPENDENCIES
   rdoc
   rspec
   shoulda
-  sprockets (= 1.0.2)

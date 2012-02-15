@@ -15,4 +15,4 @@ spec/ninjs.conf
 .sass-cache
 *.tmproj
 server
-
+Gemfile.lock
