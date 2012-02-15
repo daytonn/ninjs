@@ -54,7 +54,8 @@ module Ninjs
       ninjs_lib_secretary = Sprockets::Secretary.new(
         :root         => "#{Ninjs::BASE_DIR}",
         :load_path    => ["repository"],
-        source_files: ["repository/ninjs/core/nin.js"]
+        source_files: ["repository/ninjs/core/nin.js"],
+        interpolate_constants: false
       )
 
       ninjs_lib_secretary.concatenation.save_to "#{@root}/lib/nin.js"
@@ -66,7 +67,8 @@ module Ninjs
       utility_lib_secretary = Sprockets::Secretary.new(
         root: "#{Ninjs::BASE_DIR}",
         load_path: ["repository"],
-        source_files: ["repository/ninjs/utilities/all.js"]
+        source_files: ["repository/ninjs/utilities/all.js"],
+        interpolate_constants: false
       )
       
       utility_lib_secretary.concatenation.save_to "#{@root}/lib/utilities.js"
@@ -152,7 +154,8 @@ module Ninjs
           :root         => "#{Ninjs::BASE_DIR}",
           :asset_root   => @config.asset_root,
           :load_path    => ["repository"],
-          source_files: ["#{module_file}"]
+          source_files: ["#{module_file}"],
+          interpolate_constants: false
         )
 
         module_file = ninjs_lib_secretary.concatenation
@@ -206,7 +209,8 @@ module Ninjs
           :root         => "#{Ninjs::BASE_DIR}",
           :asset_root   => @config.asset_root,
           :load_path    => ["repository"],
-          source_files: ["#{file}"]
+          source_files: ["#{file}"],
+          interpolate_constants: false
         )
 
         application_file = ninjs_lib_secretary.concatenation
