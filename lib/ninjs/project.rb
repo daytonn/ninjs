@@ -168,7 +168,7 @@ module Ninjs
     
     def update_application_file
       application_file = "#{@root}/#{@config.dest_dir}/#{@config.name.downcase}.js"
-      
+      puts application_file
       File.open(application_file, "w+") do |file|
         write_dependencies(file)
         write_core(file)

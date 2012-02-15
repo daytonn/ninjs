@@ -91,146 +91,146 @@ unless = function(expression, callback, fallback) {
 		}
 	}
 };
-var dom = (function() {
-	var userAgent = navigator.userAgent;
-	var browser = {
-		agent: userAgent,
-		mozilla: (/mozilla/.test(userAgent.toLowerCase())) && !(/(compatible|webkit)/.test(userAgent.toLowerCase())),
-		webkit: /webkit/.test(userAgent.toLowerCase()),
-		firefox: /firefox/.test(userAgent.toLowerCase()),
-		chrome: /webkit/.test(userAgent.toLowerCase()),
-		safari: /safari/.test(userAgent.toLowerCase()),
-		opera: /opera/.test(userAgent.toLowerCase()),
-		msie: (/msie/.test(userAgent.toLowerCase())) && !(/opera/.test( userAgent.toLowerCase() ))
-	};
+var DomReady = window.DomReady = {},
+    userAgent = navigator.userAgent.toLowerCase(),
+    browser = {
+      version: (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
+      safari: /webkit/.test(userAgent),
+      opera: /opera/.test(userAgent),
+      msie: (/msie/.test(userAgent)) && (!/opera/.test( userAgent )),
+      mozilla: (/mozilla/.test(userAgent)) && (!/(compatible|webkit)/.test(userAgent))
+    },
+    readyBound = false,
+    isReady = false,
+    readyList = [];
 
-	var readyBound = false;
-	var isReady = false;
-	var readyList = [];
 
-	function domReady() {
-		if (!isReady) {
-			isReady = true;
-			if (readyList) {
-				for(var fn = 0; fn < readyList.length; fn++) {
-					readyList[fn].call(window, []);
-				}
-				readyList = [];
-			}
-		}
-	}
+function domReady() {
+  if(!isReady) {
+    isReady = true;
 
-	function addLoadEvent(func) {
-		var oldonload = window.onload;
-		if (typeof window.onload != 'function') {
-			window.onload = func;
-		}
-		else {
-			window.onload = function() {
-				if (oldonload) {
-					oldonload();
-				}
-				func();
-			};
-		}
-	}
+    if(readyList) {
+      var length = readyList.length;
+      for(var fn = 0; fn < length; fn++) {
+        readyList[fn].call(window, []);
+      }
 
-	function bindReady() {
-		if (readyBound) {
-			return;
-		}
+      readyList = [];
+    }
+  }
+};
 
-		readyBound = true;
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  }
+  else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+};
 
-		if (document.addEventListener && !browser.opera) {
-			document.addEventListener("DOMContentLoaded", domReady, false);
-		}
+function bindReady() {
+  if(readyBound) {
+    return;
+  }
 
-		if (browser.msie && window == top) {
-			(function() {
-				if (isReady) {
-					return;
-				}
-				try {
-					document.documentElement.doScroll("left");
-				} catch(error) {
-					setTimeout(arguments.callee, 0);
-					return;
-				}
-				domReady();
-			})();
-		}
+  readyBound = true;
 
-		if (browser.opera) {
-			document.addEventListener( "DOMContentLoaded", function () {
-				if (isReady) {
-					return;
-				}
-				for (var i = 0; i < document.styleSheets.length; i++) {
-					if (document.styleSheets[i].disabled) {
-						setTimeout( arguments.callee, 0 );
-						return;
-					}
-					domReady();
-				}
-			}, false);
-		}
+  if (document.addEventListener && !browser.opera) {
+    document.addEventListener("DOMContentLoaded", domReady, false);
+  }
 
-		if (browser.safari) {
-			var numStyles;
-			(function() {
-				if (isReady) {
-					return;
-				}
-				if (document.readyState != "loaded" && document.readyState != "complete") {
-					setTimeout( arguments.callee, 0 );
-					return;
-				}
-				if (numStyles === undefined) {
-					var links = document.getElementsByTagName("link");
-					for (var i=0; i < links.length; i++) {
-						if (links[i].getAttribute('rel') == 'stylesheet') {
-							numStyles++;
-						}
-					}
-					var styles = document.getElementsByTagName("style");
-					numStyles += styles.length;
-				}
-				if (document.styleSheets.length != numStyles) {
-					setTimeout( arguments.callee, 0 );
-					return;
-				}
+  if (browser.msie && window == top) (function() {
+    if (isReady) return;
+    try {
+      document.documentElement.doScroll("left");
+    }
+    catch(error) {
+      setTimeout(arguments.callee, 0);
+      return;
+    }
+    domReady();
+  })();
 
-				domReady();
-			})();
-		}
+  if(browser.opera) {
+    document.addEventListener( "DOMContentLoaded", function () {
+      if (isReady) return;
+      for (var i = 0; i < document.styleSheets.length; i++)
+      if (document.styleSheets[i].disabled) {
+        setTimeout( arguments.callee, 0 );
+        return;
+      }
+      domReady();
+    }, false);
+  }
 
-		addLoadEvent(domReady);
-	}
+  if(browser.safari) {
+    var numStyles;
+    (function(){
+      if (isReady) return;
 
-	return {
-		bind: bindReady,
-		is_ready: isReady,
-		ready_list: readyList
-	};
-})();
+      if (document.readyState != "loaded" && document.readyState != "complete") {
+        setTimeout( arguments.callee, 0 );
+        return;
+      }
+
+      if (numStyles === undefined) {
+        var links = document.getElementsByTagName("link");
+        for (var i=0; i < links.length; i++) {
+          if(links[i].getAttribute('rel') == 'stylesheet') {
+            numStyles++;
+          }
+        }
+
+        var styles = document.getElementsByTagName("style");
+        numStyles += styles.length;
+      }
+
+      if (document.styleSheets.length != numStyles) {
+        setTimeout( arguments.callee, 0 );
+        return;
+      }
+
+      domReady();
+    })();
+  }
+
+  addLoadEvent(domReady);
+};
+
+DomReady.ready = function(fn, args) {
+  bindReady();
+
+  if (isReady) {
+    fn.call(window, []);
+  }
+  else {
+    readyList.push( function() { return fn.call(window, []); } );
+  }
+};
 
 NinjsDOM = function() {
 	this.cached_selectors = {};
 };
 
 NinjsDOM.prototype.ready = function(fn, args) {
-	dom.bind();
+	bindReady();
 
-	if (dom.is_ready()) {
+	if (isReady) {
 		fn.call(window, args || []);
 	}
 	else {
-		dom.ready_list.push( function() { return fn.call(window, args || []); } );
+		readyList.push( function() { return fn.call(window, args || []); } );
 	}
 };
 
-dom.bind();
+bindReady();
 NinjsModule = function(name) {
 	this.dom = new NinjsDOM(this);
 	this.data = {};

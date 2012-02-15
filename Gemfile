@@ -2,7 +2,6 @@ source "http://rubygems.org"
 
 gem "fssm", ">= 0"
 gem "jsmin", ">= 0"
-gem "sprockets", "1.0.2"
 
 group :development do
   gem "shoulda", ">= 0"
