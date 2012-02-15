@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "ninjs"
-  s.version = "0.16.4"
+  s.version = "0.16.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dayton Nolan"]
@@ -37,11 +37,9 @@ Gem::Specification.new do |s|
     "lib/ninjs/manifest.rb",
     "lib/ninjs/notification.rb",
     "lib/ninjs/project.rb",
-    "lib/sprockets/.gitignore",
     "lib/sprockets/CHANGELOG",
     "lib/sprockets/LICENSE",
     "lib/sprockets/README.markdown",
-    "lib/sprockets/bin/sprocketize",
     "lib/sprockets/ext/nph-sprockets.cgi",
     "lib/sprockets/lib/sprockets.rb",
     "lib/sprockets/lib/sprockets/concatenation.rb",
@@ -193,6 +191,7 @@ Gem::Specification.new do |s|
     "spec/dependencies_spec.rb",
     "spec/fixtures/_global.module.js",
     "spec/fixtures/autoload.js",
+    "spec/fixtures/badpattern.module.js",
     "spec/fixtures/changed.ninjs.conf",
     "spec/fixtures/compressed.myapp.js",
     "spec/fixtures/core.js",
@@ -227,7 +226,7 @@ Gem::Specification.new do |s|
     "templates/jasmine.yml",
     "templates/test-index.html"
   ]
-  s.homepage = "http://github.com/textnotspeech/ninjs"
+  s.homepage = "http://github.com/daytonn/ninjs"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = "nowarning"
@@ -253,48 +252,39 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
-      s.add_runtime_dependency(%q<sprockets>, ["= 1.0.2"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, [">= 0"])
-      s.add_runtime_dependency(%q<rubikon>, [">= 0"])
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
-      s.add_runtime_dependency(%q<sprockets>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
     else
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
-      s.add_dependency(%q<sprockets>, ["= 1.0.2"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<rdoc>, [">= 0"])
-      s.add_dependency(%q<rubikon>, [">= 0"])
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
-      s.add_dependency(%q<sprockets>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
-    s.add_dependency(%q<sprockets>, ["= 1.0.2"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<rdoc>, [">= 0"])
-    s.add_dependency(%q<rubikon>, [">= 0"])
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
-    s.add_dependency(%q<sprockets>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
   end
 end
