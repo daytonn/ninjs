@@ -4,15 +4,15 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{ninjs}
-  s.version = "0.16.3"
+  s.name = "ninjs"
+  s.version = "0.16.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Dayton Nolan}]
-  s.date = %q{2011-10-28}
-  s.description = %q{Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages "Good Parts" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/).}
-  s.email = %q{daytonn@gmail.com}
-  s.executables = [%q{ninjs}]
+  s.authors = ["Dayton Nolan"]
+  s.date = "2012-02-15"
+  s.description = "Ninjs is a ruby application and small javascript framework that helps you build clean, modular javascript applications. Ninjs encourages \"Good Parts\" best practices and the Crockford school Module pattern (http://www.crockford.com/). The ninjs command line application is an automatic compiler, written in ruby, and based on the Sprockets library (http://getsprockets.org/)."
+  s.email = "daytonn@gmail.com"
+  s.executables = ["ninjs"]
   s.extra_rdoc_files = [
     "LICENSE",
     "README.md"
@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
     ".gitmodules",
     ".travis.yml",
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE",
     "README.md",
     "Rakefile",
@@ -185,12 +184,12 @@ Gem::Specification.new do |s|
     "templates/jasmine.yml",
     "templates/test-index.html"
   ]
-  s.homepage = %q{http://github.com/textnotspeech/ninjs}
-  s.licenses = [%q{MIT}]
-  s.require_paths = [%q{lib}]
-  s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.8.8}
-  s.summary = %q{ninjs is a command line application to help you write clean, modular javascript applications.}
+  s.homepage = "http://github.com/daytonn/ninjs"
+  s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
+  s.rubyforge_project = "nowarning"
+  s.rubygems_version = "1.8.15"
+  s.summary = "ninjs is a command line application to help you write clean, modular javascript applications."
   s.test_files = [
     "spec/cli_spec.rb",
     "spec/command_spec.rb",
@@ -211,48 +210,39 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
-      s.add_runtime_dependency(%q<sprockets>, ["= 1.0.2"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, [">= 0"])
-      s.add_runtime_dependency(%q<rubikon>, [">= 0"])
       s.add_runtime_dependency(%q<fssm>, [">= 0"])
       s.add_runtime_dependency(%q<jsmin>, [">= 0"])
-      s.add_runtime_dependency(%q<sprockets>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
     else
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
-      s.add_dependency(%q<sprockets>, ["= 1.0.2"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<rdoc>, [">= 0"])
-      s.add_dependency(%q<rubikon>, [">= 0"])
       s.add_dependency(%q<fssm>, [">= 0"])
       s.add_dependency(%q<jsmin>, [">= 0"])
-      s.add_dependency(%q<sprockets>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
-    s.add_dependency(%q<sprockets>, ["= 1.0.2"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<rdoc>, [">= 0"])
-    s.add_dependency(%q<rubikon>, [">= 0"])
     s.add_dependency(%q<fssm>, [">= 0"])
     s.add_dependency(%q<jsmin>, [">= 0"])
-    s.add_dependency(%q<sprockets>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
   end
 end
