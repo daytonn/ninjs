@@ -144,7 +144,7 @@ describe Ninjs::Project do
       File.exists?("#{SPEC_DIR}/Rakefile").should be_true
     end
   end # Project Creation
-=begin
+
   context 'Project management' do
    before :each do
      suppress_output do
@@ -257,6 +257,36 @@ describe Ninjs::Project do
      "#{SPEC_DIR}/application/myapp.js".should be_same_file_as "#{SPEC_DIR}/fixtures/compressed.myapp.js"
    end
 
+   
   end # Project management
-=end
+
+  context 'Scripts with certain patterns' do
+    before :each do
+       suppress_output do
+         @project = Ninjs::Project.new({ name: 'myapp', root: SPEC_DIR })
+         @project.create
+       end
+
+       FileUtils.cp "#{SPEC_DIR}/fixtures/badpattern.module.js", "#{SPEC_DIR}/modules"
+     end
+
+     after :each do
+       FileUtils.rm_rf "#{SPEC_DIR}/application"
+       FileUtils.rm_rf "#{SPEC_DIR}/modules"
+       FileUtils.rm_rf "#{SPEC_DIR}/elements"
+       FileUtils.rm_rf "#{SPEC_DIR}/models"
+       FileUtils.rm_rf "#{SPEC_DIR}/lib"
+       FileUtils.rm_rf "#{SPEC_DIR}/plugins"
+       FileUtils.rm_rf "#{SPEC_DIR}/spec"
+       FileUtils.rm_rf "#{SPEC_DIR}/ninjs.conf"
+       FileUtils.rm_rf "#{SPEC_DIR}/Rakefile"
+     end
+
+     it 'should compile a module with the bad pattern' do
+       lambda {
+         @project.update
+       }.should_not raise_error
+     end
+  end
+
 end
