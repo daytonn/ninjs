@@ -10,7 +10,7 @@ module Ninjs
       project = Ninjs::Project.new
       project.update
 	    
-	    watch_dirs = Ninjs::Manifest.directories.reject { |dir| dir.match(/application|tests/) }
+	    watch_dirs = Ninjs::Manifest.directories.reject { |dir| dir.match(/application|tests|spec/) }
 	    watch_hash = Hash.new
 	    
 	    watch_dirs.each do |dir|
